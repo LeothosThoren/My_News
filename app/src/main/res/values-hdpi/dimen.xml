@@ -1,0 +1,16 @@
+<resources>
+    <!-- TextViews -->
+    <dimen name="size_tab_title">40sp</dimen>
+    <dimen name="padding_tab_title">40dip</dimen>
+    
+    <dimen name="size_title">19sp</dimen>
+    <dimen name="size_synopsis">22sp</dimen>
+
+    <!-- Images -->
+    <dimen name="size_image_height">100dip</dimen>
+    <dimen name="size_image_width">@dimen/size_image_height</dimen>
+
+    <!-- Images -->
+    <dimen name="margin">15dp</dimen>
+    <dimen name="padding">15dp</dimen>
+</resources>
