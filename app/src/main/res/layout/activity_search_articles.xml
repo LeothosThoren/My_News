@@ -14,11 +14,10 @@
         android:id="@+id/search_Activity_editText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search query term"
         android:layout_marginStart="@dimen/margin"
         android:layout_marginEnd="@dimen/margin"
-        android:textSize="@dimen/size_synopsis"
-
+        android:textSize="@dimen/size_title"
+        android:hint="Search query term"
         />
 
 

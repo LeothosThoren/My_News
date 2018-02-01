@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".controler.MainActivity">
+        <activity android:name=".controler.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,12 +17,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".controler.SearchArticlesActivity"
+            android:name=".controler.activities.SearchArticlesActivity"
             android:label="Search Articles"
-            android:parentActivityName=".controler.MainActivity">
+            android:parentActivityName=".controler.activities.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".controler.MainActivity"/>
+                android:value=".controler.activities.MainActivity"/>
         </activity>
     </application>
 

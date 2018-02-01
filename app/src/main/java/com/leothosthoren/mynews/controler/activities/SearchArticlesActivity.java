@@ -1,4 +1,4 @@
-package com.leothosthoren.mynews.controler;
+package com.leothosthoren.mynews.controler.activities;
 
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
