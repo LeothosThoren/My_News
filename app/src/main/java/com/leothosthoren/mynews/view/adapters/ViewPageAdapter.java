@@ -1,18 +1,18 @@
-package com.leothosthoren.mynews.adapters;
+package com.leothosthoren.mynews.view.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.leothosthoren.mynews.controler.fragments.TopStoriesFragment;
+import com.leothosthoren.mynews.controler.fragments.PageFragment;
 
 /**
  * Created by Sofiane M. alias Leothos Thoren on 31/01/2018
  */
-public class PageAdapter extends FragmentPagerAdapter {
+public class ViewPageAdapter extends FragmentPagerAdapter {
     private int[] colors;
 
-    public PageAdapter(FragmentManager fm, int[] colors) {
+    public ViewPageAdapter(FragmentManager fm, int[] colors) {
         super(fm);
         this.colors = colors;
     }
@@ -20,12 +20,12 @@ public class PageAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
 
-        return TopStoriesFragment.newInstance(position, this.colors[position]);
+        return PageFragment.newInstance(position, this.colors[position]);
     }
 
     @Override
     public int getCount() {
-        return (5);
+        return (3);
     }
 
     public CharSequence getPageTitle(int position) {

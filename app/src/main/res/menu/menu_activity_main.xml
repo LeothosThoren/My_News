@@ -3,13 +3,11 @@
     <item
         android:id="@+id/menu_activity_main_search"
         android:icon="@drawable/ic_search_white"
-        app:showAsAction="ifRoom"
-        android:title="Rechercher">
-    </item>
+        android:title="Rechercher"
+        app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/menu_activity_main_params"
         android:icon="@drawable/ic_param_white"
-        app:showAsAction="ifRoom"
-        android:title="Paramètres">
-    </item>
+        android:title="Paramètres"
+        app:showAsAction="ifRoom"/>
 </menu>

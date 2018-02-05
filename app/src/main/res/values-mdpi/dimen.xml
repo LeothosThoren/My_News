@@ -11,6 +11,10 @@
     <dimen name="size_image_width">@dimen/size_image_height</dimen>
 
     <!-- Images -->
-    <dimen name="margin">10dp</dimen>
-    <dimen name="padding">10dp</dimen>
+    <dimen name="margin">7dp</dimen>
+    <dimen name="padding">7dp</dimen>
+
+    <!-- navigation header -->
+    <dimen name="nav_header_heigth">180dp</dimen>
+
 </resources>
