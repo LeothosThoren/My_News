@@ -8,22 +8,35 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- TOOLBAR THEME -->
+    <!-- Toolbar theme -->
     <style name="ToolbarTheme" parent="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
         <!-- Color of the title text in the Toolbar -->
         <item name="android:textColorPrimary">@color/colorAccent</item>
+        <item name="android:layout_width">wrap_content</item>
+
     </style>
 
-    <!-- TOOLBAR TITLE THEME -->
+    <!-- Toolbar title theme -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">22sp</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:layout_margin">5dp</item>
+
     </style>
 
-    <!-- Toolbar theme. -->
-    <style name="ToolBarStyle" parent="AppTheme">
-        <item name="android:textColorPrimary">@android:color/white</item>
-        <item name="colorControlNormal">@android:color/white</item>
+    <!-- Tab text theme -->
+    <style name="CustomTabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
+
+
+    <!--&lt;!&ndash; Popup theme &ndash;&gt;-->
+    <!--<style name="PopupTheme" parent="ThemeOverlay.AppCompat.Dark">-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:layout_width">wrap_content</item>-->
+        <!--<item name="android:padding">@dimen/padding</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    <!--</style>-->
 
 </resources>

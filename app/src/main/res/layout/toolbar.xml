@@ -9,7 +9,8 @@
     android:background="?attr/colorPrimary"
     android:minHeight="?attr/actionBarSize"
     android:theme="@style/ToolbarTheme"
-    android:padding="@dimen/padding"
 
     app:titleTextAppearance="@style/Toolbar.TitleText"
-    app:titleTextColor="@color/colorAccent" />
+    app:titleTextColor="@color/colorAccent"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    />

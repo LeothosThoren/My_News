@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothosthoren.mynews.R;
@@ -28,8 +27,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
-        ItemViewHolder itemViewHolder = new ItemViewHolder(view,mListener);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_recyclerview, parent, false);
+        ItemViewHolder itemViewHolder = new ItemViewHolder(view, mListener);
         return itemViewHolder;
     }
 
@@ -39,6 +38,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
         holder.mImageView.setImageResource(currentItem.getImage());
         holder.mTextView.setText(currentItem.getTitle());
+        holder.mDateView.setText(currentItem.getDate());
+
 
     }
 
@@ -47,21 +48,27 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mItemNews.size();
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        mListener = listener;
+    }
+
     //This interface provide onItemClick method which allow to click on something in the activities class
     public interface OnItemClickListener {
         void onItemClick(int position);
     }
 
-    public static class ItemViewHolder extends RecyclerView.ViewHolder {
+    public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public LinearLayout mLinearLayout;
         public TextView mTextView;
         public ImageView mImageView;
+        public TextView mDateView;
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
             mLinearLayout = itemView.findViewById(R.id.item_layout);
             mTextView = itemView.findViewById(R.id.item_title);
             mImageView = itemView.findViewById(R.id.item_image);
+            mDateView = itemView.findViewById(R.id.item_date);
 
             //Here we give the possibility to click on item (itemView)
             //We can choose to click on a specific element like an image view instead
@@ -76,6 +83,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 }
             });
+        }
+
+        @Override
+        public void onClick(View v) {
+
         }
     }
 }

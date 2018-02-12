@@ -9,8 +9,29 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/frag_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="250dip" />
 
-        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/frag_recycler_view">
+
+        <TextView
+            android:id="@+id/frag_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_margin="@dimen/margin"
+            android:text="@string/app_label" />
+        <Button
+            android:id="@+id/button_request"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:text="Button request"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>

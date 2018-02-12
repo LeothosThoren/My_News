@@ -16,4 +16,7 @@
 
     <!-- navigation header -->
     <dimen name="nav_header_heigth">200dp</dimen>
+
+    <!-- layout size -->
+    <dimen name="layout_height">70dip</dimen>
 </resources>

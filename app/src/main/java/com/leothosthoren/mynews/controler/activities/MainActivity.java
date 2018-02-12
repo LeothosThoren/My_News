@@ -8,12 +8,11 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.view.adapters.ViewPageAdapter;
@@ -30,10 +29,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.configureToolbar();
-        this.configureViewPagerAndTabs();
-//        this.configureDrawerLayout();
-//        this.configureNavigationView();
+        configureToolbar();
+        configureViewPagerAndTabs();
+//        configureDrawerLayout();
+//        configureNavigationView();
 
     }
 
@@ -41,6 +40,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_activity_main, menu);
         return true;
+    }
+
+    private void configureToolbar() {
+        this.toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.param_notifications:
+                return true;
+            case R.id.menu_activity_main_search:
+                launchSearchArticlesActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -51,21 +69,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_activity_main_params:
-                Toast.makeText(this, "Il n'y a rien à paramétrer ici, passez votre chemin...",
-                        Toast.LENGTH_LONG).show();
-                return true;
-            case R.id.menu_activity_main_search:
-                launchSearchArticlesActivity();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+    private void showParamMenu() {
 
+        PopupMenu popupMenu = new PopupMenu(MainActivity.this, toolbar);
+        popupMenu.getMenuInflater().inflate(R.menu.menu_activity_main, popupMenu.getMenu());
+        popupMenu.show();
+    }
 
     private void launchSearchArticlesActivity() {
         Intent intent = new Intent(MainActivity.this, SearchArticlesActivity.class);
@@ -85,9 +94,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Glue Tab et viewpager together
         tabLayout.setupWithViewPager(pager);
         //Width equals with tab
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabMode(TabLayout.GRAVITY_FILL);
     }
 
+
+    //Menu drawer method
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // 4 - Handle Navigation Item Click
@@ -109,10 +120,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    private void configureToolbar() {
-        this.toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
 
 //    private void configureDrawerLayout() {
 //        this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
@@ -124,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //
 //    private void configureNavigationView() {
 //        this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
+//        assert navigationView != null;
 //        navigationView.setNavigationItemSelectedListener(this);
 //    }
 

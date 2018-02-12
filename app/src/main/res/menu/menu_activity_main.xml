@@ -4,10 +4,22 @@
         android:id="@+id/menu_activity_main_search"
         android:icon="@drawable/ic_search_white"
         android:title="Rechercher"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="ifRoom" />
+
     <item
-        android:id="@+id/menu_activity_main_params"
-        android:icon="@drawable/ic_param_white"
-        android:title="Paramètres"
-        app:showAsAction="ifRoom"/>
+        android:id="@+id/param_notifications"
+        android:checkable="false"
+        android:title="Notifications"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/param_help"
+        android:title="Help"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/param_about"
+        android:title="About"
+        app:showAsAction="never" />
+
+
 </menu>
