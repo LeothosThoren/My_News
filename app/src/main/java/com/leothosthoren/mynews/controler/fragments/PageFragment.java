@@ -1,29 +1,33 @@
 package com.leothosthoren.mynews.controler.fragments;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.ItemNews;
+import com.leothosthoren.mynews.model.NewYorkTimeTopStories;
 import com.leothosthoren.mynews.model.Utils.NetworkAsyncTask;
+import com.leothosthoren.mynews.model.Utils.NewYorkTimesCalls;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import butterknife.OnClick;
 
-
-public class PageFragment extends Fragment implements NetworkAsyncTask.Listeners {
+public class PageFragment extends Fragment implements NetworkAsyncTask.Listeners, NewYorkTimesCalls.Callbacks {
 
     private static final String KEY_POSITION = "position";
     private static final String KEY_COLOR = "color";
+    private ProgressBar progressBar;
 
     private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
@@ -59,13 +63,15 @@ public class PageFragment extends Fragment implements NetworkAsyncTask.Listeners
         View result = inflater.inflate(R.layout.fragment_layout, container, false);
         mRecyclerView = (RecyclerView) result.findViewById(R.id.frag_recycler_view);
         mTextView = (TextView) result.findViewById(R.id.frag_text);
+        progressBar = (ProgressBar) result.findViewById(R.id.activity_main_progress_bar);
         int position = getArguments().getInt(KEY_POSITION, -1);
         int color = getArguments().getInt(KEY_COLOR, -1);
 
 
         //Call the recyclerView builder method
         this.buildRecyclerView();
-        executeHttpRequest(0);
+//        executeHttpRequest(0);
+        executeHttpRequestWithRetrofit();
 
 
         // 5 - Get data from Bundle (created in method newInstance)
@@ -98,20 +104,12 @@ public class PageFragment extends Fragment implements NetworkAsyncTask.Listeners
         });
     }
 
-    //---------------
-    // ACTION
-    //---------------
-
-//    @OnClick(R.id.button_request)
-//    public void submit(View view) {
-//        this.executeHttpRequest();
-//    }
 
     //---------------
     // HTTP REQUEST
     //---------------
 
-    private void executeHttpRequest(int position) {
+    private void executeHttpRequest() {
         new NetworkAsyncTask(this).execute
                 ("http://api.nytimes.com/svc/topstories/v2/home.json?api-key=7aa6518af840427eb78832360465fa9e");
     }
@@ -130,16 +128,52 @@ public class PageFragment extends Fragment implements NetworkAsyncTask.Listeners
         this.updateUIWhenStopingHTTPRequest(json);
     }
 
+    // ------------------------------
+    //  HTTP REQUEST (Retrofit Way)
+    // ------------------------------
+
+    // 4 - Execute HTTP request and update UI
+    private void executeHttpRequestWithRetrofit() {
+        this.updateUIWhenStartingHTTPRequest();
+        NewYorkTimesCalls.fetchFollowing(this, "home");
+    }
+
+    // 2 - Override callback methods
+
+    @Override
+    public void onResponse(@Nullable List<NewYorkTimeTopStories> section) {
+        // 2.1 - When getting response, we update UI
+        if (section != null) this.updateUIWithListOfSection(section);
+    }
+
+    @Override
+    public void onFailure() {
+        // 2.2 - When getting error, we update UI
+        this.updateUIWhenStopingHTTPRequest("An error happened !");
+    }
+
+
     // ------------------
     //  UPDATE UI
     // ------------------
 
     private void updateUIWhenStartingHTTPRequest() {
-        this.mTextView.setText("Downloading...");
+        progressBar.setVisibility(View.VISIBLE);
+//        this.mTextView.setText("Downloading...");
     }
 
     private void updateUIWhenStopingHTTPRequest(String response) {
+        progressBar.setVisibility(View.GONE);
         this.mTextView.setText(response);
+    }
+
+    // 3 - Update UI showing only name of users
+    private void updateUIWithListOfSection(List<NewYorkTimeTopStories> section) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (NewYorkTimeTopStories sect : section) {
+            stringBuilder.append("-" + sect.getSection() + "\n");
+        }
+        updateUIWhenStopingHTTPRequest(stringBuilder.toString());
     }
 }
 

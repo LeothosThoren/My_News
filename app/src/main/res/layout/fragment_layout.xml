@@ -25,12 +25,15 @@
             android:layout_centerInParent="true"
             android:layout_margin="@dimen/margin"
             android:text="@string/app_label" />
-        <Button
-            android:id="@+id/button_request"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="Button request"/>
+
+        <ProgressBar
+            android:id="@+id/activity_main_progress_bar"
+            android:layout_width="100dip"
+            android:layout_height="100dip"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:visibility="visible" />
+
     </RelativeLayout>
 
 

@@ -19,12 +19,12 @@ public class NewYorkTimesCalls {
 
     // 1 - Creating a callback
     public interface Callbacks {
-        void onResponse(@Nullable List<NewYorkTimeTopStories> users);
+        void onResponse(@Nullable List<NewYorkTimeTopStories> section);
         void onFailure();
     }
 
     // 2 - Public method to start fetching users following by Jake Wharton
-    public static void fetchUserFollowing(Callbacks callbacks, String username){
+    public static void fetchFollowing(Callbacks callbacks, String section){
 
         // 2.1 - Create a weak reference to callback (avoid memory leaks)
         final WeakReference<Callbacks> callbacksWeakReference = new WeakReference<Callbacks>(callbacks);
@@ -33,7 +33,7 @@ public class NewYorkTimesCalls {
         NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
 
         // 2.3 - Create the call on Github API
-        Call<List<NewYorkTimeTopStories>> call = newYorkTimeService.getFollowing(username);
+        Call<List<NewYorkTimeTopStories>> call = newYorkTimeService.getFollowing(section);
         // 2.4 - Start the call
         call.enqueue(new Callback<List<NewYorkTimeTopStories>>() {
 

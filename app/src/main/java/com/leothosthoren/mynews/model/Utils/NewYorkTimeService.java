@@ -16,14 +16,13 @@ import retrofit2.http.Path;
 public interface NewYorkTimeService {
 
 
+    @GET("/home.json/{section}/?api-key=7aa6518af840427eb78832360465fa9e")
+    Call<List<NewYorkTimeTopStories>> getFollowing(@Path("section") String section);
+
     public static final Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://api.nytimes.com/svc/topstories/v2/home.json?api-key=7aa6518af840427eb78832360465fa9e")
+            .baseUrl("http://api.nytimes.com/svc/topstories/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .build();
-
-
-    @GET("{section}")
-    Call<List<NewYorkTimeTopStories>> getFollowing(@Path("section") String section);
 }
 
 
