@@ -75,7 +75,7 @@ public class PageFragment extends Fragment implements NetworkAsyncTask.Listeners
         mItemNews.add(new ItemNews("mon titre", "18/10/2017", R.mipmap.ic_launcher, "Très très Long résumé"));
 
         // 6 - Update widgets with it
-       
+
         mRecyclerView.setBackgroundColor(color);
 
         return result;
