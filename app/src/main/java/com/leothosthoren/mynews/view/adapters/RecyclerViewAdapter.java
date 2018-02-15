@@ -8,24 +8,28 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.GithubUser;
-import com.leothosthoren.mynews.model.ItemNews;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by Sofiane M. alias Leothos Thoren on 01/02/2018
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
-//    private ArrayList<ItemNews> mItemNews;
+    //    private ArrayList<ItemNews> mItemNews;
     private List<GithubUser> mGithubUserList;
     private OnItemClickListener mListener;
+    private RequestManager mGlide;
 
-    public RecyclerViewAdapter(/*ArrayList<ItemNews> itemNews*/List<GithubUser> githubUsers) {
+    public RecyclerViewAdapter(/*ArrayList<ItemNews> itemNews*/List<GithubUser> githubUsers, RequestManager glide) {
         mGithubUserList = githubUsers;
+        mGlide = glide;
     }
 
     @Override
@@ -40,6 +44,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final GithubUser currentUser = mGithubUserList.get(position);
 
         holder.mTextView.setText(currentUser.getLogin());
+        mGlide.load(currentUser.getAvatarUrl()).into(holder.mImageView);
 //        final ItemNews currentItem = mItemNews.get(position);
 //
 //        holder.mImageView.setImageResource(currentItem.getImage());
@@ -63,26 +68,21 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        //        @BindView(R.id.item_layout)
-        public RelativeLayout mLayout;
-        //        @BindView(R.id.item_title)
-        public TextView mTextView;
-        //        @BindView(R.id.item_image)
-        public ImageView mImageView;
-        //        @BindView(R.id.item_date)
-        public TextView mDateView;
-        //        @BindView(R.id.item_summary)
-        public TextView mSummaryView;
+        @BindView(R.id.item_layout)
+        RelativeLayout mLayout;
+        @BindView(R.id.item_title)
+        TextView mTextView;
+        @BindView(R.id.item_image)
+        ImageView mImageView;
+        @BindView(R.id.item_date)
+        TextView mDateView;
+        @BindView(R.id.item_summary)
+        TextView mSummaryView;
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
-            mLayout = (RelativeLayout) itemView.findViewById(R.id.item_layout);
-            mTextView = itemView.findViewById(R.id.item_title);
-            mImageView = itemView.findViewById(R.id.item_image);
-            mDateView = itemView.findViewById(R.id.item_date);
-            mSummaryView = itemView.findViewById(R.id.item_summary);
-//            ButterKnife.bind(itemView);
+            ButterKnife.bind(this, itemView);
 
             //Here we give the possibility to click on item (itemView)
             //We can choose to click on a specific element like an image view instead

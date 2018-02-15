@@ -2,6 +2,7 @@ package com.leothosthoren.mynews.controler.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.GithubUser;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
@@ -34,6 +36,8 @@ public class PageFragment extends Fragment {
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
     ProgressBar mProgressBar;
+    @BindView(R.id.frag_swipe_layout)
+    SwipeRefreshLayout mRefreshLayout;
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -71,8 +75,9 @@ public class PageFragment extends Fragment {
 
         //Call the recyclerView builder method
         this.buildRecyclerView();
+        this.configureSwipeRefrechLayout();
 //        executeHttpRequest(0);
-        executeHttpRequestWithRetrofit();
+        this.executeHttpRequestWithRetrofit();
 //        streamShowThing();
 //        executeSecondHttpRequestWithRetrofit();
 
@@ -97,7 +102,7 @@ public class PageFragment extends Fragment {
     }
 
     private void buildRecyclerView() {
-        mAdapter = new RecyclerViewAdapter(mGithubUsers);
+        mAdapter = new RecyclerViewAdapter(mGithubUsers, Glide.with(this));
         //Set them with natives methods
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
@@ -108,6 +113,15 @@ public class PageFragment extends Fragment {
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear only if the comment is not empty at his own position
                 Toast.makeText(getContext(), "Click on item number " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void configureSwipeRefrechLayout(){
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                executeHttpRequestWithRetrofit();
             }
         });
     }
@@ -292,6 +306,8 @@ public class PageFragment extends Fragment {
 
     private void upDateUI(List<GithubUser> listUser) {
         mProgressBar.setVisibility(View.GONE);
+        mRefreshLayout.setRefreshing(false);
+        mGithubUsers.clear();
         mGithubUsers.addAll(listUser);
         mAdapter.notifyDataSetChanged();
     }
