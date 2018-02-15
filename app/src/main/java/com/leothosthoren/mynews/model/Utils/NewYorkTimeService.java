@@ -33,8 +33,8 @@ public interface NewYorkTimeService {
     @GET("users/{username}/following")
     Observable<List<GithubUser>> getFollowing(@Path("username") String username);
 
-    @GET("users/{username}")
-    Observable<GithubUser> getUserInfo(@Path("username") String username);
+//    @GET("users/{username}")
+//    Observable<GithubUser> getUserInfo(@Path("username") String username);
 
 }
 

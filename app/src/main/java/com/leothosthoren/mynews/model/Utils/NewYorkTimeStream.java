@@ -25,27 +25,27 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<GithubUser> streamFetchUSersInfo(String username) {
-        NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
-        return newYorkTimeService.getUserInfo(username)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
-
-    public static Observable<GithubUser> streamFetchUSerFollowingAndFetchFirstUSerInfo(final String username){
-        return streamFetchFollowing(username)
-                .map(new Function<List<GithubUser>, GithubUser>() {
-                    @Override
-                    public GithubUser apply(List<GithubUser> users) throws Exception {
-                        return users.get(0);
-                    }
-                })
-                .flatMap(new Function<GithubUser, Observable<GithubUser>>() {
-                    @Override
-                    public Observable<GithubUser> apply(GithubUser githubUser) throws Exception {
-                        return streamFetchUSersInfo(githubUser.getLogin());
-                    }
-                });
-    }
+//    public static Observable<GithubUser> streamFetchUSersInfo(String username) {
+//        NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
+//        return newYorkTimeService.getUserInfo(username)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .timeout(10, TimeUnit.SECONDS);
+//    }
+//
+//    public static Observable<GithubUser> streamFetchUSerFollowingAndFetchFirstUSerInfo(final String username){
+//        return streamFetchFollowing(username)
+//                .map(new Function<List<GithubUser>, GithubUser>() {
+//                    @Override
+//                    public GithubUser apply(List<GithubUser> users) throws Exception {
+//                        return users.get(0);
+//                    }
+//                })
+//                .flatMap(new Function<GithubUser, Observable<GithubUser>>() {
+//                    @Override
+//                    public Observable<GithubUser> apply(GithubUser githubUser) throws Exception {
+//                        return streamFetchUSersInfo(githubUser.getLogin());
+//                    }
+//                });
+//    }
 }

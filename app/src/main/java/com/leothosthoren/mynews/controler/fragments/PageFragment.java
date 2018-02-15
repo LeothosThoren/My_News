@@ -14,11 +14,11 @@ import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.GithubUser;
-import com.leothosthoren.mynews.model.ItemNews;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,14 +32,13 @@ public class PageFragment extends Fragment {
     private static final String KEY_COLOR = "color";
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
-    @BindView(R.id.frag_text)
-    TextView mTextView;
     @BindView(R.id.activity_main_progress_bar)
     ProgressBar mProgressBar;
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<ItemNews> mItemNews = new ArrayList<>();
+    //    private ArrayList<ItemNews> mItemNews = new ArrayList<>();
+    private List<GithubUser> mGithubUsers = new ArrayList<>();
 
     public PageFragment() {
         // Required empty public constructor
@@ -73,17 +72,18 @@ public class PageFragment extends Fragment {
         //Call the recyclerView builder method
         this.buildRecyclerView();
 //        executeHttpRequest(0);
-//        executeHttpRequestWithRetrofit();
+        executeHttpRequestWithRetrofit();
 //        streamShowThing();
-        executeSecondHttpRequestWithRetrofit();
+//        executeSecondHttpRequestWithRetrofit();
 
         // 5 - Get data from Bundle (created in method newInstance)
-        mItemNews.add(new ItemNews("mon titre", "02/02/2017",
-                R.mipmap.ic_launcher, "Long résumé", R.color.colorPrimary));
-        mItemNews.add(new ItemNews("mon titre", "02/12/2017",
-                R.mipmap.ic_launcher_round, "Très Long résumé", R.color.colorPrimary));
-        mItemNews.add(new ItemNews("mon titre", "18/10/2017",
-                R.mipmap.ic_launcher, "Très très Long résumé", R.color.colorPrimary));
+
+//        mItemNews.add(new ItemNews("mon titre", "02/02/2017",
+//                R.mipmap.ic_launcher, "Long résumé", R.color.colorPrimary));
+//        mItemNews.add(new ItemNews("mon titre", "02/12/2017",
+//                R.mipmap.ic_launcher_round, "Très Long résumé", R.color.colorPrimary));
+//        mItemNews.add(new ItemNews("mon titre", "18/10/2017",
+//                R.mipmap.ic_launcher, "Très très Long résumé", R.color.colorPrimary));
 
         // 6 - Update widgets with it
         mRecyclerView.setBackgroundColor(color);
@@ -97,7 +97,7 @@ public class PageFragment extends Fragment {
     }
 
     private void buildRecyclerView() {
-        mAdapter = new RecyclerViewAdapter(mItemNews);
+        mAdapter = new RecyclerViewAdapter(mGithubUsers);
         //Set them with natives methods
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
@@ -220,42 +220,16 @@ public class PageFragment extends Fragment {
     // ------------------
     //  HTTP (RxJava)
     // ------------------
-    private void executeSecondHttpRequestWithRetrofit() {
-        this.updateUIWhenStartingHTTPRequest();
-
-        this.mDisposable = NewYorkTimeStream.streamFetchUSerFollowingAndFetchFirstUSerInfo("JakeWharton")
-                .subscribeWith(new DisposableObserver<GithubUser>() {
-
-                    @Override
-                    public void onNext(GithubUser section) {
-                        Log.e("TAG", "On Next");
-                        updateUIWithUserInfo(section);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG", "On Error" + Log.getStackTraceString(e));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.e("TAG", "On Complete !");
-                    }
-                });
-    }
-
-
-//    private void executeHttpRequestWithRetrofit() {
+//    private void executeSecondHttpRequestWithRetrofit() {
 //        this.updateUIWhenStartingHTTPRequest();
 //
-//        this.mDisposable = NewYorkTimeStream.streamFetchFollowing("JakeWharton")
-//                .subscribeWith(new DisposableObserver<List<GithubUser>>() {
+//        this.mDisposable = NewYorkTimeStream.streamFetchUSerFollowingAndFetchFirstUSerInfo("JakeWharton")
+//                .subscribeWith(new DisposableObserver<GithubUser>() {
 //
 //                    @Override
-//                    public void onNext(List<GithubUser> users) {
+//                    public void onNext(GithubUser section) {
 //                        Log.e("TAG", "On Next");
-//
-//                        updateUIWithListOfSection(users);
+//                        updateUIWithUserInfo(section);
 //                    }
 //
 //                    @Override
@@ -269,6 +243,32 @@ public class PageFragment extends Fragment {
 //                    }
 //                });
 //    }
+
+
+    private void executeHttpRequestWithRetrofit() {
+        this.updateUIWhenStartingHTTPRequest();
+
+        this.mDisposable = NewYorkTimeStream.streamFetchFollowing("JakeWharton")
+                .subscribeWith(new DisposableObserver<List<GithubUser>>() {
+
+                    @Override
+                    public void onNext(List<GithubUser> users) {
+                        Log.e("TAG", "On Next");
+//                        updateUIWithListOfSection(users);
+                        upDateUI(users);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG", "On Error" + Log.getStackTraceString(e));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.e("TAG", "On Complete !");
+                    }
+                });
+    }
 
     // 4 - Dispose subscription
     private void disposeWhenDestroy() {
@@ -287,11 +287,17 @@ public class PageFragment extends Fragment {
 
     private void updateUIWhenStopingHTTPRequest(String response) {
         mProgressBar.setVisibility(View.GONE);
-        this.mTextView.setText(response);
+//        this.mTextView.setText(response);
     }
 
-    // 3 - Update UI showing only name of users
-//    private void updateUIWithListOfSection(GithubUser section) {
+    private void upDateUI(List<GithubUser> listUser) {
+        mProgressBar.setVisibility(View.GONE);
+        mGithubUsers.addAll(listUser);
+        mAdapter.notifyDataSetChanged();
+    }
+
+//    // 3 - Update UI showing only name of users
+//    private void updateUIWithListOfSection(List<GithubUser> section) {
 //        StringBuilder stringBuilder = new StringBuilder();
 //        for (GithubUser sect : section) {
 //            stringBuilder.append("-" + sect.getLogin() + "\n");
@@ -300,10 +306,10 @@ public class PageFragment extends Fragment {
 //        updateUIWhenStopingHTTPRequest(stringBuilder.toString());
 //    }
 
-    private void updateUIWithUserInfo(GithubUser userinfo){
-        updateUIWhenStopingHTTPRequest("The following of Jake is "
-                +userinfo.getLogin()+" with "+userinfo.getFollowersUrl()+" followers");
-    }
+//    private void updateUIWithUserInfo(GithubUser userinfo){
+//        updateUIWhenStopingHTTPRequest("The following of Jake is "
+//                +userinfo.getLogin()+" with "+userinfo.getFollowersUrl()+" followers");
+//    }
 
 }
 

@@ -9,20 +9,23 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.model.GithubUser;
 import com.leothosthoren.mynews.model.ItemNews;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Sofiane M. alias Leothos Thoren on 01/02/2018
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
-    private ArrayList<ItemNews> mItemNews;
+//    private ArrayList<ItemNews> mItemNews;
+    private List<GithubUser> mGithubUserList;
     private OnItemClickListener mListener;
 
-    public RecyclerViewAdapter(ArrayList<ItemNews> itemNews) {
-        mItemNews = itemNews;
+    public RecyclerViewAdapter(/*ArrayList<ItemNews> itemNews*/List<GithubUser> githubUsers) {
+        mGithubUserList = githubUsers;
     }
 
     @Override
@@ -34,17 +37,20 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        final ItemNews currentItem = mItemNews.get(position);
+        final GithubUser currentUser = mGithubUserList.get(position);
 
-        holder.mImageView.setImageResource(currentItem.getImage());
-        holder.mTextView.setText(currentItem.getTitle());
-        holder.mDateView.setText(currentItem.getDate());
-        holder.mSummaryView.setText(currentItem.getSummary());
+        holder.mTextView.setText(currentUser.getLogin());
+//        final ItemNews currentItem = mItemNews.get(position);
+//
+//        holder.mImageView.setImageResource(currentItem.getImage());
+//        holder.mTextView.setText(currentItem.getTitle());
+//        holder.mDateView.setText(currentItem.getDate());
+//        holder.mSummaryView.setText(currentItem.getSummary());
     }
 
     @Override
     public int getItemCount() {
-        return mItemNews.size();
+        return mGithubUserList.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

@@ -9,32 +9,16 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/frag_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="250dip" />
+        android:layout_height="match_parent" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/frag_recycler_view">
 
-        <TextView
-            android:id="@+id/frag_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_margin="@dimen/margin"
-            android:text="@string/app_label" />
-
-        <ProgressBar
-            android:id="@+id/activity_main_progress_bar"
-            android:layout_width="100dip"
-            android:layout_height="100dip"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:visibility="gone" />
-
-    </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/activity_main_progress_bar"
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="gone" />
 
 
 </RelativeLayout>
