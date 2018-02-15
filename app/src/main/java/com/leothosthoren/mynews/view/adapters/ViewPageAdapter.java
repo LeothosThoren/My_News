@@ -34,7 +34,4 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
         return tabTitle[position];
     }
 
-    public void getHttpRequest(int position, Void http){
-
-    }
 }

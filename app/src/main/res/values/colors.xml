@@ -13,4 +13,10 @@
         <item>#F7CF8B</item>
         <item>#FD96A2</item>
     </array>
+
+    <!-- Text color-->
+
+    <color name="black">#2b2b2b</color>
+    <color name="grey">#858585</color>
+
 </resources>
