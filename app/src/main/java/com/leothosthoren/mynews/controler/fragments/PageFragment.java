@@ -10,12 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.GithubUser;
+import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 
@@ -41,8 +40,9 @@ public class PageFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    //    private ArrayList<ItemNews> mItemNews = new ArrayList<>();
-    private List<GithubUser> mGithubUsers = new ArrayList<>();
+
+    private List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
+
 
     public PageFragment() {
         // Required empty public constructor
@@ -75,9 +75,9 @@ public class PageFragment extends Fragment {
 
         //Call the recyclerView builder method
         this.buildRecyclerView();
-        this.configureSwipeRefrechLayout();
 //        executeHttpRequest(0);
         this.executeHttpRequestWithRetrofit();
+        this.configureSwipeRefrechLayout();
 //        streamShowThing();
 //        executeSecondHttpRequestWithRetrofit();
 
@@ -102,7 +102,8 @@ public class PageFragment extends Fragment {
     }
 
     private void buildRecyclerView() {
-        mAdapter = new RecyclerViewAdapter(mGithubUsers, Glide.with(this));
+
+        mAdapter = new RecyclerViewAdapter(mTopStoriesArray, Glide.with(this));
         //Set them with natives methods
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
@@ -117,7 +118,7 @@ public class PageFragment extends Fragment {
         });
     }
 
-    private void configureSwipeRefrechLayout(){
+    private void configureSwipeRefrechLayout() {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -219,7 +220,7 @@ public class PageFragment extends Fragment {
 //    // 2 - Override callback methods
 //
 //    @Override
-//    public void onResponse(@Nullable List<NewYorkTimeTopStories> section) {
+//    public void onResponse(@Nullable List<TopStories> section) {
 //        // 2.1 - When getting response, we update UI
 //        if (section != null) this.updateUIWithListOfSection(section);
 //    }
@@ -262,24 +263,24 @@ public class PageFragment extends Fragment {
     private void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
-        this.mDisposable = NewYorkTimeStream.streamFetchFollowing("JakeWharton")
-                .subscribeWith(new DisposableObserver<List<GithubUser>>() {
+        this.mDisposable = NewYorkTimeStream.streamFetchTopStories()
+                .subscribeWith(new DisposableObserver<TopStories>() {
 
                     @Override
-                    public void onNext(List<GithubUser> users) {
-                        Log.e("TAG", "On Next");
+                    public void onNext(TopStories topStoriesItems) {
+                        Log.d("TAG", "On Next");
 //                        updateUIWithListOfSection(users);
-                        upDateUI(users);
+                        upDateUI(topStoriesItems);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG", "On Error" + Log.getStackTraceString(e));
+                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.e("TAG", "On Complete !");
+                        Log.d("TAG", "On Complete !");
                     }
                 });
     }
@@ -304,12 +305,18 @@ public class PageFragment extends Fragment {
 //        this.mTextView.setText(response);
     }
 
-    private void upDateUI(List<GithubUser> listUser) {
+    private void upDateUI(TopStories topStories) {
         mProgressBar.setVisibility(View.GONE);
         mRefreshLayout.setRefreshing(false);
-        mGithubUsers.clear();
-        mGithubUsers.addAll(listUser);
+        mTopStoriesArray.clear();
+
+        //Test
+        List<TopStories.Result> resultList = topStories.getResults();
+        mTopStoriesArray.addAll(resultList);
+        //Test
+
         mAdapter.notifyDataSetChanged();
+
     }
 
 //    // 3 - Update UI showing only name of users

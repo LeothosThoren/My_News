@@ -1,16 +1,21 @@
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frag_swipe_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".controler.fragments.PageFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/frag_recycler_view"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/frag_swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/frag_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:id="@+id/activity_main_progress_bar"
@@ -20,5 +25,4 @@
         android:layout_centerVertical="true"
         android:visibility="gone" />
 
-
-</android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

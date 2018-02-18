@@ -12,7 +12,7 @@ import com.leothosthoren.mynews.controler.fragments.PageFragment;
  */
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
     private int[] colors;
-    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR","BUSINESS","OTHERS",};
+    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR","BUSINESS",};
 
     public ViewPageAdapter(FragmentManager fm, int[] colors) {
         super(fm);

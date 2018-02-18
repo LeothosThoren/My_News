@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.GithubUser;
+import com.leothosthoren.mynews.model.TopStories;
 
 import java.util.List;
 
@@ -22,29 +22,36 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
-    //    private ArrayList<ItemNews> mItemNews;
-    private List<GithubUser> mGithubUserList;
+//        private ArrayList<ItemNews> mItemNews;
+    private List<TopStories.Result> mTopStoriesResult;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-    public RecyclerViewAdapter(/*ArrayList<ItemNews> itemNews*/List<GithubUser> githubUsers, RequestManager glide) {
-        mGithubUserList = githubUsers;
+    public RecyclerViewAdapter(List<TopStories.Result> topStoriesResult, RequestManager glide) {
+        mTopStoriesResult = topStoriesResult;
         mGlide = glide;
     }
 
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_recyclerview, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_item_recyclerview, parent, false);
         ItemViewHolder itemViewHolder = new ItemViewHolder(view, mListener);
         return itemViewHolder;
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        final GithubUser currentUser = mGithubUserList.get(position);
+        final TopStories.Result currentItem = mTopStoriesResult.get(position);
 
-        holder.mTextView.setText(currentUser.getLogin());
-        mGlide.load(currentUser.getAvatarUrl()).into(holder.mImageView);
+
+        holder.mTextView.setText(currentItem.getSection());
+        holder.mDateView.setText(currentItem.getCreatedDate());
+        holder.mSummaryView.setText(currentItem.getTitle());
+        mGlide.load(currentItem.getMultimedia()).into(holder.mImageView);
+
+
+
 //        final ItemNews currentItem = mItemNews.get(position);
 //
 //        holder.mImageView.setImageResource(currentItem.getImage());
@@ -55,7 +62,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public int getItemCount() {
-        return mGithubUserList.size();
+        return mTopStoriesResult.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
