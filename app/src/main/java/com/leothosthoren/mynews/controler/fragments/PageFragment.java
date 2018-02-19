@@ -73,6 +73,7 @@ public class PageFragment extends Fragment {
         int position = getArguments().getInt(KEY_POSITION, -1);
         int color = getArguments().getInt(KEY_COLOR, -1);
 
+
         //Call the recyclerView builder method
         this.buildRecyclerView();
 //        executeHttpRequest(0);
@@ -263,7 +264,7 @@ public class PageFragment extends Fragment {
     private void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
-        this.mDisposable = NewYorkTimeStream.streamFetchTopStories()
+        this.mDisposable = NewYorkTimeStream.streamFetchTopStories("home")
                 .subscribeWith(new DisposableObserver<TopStories>() {
 
                     @Override
@@ -296,17 +297,16 @@ public class PageFragment extends Fragment {
     // ------------------
 
     private void updateUIWhenStartingHTTPRequest() {
-        mProgressBar.setVisibility(View.VISIBLE);
-//        this.mTextView.setText("Downloading...");
+        this.mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void updateUIWhenStopingHTTPRequest(String response) {
-        mProgressBar.setVisibility(View.GONE);
-//        this.mTextView.setText(response);
-    }
+//    private void updateUIWhenStopingHTTPRequest(String response) {
+//        mProgressBar.setVisibility(View.GONE);
+////        this.mTextView.setText(response);
+//    }
 
     private void upDateUI(TopStories topStories) {
-        mProgressBar.setVisibility(View.GONE);
+        this.mProgressBar.setVisibility(View.GONE);
         mRefreshLayout.setRefreshing(false);
         mTopStoriesArray.clear();
 

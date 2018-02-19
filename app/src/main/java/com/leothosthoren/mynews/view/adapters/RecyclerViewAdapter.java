@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.TopStories;
 
@@ -24,6 +25,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 //        private ArrayList<ItemNews> mItemNews;
     private List<TopStories.Result> mTopStoriesResult;
+    private TopStories.Multimedium mMultimedium;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
@@ -48,7 +50,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.mTextView.setText(currentItem.getSection());
         holder.mDateView.setText(currentItem.getCreatedDate());
         holder.mSummaryView.setText(currentItem.getTitle());
-        mGlide.load(currentItem.getMultimedia()).into(holder.mImageView);
+        mGlide.load(currentItem.getMultimedia().get(0).getUrl()).into(holder.mImageView);
 
 
 

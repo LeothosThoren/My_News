@@ -7,7 +7,7 @@
     <dimen name="size_synopsis">22sp</dimen>
 
     <!-- Images -->
-    <dimen name="size_image_height">120dip</dimen>
+    <dimen name="size_image_height">75dip</dimen>
     <dimen name="size_image_width">@dimen/size_image_height</dimen>
 
     <!-- margin / padding -->

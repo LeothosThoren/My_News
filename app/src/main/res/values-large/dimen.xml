@@ -7,7 +7,7 @@
     <dimen name="size_synopsis">40sp</dimen>
 
     <!-- Images -->
-    <dimen name="size_image_height">200dip</dimen>
+    <dimen name="size_image_height">150dip</dimen>
     <dimen name="size_image_width">@dimen/size_image_height</dimen>
 
     <!-- margin / padding -->
