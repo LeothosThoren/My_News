@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Glue Tab et viewpager together
         tabLayout.setupWithViewPager(pager);
         //Width equals with tab
-        tabLayout.setTabMode(TabLayout.GRAVITY_FILL);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
 

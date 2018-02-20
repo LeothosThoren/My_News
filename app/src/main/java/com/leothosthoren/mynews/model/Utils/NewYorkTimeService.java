@@ -29,8 +29,8 @@ public interface NewYorkTimeService {
     @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
     Observable<TopStories> getTopStories(@Path("section") String section);
 
-    @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
-    Observable<TopStories.Multimedium> getTopStoriesImage();
+//    @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
+//    Observable<TopStories.Multimedium> getTopStoriesImage();
 
     @GET("svc/mostpopular/v2/mostviewed/{section}/7.json?api-key"+ApiKeyMostPopular)
     Observable<TopStories> getMostPopular(@Path("section") String section);

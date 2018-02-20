@@ -18,11 +18,8 @@ import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,7 +40,7 @@ public class PageFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String [] topStoriesSection = {"home", "world", "technology",};
+    private String[] topStoriesSection = {"home", "technology", "all-sections"};
 
     private List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
     private int position;
@@ -78,23 +75,16 @@ public class PageFragment extends Fragment {
         color = getArguments().getInt(KEY_COLOR, -1);
 
 
-
         //Call the recyclerView builder method
         this.buildRecyclerView();
-//        executeHttpRequest(0);
-        this.executeHttpRequestWithRetrofit();
+        //Http requests
+
+        if (position == 2)
+            this.executeSecondHttpRequestWithRetrofit();
+        else
+            this.executeHttpRequestWithRetrofit();
+
         this.configureSwipeRefrechLayout();
-//        streamShowThing();
-//        executeSecondHttpRequestWithRetrofit();
-
-        // 5 - Get data from Bundle (created in method newInstance)
-
-//        mItemNews.add(new ItemNews("mon titre", "02/02/2017",
-//                R.mipmap.ic_launcher, "Long résumé", R.color.colorPrimary));
-//        mItemNews.add(new ItemNews("mon titre", "02/12/2017",
-//                R.mipmap.ic_launcher_round, "Très Long résumé", R.color.colorPrimary));
-//        mItemNews.add(new ItemNews("mon titre", "18/10/2017",
-//                R.mipmap.ic_launcher, "Très très Long résumé", R.color.colorPrimary));
 
         // 6 - Update widgets with it
         mRecyclerView.setBackgroundColor(color);
@@ -265,6 +255,29 @@ public class PageFragment extends Fragment {
 //                });
 //    }
 
+    private void executeSecondHttpRequestWithRetrofit() {
+        this.updateUIWhenStartingHTTPRequest();
+
+        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular(topStoriesSection[position])
+                .subscribeWith(new DisposableObserver<TopStories>() {
+
+                    @Override
+                    public void onNext(TopStories MostpopularItems) {
+                        Log.d("TAG", "On Next");
+                        upDateUI(MostpopularItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("TAG", "On Complete !");
+                    }
+                });
+    }
 
     private void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();

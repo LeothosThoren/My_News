@@ -16,14 +16,20 @@ import io.reactivex.schedulers.Schedulers;
 public class NewYorkTimeStream {
 
     public static Observable<TopStories> streamFetchTopStories(String section) {
-        NewYorkTimeService nyts = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
-        return nyts.getTopStories(section)
+        NewYorkTimeService nyts1 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
+        return nyts1.getTopStories(section)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-
+    public static Observable<TopStories> streamFetchMostPopular(String section) {
+        NewYorkTimeService nyts2 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
+        return nyts2.getMostPopular(section)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
 
 //    public static Observable<TopStories.Multimedium> streamFetchTopStoriesImage() {
 //        NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
