@@ -23,27 +23,29 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<TopStories.Multimedium> streamFetchTopStoriesImage() {
-        NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
-        return newYorkTimeService.getTopStoriesImage()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .timeout(10, TimeUnit.SECONDS);
-    }
 
-    public static Observable<TopStories.Multimedium> streamFetchTopStoriesDatasAndImage(String section){
-        return streamFetchTopStories(section)
-                .map(new Function<TopStories, TopStories>() {
-                    @Override
-                    public TopStories apply(TopStories topStoriesData) throws Exception {
-                        return topStoriesData;
-                    }
-                })
-                .flatMap(new Function<TopStories, Observable<TopStories.Multimedium>>() {
-                    @Override
-                    public Observable<TopStories.Multimedium> apply(TopStories topStoriesImage) throws Exception {
-                        return streamFetchTopStoriesImage();
-                    }
-                });
-    }
+
+//    public static Observable<TopStories.Multimedium> streamFetchTopStoriesImage() {
+//        NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
+//        return newYorkTimeService.getTopStoriesImage()
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .timeout(10, TimeUnit.SECONDS);
+//    }
+//
+//    public static Observable<TopStories.Multimedium> streamFetchTopStoriesDatasAndImage(String section){
+//        return streamFetchTopStories(section)
+//                .map(new Function<TopStories, TopStories>() {
+//                    @Override
+//                    public TopStories apply(TopStories topStoriesData) throws Exception {
+//                        return topStoriesData;
+//                    }
+//                })
+//                .flatMap(new Function<TopStories, Observable<TopStories.Multimedium>>() {
+//                    @Override
+//                    public Observable<TopStories.Multimedium> apply(TopStories topStoriesImage) throws Exception {
+//                        return streamFetchTopStoriesImage();
+//                    }
+//                });
+//    }
 }

@@ -9,10 +9,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.TopStories;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,15 +25,20 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
-//        private ArrayList<ItemNews> mItemNews;
+    //        private ArrayList<ItemNews> mItemNews;
     private List<TopStories.Result> mTopStoriesResult;
-    private TopStories.Multimedium mMultimedium;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
+
 
     public RecyclerViewAdapter(List<TopStories.Result> topStoriesResult, RequestManager glide) {
         mTopStoriesResult = topStoriesResult;
         mGlide = glide;
+    }
+
+    public static String getFormatedDate(String dateToChange) {
+        String sub[] = dateToChange.substring(2, 10).split("-");
+        return String.format("%s/%s/%s", sub[2], sub[1],sub[0]);
     }
 
     @Override
@@ -48,10 +55,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
         holder.mTextView.setText(currentItem.getSection());
-        holder.mDateView.setText(currentItem.getCreatedDate());
+        holder.mDateView.setText(getFormatedDate(currentItem.getPublishedDate()));
         holder.mSummaryView.setText(currentItem.getTitle());
-        mGlide.load(currentItem.getMultimedia().get(0).getUrl()).into(holder.mImageView);
-
+//        mGlide.load(currentItem.getMultimedia().get(0).getUrl()).into(holder.mImageView);
 
 
 //        final ItemNews currentItem = mItemNews.get(position);

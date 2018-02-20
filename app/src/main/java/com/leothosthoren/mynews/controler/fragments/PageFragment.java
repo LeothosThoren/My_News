@@ -18,8 +18,11 @@ import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,9 +43,11 @@ public class PageFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String [] topStoriesSection = {"home", "world", "technology",};
 
     private List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
-
+    private int position;
+    private int color;
 
     public PageFragment() {
         // Required empty public constructor
@@ -69,9 +74,9 @@ public class PageFragment extends Fragment {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_layout, container, false);
         ButterKnife.bind(this, result);
+        position = getArguments().getInt(KEY_POSITION, -1);
+        color = getArguments().getInt(KEY_COLOR, -1);
 
-        int position = getArguments().getInt(KEY_POSITION, -1);
-        int color = getArguments().getInt(KEY_COLOR, -1);
 
 
         //Call the recyclerView builder method
@@ -264,7 +269,7 @@ public class PageFragment extends Fragment {
     private void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
-        this.mDisposable = NewYorkTimeStream.streamFetchTopStories("home")
+        this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
                 .subscribeWith(new DisposableObserver<TopStories>() {
 
                     @Override
