@@ -122,14 +122,14 @@ public class PageFragment extends Fragment {
                 //Here we allow the toast text to appear only if the comment is not empty at his own position
                 Toast.makeText(getContext(), "Click on item number " + position+ "URL : "+mTopStoriesArray.get(position).getShortUrl(), Toast.LENGTH_SHORT).show();
 
+                Intent intent = new Intent(getContext(), WebViewActivity.class);
+                intent.putExtra(ITEMPOSITION, position);
+                startActivity(intent);
+
                 //Here we are going to implements a web view
 //                WebView webview = new WebView(getContext());
 //                webview.loadUrl(mTopStoriesArray.get(position).getUrl());
 
-
-                Intent intent = new Intent(getContext(), WebViewActivity.class);
-                intent.putExtra(ITEMPOSITION, position);
-                startActivity(intent);
 
             }
         });

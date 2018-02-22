@@ -12,6 +12,7 @@ import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.TopStories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,7 +26,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //TODO : chainer les requêtes de façon à afficher les datas de mostpopular
     //        private ArrayList<ItemNews> mItemNews;
     private List<TopStories.Result> mTopStoriesResult;
-    private List<TopStories.Multimedium> mMultimedia;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
@@ -94,7 +94,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
-
+       
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -119,7 +119,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-            glide.load(result.getUrl()).into(mImageView);
+//            glide.load(result.getMultimedia().get().getUrl()).into(mImageView);
 
         }
 
