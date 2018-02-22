@@ -1,5 +1,6 @@
 package com.leothosthoren.mynews.model.Utils;
 
+import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 
 import java.util.List;
@@ -32,8 +33,8 @@ public interface NewYorkTimeService {
 //    @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
 //    Observable<TopStories.Multimedium> getTopStoriesImage();
 
-    @GET("svc/mostpopular/v2/mostviewed/{section}/7.json?api-key"+ApiKeyMostPopular)
-    Observable<TopStories> getMostPopular(@Path("section") String section);
+    @GET("svc/mostpopular/v2/mostviewed/{section}/1.json?api-key"+ApiKeyMostPopular)
+    Observable<MostPopular> getMostPopular(@Path("section") String section);
 
 //    @GET("users/{username}/following")
 //    Observable<List<GithubUser>> getFollowing(@Path("username") String username);

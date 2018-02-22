@@ -8,21 +8,21 @@ public class ItemNews {
     private String mDate;
     private int mImage;
     private String mSummary;
-    private int mColor;
 
-    public ItemNews(String title, String date, int image, String summary, int color) {
+
+    public ItemNews(String title, String date, int image, String summary) {
         mTitle = title;
         mDate = date;
         mImage = image;
         mSummary = summary;
-        mColor = color;
+
     }
 
-    public String getTitle() {
-        return mTitle;
+    public String getTitle() {return mTitle;
     }
 
     public String getDate() {
+
         return mDate;
     }
 
@@ -34,7 +34,4 @@ public class ItemNews {
         return mSummary;
     }
 
-    public int getColor() {
-        return mColor;
-    }
 }

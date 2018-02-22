@@ -1,5 +1,6 @@
 package com.leothosthoren.mynews.controler.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.controler.activities.WebViewActivity;
+import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
@@ -26,11 +29,17 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.leothosthoren.mynews.view.adapters.ViewPageAdapter.topStoriesSection;
+
 
 public class PageFragment extends Fragment {
+    //Ice pick
+
+    public static final String ITEMPOSITION = "webView_position";
 
     private static final String KEY_POSITION = "position";
     private static final String KEY_COLOR = "color";
+    public static List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
@@ -40,11 +49,10 @@ public class PageFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private String[] topStoriesSection = {"home", "technology", "all-sections"};
-
-    private List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
+    private List<MostPopular.Result> mResultList = new ArrayList<>();
     private int position;
     private int color;
+
 
     public PageFragment() {
         // Required empty public constructor
@@ -63,6 +71,7 @@ public class PageFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -74,15 +83,14 @@ public class PageFragment extends Fragment {
         position = getArguments().getInt(KEY_POSITION, -1);
         color = getArguments().getInt(KEY_COLOR, -1);
 
-
         //Call the recyclerView builder method
         this.buildRecyclerView();
         //Http requests
 
-        if (position == 2)
-            this.executeSecondHttpRequestWithRetrofit();
-        else
-            this.executeHttpRequestWithRetrofit();
+//        if (position == 2)
+//            this.executeSecondHttpRequestWithRetrofit();
+//        else
+        this.executeHttpRequestWithRetrofit();
 
         this.configureSwipeRefrechLayout();
 
@@ -104,15 +112,29 @@ public class PageFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.displayWebView();
+    }
 
+    private void displayWebView() {
         mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear only if the comment is not empty at his own position
-                Toast.makeText(getContext(), "Click on item number " + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Click on item number " + position+ "URL : "+mTopStoriesArray.get(position).getShortUrl(), Toast.LENGTH_SHORT).show();
+
+                //Here we are going to implements a web view
+//                WebView webview = new WebView(getContext());
+//                webview.loadUrl(mTopStoriesArray.get(position).getUrl());
+
+
+                Intent intent = new Intent(getContext(), WebViewActivity.class);
+                intent.putExtra(ITEMPOSITION, position);
+                startActivity(intent);
+
             }
         });
     }
+
 
     private void configureSwipeRefrechLayout() {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -259,12 +281,12 @@ public class PageFragment extends Fragment {
         this.updateUIWhenStartingHTTPRequest();
 
         this.mDisposable = NewYorkTimeStream.streamFetchMostPopular(topStoriesSection[position])
-                .subscribeWith(new DisposableObserver<TopStories>() {
+                .subscribeWith(new DisposableObserver<MostPopular>() {
 
                     @Override
-                    public void onNext(TopStories MostpopularItems) {
+                    public void onNext(MostPopular MostpopularItems) {
                         Log.d("TAG", "On Next");
-                        upDateUI(MostpopularItems);
+                        upDateUIMP(MostpopularItems);
                     }
 
                     @Override
@@ -327,7 +349,6 @@ public class PageFragment extends Fragment {
         this.mProgressBar.setVisibility(View.GONE);
         mRefreshLayout.setRefreshing(false);
         mTopStoriesArray.clear();
-
         //Test
         List<TopStories.Result> resultList = topStories.getResults();
         mTopStoriesArray.addAll(resultList);
@@ -336,6 +357,20 @@ public class PageFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
 
     }
+
+    private void upDateUIMP(MostPopular Mostpopular) {
+        this.mProgressBar.setVisibility(View.GONE);
+        mRefreshLayout.setRefreshing(false);
+        mTopStoriesArray.clear();
+        //Test
+        List<MostPopular.Result> resultListMostPop = Mostpopular.getResults();
+        mResultList.addAll(resultListMostPop);
+        //Test
+
+        mAdapter.notifyDataSetChanged();
+
+    }
+
 
 //    // 3 - Update UI showing only name of users
 //    private void updateUIWithListOfSection(List<GithubUser> section) {

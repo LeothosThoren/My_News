@@ -12,9 +12,9 @@
 
         <ImageView
             android:id="@+id/item_image"
-            android:layout_width="75dip"
-            android:layout_height="75dip"
-            android:padding="2dp"
+            android:layout_width="85dip"
+            android:layout_height="85dip"
+            android:padding="10dp"
             android:src="@mipmap/ic_launcher" />
 
         <TextView

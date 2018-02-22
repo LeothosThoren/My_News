@@ -1,8 +1,8 @@
 package com.leothosthoren.mynews.controler.activities;
 
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
 import com.leothosthoren.mynews.R;
@@ -17,7 +17,7 @@ public class SearchArticlesActivity extends AppCompatActivity {
         this.configureToolbar();
     }
 
-    private void configureToolbar(){
+    public void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

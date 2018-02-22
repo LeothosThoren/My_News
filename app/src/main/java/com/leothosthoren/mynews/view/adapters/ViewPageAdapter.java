@@ -2,7 +2,6 @@ package com.leothosthoren.mynews.view.adapters;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.leothosthoren.mynews.controler.fragments.PageFragment;
@@ -12,7 +11,8 @@ import com.leothosthoren.mynews.controler.fragments.PageFragment;
  */
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
     private int[] colors;
-    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR","BUSINESS",};
+    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR",};
+    public static final String[] topStoriesSection = {"home", "technology",};
 
     public ViewPageAdapter(FragmentManager fm, int[] colors) {
         super(fm);

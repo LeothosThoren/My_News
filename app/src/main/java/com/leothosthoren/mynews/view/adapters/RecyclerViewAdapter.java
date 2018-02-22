@@ -12,9 +12,6 @@ import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.TopStories;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -25,8 +22,10 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
+    //TODO : chainer les requêtes de façon à afficher les datas de mostpopular
     //        private ArrayList<ItemNews> mItemNews;
     private List<TopStories.Result> mTopStoriesResult;
+    private List<TopStories.Multimedium> mMultimedia;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
@@ -38,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static String getFormatedDate(String dateToChange) {
         String sub[] = dateToChange.substring(2, 10).split("-");
-        return String.format("%s/%s/%s", sub[2], sub[1],sub[0]);
+        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     @Override
@@ -51,12 +50,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        final TopStories.Result currentItem = mTopStoriesResult.get(position);
 
+        holder.updateWithTopStories(this.mTopStoriesResult.get(position), this.mGlide);
 
-        holder.mTextView.setText(currentItem.getSection());
-        holder.mDateView.setText(getFormatedDate(currentItem.getPublishedDate()));
-        holder.mSummaryView.setText(currentItem.getTitle());
+//        final TopStories.Result currentItem = mTopStoriesResult.get(position);
+
+//        holder.mTextView.setText(currentItem.getSection());
+//        holder.mDateView.setText(getFormatedDate(currentItem.getPublishedDate()));
+//        holder.mSummaryView.setText(currentItem.getTitle());
 //        mGlide.load(currentItem.getMultimedia().get(0).getUrl()).into(holder.mImageView);
 
 
@@ -112,6 +113,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                     }
                 }
             });
+        }
+
+        public void updateWithTopStories(TopStories.Result result, RequestManager glide) {
+            this.mTextView.setText(result.getSection());
+            this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
+            this.mSummaryView.setText(result.getTitle());
+            glide.load(result.getUrl()).into(mImageView);
+
         }
 
         @Override

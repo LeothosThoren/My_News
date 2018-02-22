@@ -1,5 +1,6 @@
 package com.leothosthoren.mynews.model.Utils;
 
+import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<TopStories> streamFetchMostPopular(String section) {
+    public static Observable<MostPopular> streamFetchMostPopular(String section) {
         NewYorkTimeService nyts2 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
         return nyts2.getMostPopular(section)
                 .subscribeOn(Schedulers.io())
