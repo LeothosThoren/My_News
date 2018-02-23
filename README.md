@@ -30,6 +30,7 @@ You can use the .apk application 'app-debug.apk' if you want to run a test. It's
 ## Versioning
 
 I use [Git and Github](https://gist.github.com/) for versioning. [Travis CI](https://travis-ci.org/) for continuous integration.
+My Build with Travis is passing [![Build Status](https://travis-ci.org/LeothosThoren/My_News.svg?branch=master)](https://travis-ci.org/LeothosThoren/My_News)
 
 ## Authors
 
