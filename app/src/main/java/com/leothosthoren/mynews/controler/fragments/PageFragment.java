@@ -307,7 +307,7 @@ public class PageFragment extends Fragment {
     private void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
-        this.mDisposable = NewYorkTimeStream.streamFetchTopStories("world")
+        this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
                 .subscribeWith(new DisposableObserver<TopStories>() {
 
                     @Override
