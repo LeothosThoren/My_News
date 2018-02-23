@@ -33,7 +33,7 @@ I use [Git and Github](https://gist.github.com/) for versioning. [Travis CI](htt
 
 ## Authors
 
-* **Sofiane Medjaoud** - *Alias Leothos* - [LeothosThoren](https://github.com/LeothosThoren) ::):
+* **Sofiane Medjaoud** - *Alias Leothos* - [LeothosThoren](https://github.com/LeothosThoren) :v:
 
 ## License
 
