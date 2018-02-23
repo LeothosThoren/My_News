@@ -3,12 +3,10 @@ package com.leothosthoren.mynews.model.Utils;
 import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**

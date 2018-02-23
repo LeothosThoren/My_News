@@ -39,17 +39,20 @@ public class PageFragment extends Fragment {
 
     private static final String KEY_POSITION = "position";
     private static final String KEY_COLOR = "color";
-    public static List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
+    public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
+
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
+
     ProgressBar mProgressBar;
     @BindView(R.id.frag_swipe_layout)
+
     SwipeRefreshLayout mRefreshLayout;
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<MostPopular.Result> mResultList = new ArrayList<>();
+    private final List<MostPopular.Result> mResultList = new ArrayList<>();
     private int position;
     private int color;
 
@@ -304,7 +307,7 @@ public class PageFragment extends Fragment {
     private void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
-        this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
+        this.mDisposable = NewYorkTimeStream.streamFetchTopStories("world")
                 .subscribeWith(new DisposableObserver<TopStories>() {
 
                     @Override

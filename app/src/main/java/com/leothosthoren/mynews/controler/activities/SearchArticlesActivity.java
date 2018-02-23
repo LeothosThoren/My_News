@@ -17,7 +17,7 @@ public class SearchArticlesActivity extends AppCompatActivity {
         this.configureToolbar();
     }
 
-    public void configureToolbar() {
+    private void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

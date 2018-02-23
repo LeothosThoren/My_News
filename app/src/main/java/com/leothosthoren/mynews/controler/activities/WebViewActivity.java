@@ -18,8 +18,10 @@ import static com.leothosthoren.mynews.controler.fragments.PageFragment.mTopStor
 public class WebViewActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
+
     Toolbar mToolbar;
     @BindView(R.id.web_view)
+
     WebView mWebView;
 
 
@@ -33,7 +35,7 @@ public class WebViewActivity extends AppCompatActivity {
         displayWebView();
     }
 
-    public void configureToolbar() {
+    private void configureToolbar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -41,7 +43,7 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
-    public void displayWebView() {
+    private void displayWebView() {
         int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
 
         mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());

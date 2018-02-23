@@ -15,7 +15,8 @@
             android:layout_width="85dip"
             android:layout_height="85dip"
             android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="TODO" />
 
         <TextView
             android:id="@+id/item_title"

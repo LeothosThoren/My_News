@@ -12,9 +12,9 @@ import com.leothosthoren.mynews.controler.fragments.PageFragment;
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
     private int[] colors;
     private String tabTitle[] = {"TOP STORIES", "MOST POPULAR",};
-    public static final String[] topStoriesSection = {"home", "technology",};
+    public static final String[] topStoriesSection = {"home", "world",};
 
-    public ViewPageAdapter(FragmentManager fm, int[] colors) {
+    protected ViewPageAdapter(FragmentManager fm, int[] colors) {
         super(fm);
         this.colors = colors;
     }

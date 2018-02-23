@@ -12,7 +12,6 @@ import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.TopStories;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -24,10 +23,14 @@ import butterknife.ButterKnife;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
     //TODO : chainer les requêtes de façon à afficher les datas de mostpopular
+    //Todo : Créer peut-être un autre adaptater pour mostpopular sinon bifurquer sur la solution multi fragment
+    //todo : Régler le problème de Glide
+    //Todo : ajouter l'indice du tablayout dans l'intent afin d'avoir une ouverture de la webview plus précise
+    //Todo : bosser sur la partie configuration et surtout recherche/ api search article
     //        private ArrayList<ItemNews> mItemNews;
-    private List<TopStories.Result> mTopStoriesResult;
+    private final List<TopStories.Result> mTopStoriesResult;
     private OnItemClickListener mListener;
-    private RequestManager mGlide;
+    private final RequestManager mGlide;
 
 
     public RecyclerViewAdapter(List<TopStories.Result> topStoriesResult, RequestManager glide) {
@@ -35,7 +38,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mGlide = glide;
     }
 
-    public static String getFormatedDate(String dateToChange) {
+    private static String getFormatedDate(String dateToChange) {
         String sub[] = dateToChange.substring(2, 10).split("-");
         return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
@@ -44,15 +47,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.list_item_recyclerview, parent, false);
-        ItemViewHolder itemViewHolder = new ItemViewHolder(view, mListener);
-        return itemViewHolder;
+        return new ItemViewHolder(view, mListener);
     }
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.updateWithTopStories(this.mTopStoriesResult.get(position), this.mGlide);
-
+        holder.updateWithTopStories(this.mTopStoriesResult.get(position)/*, this.mGlide*/);
+//        mGlide.load(mTopStoriesResult.get(position).getMultimedia().get(0).getUrl()).into(holder.mImageView);
 //        final TopStories.Result currentItem = mTopStoriesResult.get(position);
 
 //        holder.mTextView.setText(currentItem.getSection());
@@ -94,7 +96,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
-       
+
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
             super(itemView);
@@ -115,7 +117,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
 
-        public void updateWithTopStories(TopStories.Result result, RequestManager glide) {
+        public void updateWithTopStories(TopStories.Result result/*, RequestManager glide*/) {
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());

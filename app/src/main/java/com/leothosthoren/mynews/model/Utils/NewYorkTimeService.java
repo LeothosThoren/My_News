@@ -3,8 +3,6 @@ package com.leothosthoren.mynews.model.Utils;
 import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -20,7 +18,7 @@ public interface NewYorkTimeService {
     String ApiKeyMostPopular = "7aa6518af840427eb78832360465fa9e";
     String BaseUrl = "http://api.nytimes.com/";
 
-    public static final Retrofit retrofit = new Retrofit.Builder()
+    Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BaseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
