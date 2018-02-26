@@ -3,7 +3,6 @@ package com.leothosthoren.mynews.controler.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -79,7 +78,7 @@ public class PageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View result = inflater.inflate(R.layout.fragment_layout, container, false);
+        View result = inflater.inflate(R.layout.fragment_main_layout, container, false);
         ButterKnife.bind(this, result);
         position = getArguments().getInt(KEY_POSITION, -1);
 

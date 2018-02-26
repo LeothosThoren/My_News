@@ -1,6 +1,5 @@
 package com.leothosthoren.mynews.view.adapters;
 
-import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,7 +41,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item_recyclerview, parent, false);
+                .inflate(R.layout.recycler_view_item_, parent, false);
         return new ItemViewHolder(view, mListener);
     }
 
