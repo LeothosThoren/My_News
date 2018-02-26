@@ -18,10 +18,8 @@ import static com.leothosthoren.mynews.controler.fragments.PageFragment.mTopStor
 public class WebViewActivity extends AppCompatActivity {
 
     @BindView(R.id.toolbar)
-
     Toolbar mToolbar;
     @BindView(R.id.web_view)
-
     WebView mWebView;
 
 
@@ -33,6 +31,7 @@ public class WebViewActivity extends AppCompatActivity {
 
         configureToolbar();
         displayWebView();
+
     }
 
     private void configureToolbar() {
@@ -45,7 +44,6 @@ public class WebViewActivity extends AppCompatActivity {
 
     private void displayWebView() {
         int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
-
         mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
@@ -53,5 +51,11 @@ public class WebViewActivity extends AppCompatActivity {
                 return super.shouldOverrideUrlLoading(view, url);
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        configureToolbar();
     }
 }

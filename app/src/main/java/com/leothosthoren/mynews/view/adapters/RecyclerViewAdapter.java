@@ -38,6 +38,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         mGlide = glide;
     }
 
+    private static String getFormatedDate(String dateToChange) {
+        String sub[] = dateToChange.substring(2, 10).split("-");
+        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
+    }
+
     @Override
     public ItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -71,11 +76,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //This interface provide onItemClick method which allow to click on something in the activities class
     public interface OnItemClickListener {
         void onItemClick(int position);
-    }
-
-    private static String getFormatedDate(String dateToChange) {
-        String sub[] = dateToChange.substring(2, 10).split("-");
-        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -116,8 +116,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
             if (result.getMultimedia().size() != 0)
-            glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
-
+                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
+            else if (result.getMultimedia().size() == 0)
+                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
 
         }
 

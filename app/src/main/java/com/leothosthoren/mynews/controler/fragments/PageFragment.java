@@ -1,8 +1,10 @@
 package com.leothosthoren.mynews.controler.fragments;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,22 +39,19 @@ public class PageFragment extends Fragment {
 
     public static final String ITEMPOSITION = "webView_position";
     public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
-    private final List<MostPopular.Result> mResultList = new ArrayList<>();
-
     private static final String KEY_POSITION = "position";
-
-
+    private final List<MostPopular.Result> mResultList = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
     ProgressBar mProgressBar;
+
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private int position;
-
 
 
     public PageFragment() {
@@ -81,7 +80,8 @@ public class PageFragment extends Fragment {
         View result = inflater.inflate(R.layout.fragment_main_layout, container, false);
         ButterKnife.bind(this, result);
         position = getArguments().getInt(KEY_POSITION, -1);
-
+        mProgressBar.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
         //Call the recyclerView builder method
         this.buildRecyclerView();
         //Http requests
@@ -103,7 +103,6 @@ public class PageFragment extends Fragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
-
 
     private void buildRecyclerView() {
 
