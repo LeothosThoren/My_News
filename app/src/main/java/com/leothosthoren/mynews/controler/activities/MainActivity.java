@@ -86,15 +86,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Get viewpager from layout
         ViewPager pager = (ViewPager) findViewById(R.id.activity_main_viewpager);
         // 2 - Set Adapter ViewPageAdapter and glue it together
-        pager.setAdapter(new ViewPageAdapter(getSupportFragmentManager(),
-                getResources().getIntArray(R.array.colorPagesViewPager)) {
+        pager.setAdapter(new ViewPageAdapter(getSupportFragmentManager()) {
         });
         //Tab
         TabLayout tabLayout = (TabLayout) findViewById(R.id.activity_main_tab);
         //Glue Tab et viewpager together
         tabLayout.setupWithViewPager(pager);
         //Width equals with tab
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabMode(TabLayout.MODE_FIXED);
     }
 
 

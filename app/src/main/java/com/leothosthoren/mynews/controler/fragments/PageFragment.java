@@ -3,6 +3,7 @@ package com.leothosthoren.mynews.controler.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,36 +37,33 @@ public class PageFragment extends Fragment {
     //Ice pick
 
     public static final String ITEMPOSITION = "webView_position";
+    public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
+    private final List<MostPopular.Result> mResultList = new ArrayList<>();
 
     private static final String KEY_POSITION = "position";
-    private static final String KEY_COLOR = "color";
-    public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
-    @BindView(R.id.frag_recycler_view)
 
+
+    @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
-
     ProgressBar mProgressBar;
     @BindView(R.id.frag_swipe_layout)
-
     SwipeRefreshLayout mRefreshLayout;
     private Disposable mDisposable;
     private RecyclerViewAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private final List<MostPopular.Result> mResultList = new ArrayList<>();
     private int position;
-    private int color;
+
 
 
     public PageFragment() {
         // Required empty public constructor
     }
 
-    public static PageFragment newInstance(int position, int color) {
+    public static PageFragment newInstance(int position) {
         PageFragment fragment = new PageFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-        args.putInt(KEY_COLOR, color);
 
         fragment.setArguments(args);
         return fragment;
@@ -84,7 +82,6 @@ public class PageFragment extends Fragment {
         View result = inflater.inflate(R.layout.fragment_layout, container, false);
         ButterKnife.bind(this, result);
         position = getArguments().getInt(KEY_POSITION, -1);
-        color = getArguments().getInt(KEY_COLOR, -1);
 
         //Call the recyclerView builder method
         this.buildRecyclerView();
@@ -98,7 +95,7 @@ public class PageFragment extends Fragment {
         this.configureSwipeRefrechLayout();
 
         // 6 - Update widgets with it
-        mRecyclerView.setBackgroundColor(color);
+
         return result;
     }
 
@@ -107,6 +104,7 @@ public class PageFragment extends Fragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
+
 
     private void buildRecyclerView() {
 
@@ -123,7 +121,9 @@ public class PageFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear only if the comment is not empty at his own position
-                Toast.makeText(getContext(), "Click on item number " + position+ "URL : "+mTopStoriesArray.get(position).getShortUrl(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),
+                        "Click on item number " + position + "URL : " + mTopStoriesArray.get(position).getShortUrl(),
+                        Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(getContext(), WebViewActivity.class);
                 intent.putExtra(ITEMPOSITION, position);
@@ -304,7 +304,7 @@ public class PageFragment extends Fragment {
                 });
     }
 
-    private void executeHttpRequestWithRetrofit() {
+    public void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
         this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
@@ -313,7 +313,6 @@ public class PageFragment extends Fragment {
                     @Override
                     public void onNext(TopStories topStoriesItems) {
                         Log.d("TAG", "On Next");
-//                        updateUIWithListOfSection(users);
                         upDateUI(topStoriesItems);
                     }
 

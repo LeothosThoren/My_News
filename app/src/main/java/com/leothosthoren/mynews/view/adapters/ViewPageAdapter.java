@@ -10,19 +10,16 @@ import com.leothosthoren.mynews.controler.fragments.PageFragment;
  * Created by Sofiane M. alias Leothos Thoren on 31/01/2018
  */
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
-    private int[] colors;
-    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR",};
     public static final String[] topStoriesSection = {"home", "world",};
+    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR",};
 
-    protected ViewPageAdapter(FragmentManager fm, int[] colors) {
+    protected ViewPageAdapter(FragmentManager fm) {
         super(fm);
-        this.colors = colors;
     }
 
     @Override
     public Fragment getItem(int position) {
-
-        return PageFragment.newInstance(position, this.colors[position]);
+        return PageFragment.newInstance(position);
     }
 
     @Override

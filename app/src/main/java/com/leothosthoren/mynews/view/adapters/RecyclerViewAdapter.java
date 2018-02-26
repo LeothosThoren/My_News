@@ -1,5 +1,6 @@
 package com.leothosthoren.mynews.view.adapters;
 
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,20 +28,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //todo : Régler le problème de Glide
     //Todo : ajouter l'indice du tablayout dans l'intent afin d'avoir une ouverture de la webview plus précise
     //Todo : bosser sur la partie configuration et surtout recherche/ api search article
-    //        private ArrayList<ItemNews> mItemNews;
-    private final List<TopStories.Result> mTopStoriesResult;
+
+    private List<TopStories.Result> mTopStoriesResult;
     private OnItemClickListener mListener;
-    private final RequestManager mGlide;
+    private RequestManager mGlide;
 
 
     public RecyclerViewAdapter(List<TopStories.Result> topStoriesResult, RequestManager glide) {
         mTopStoriesResult = topStoriesResult;
         mGlide = glide;
-    }
-
-    private static String getFormatedDate(String dateToChange) {
-        String sub[] = dateToChange.substring(2, 10).split("-");
-        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     @Override
@@ -53,22 +49,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.updateWithTopStories(this.mTopStoriesResult.get(position)/*, this.mGlide*/);
-//        mGlide.load(mTopStoriesResult.get(position).getMultimedia().get(0).getUrl()).into(holder.mImageView);
-//        final TopStories.Result currentItem = mTopStoriesResult.get(position);
+        holder.updateWithTopStories(this.mTopStoriesResult.get(position), mGlide);
 
+//        final TopStories.Result currentItem = mTopStoriesResult.get(position);
 //        holder.mTextView.setText(currentItem.getSection());
 //        holder.mDateView.setText(getFormatedDate(currentItem.getPublishedDate()));
 //        holder.mSummaryView.setText(currentItem.getTitle());
-//        mGlide.load(currentItem.getMultimedia().get(0).getUrl()).into(holder.mImageView);
+//        holder.mImageView.setImageURI(Uri.parse(currentItem.getMultimedia().get(0).getUrl()));
 
 
-//        final ItemNews currentItem = mItemNews.get(position);
-//
-//        holder.mImageView.setImageResource(currentItem.getImage());
-//        holder.mTextView.setText(currentItem.getTitle());
-//        holder.mDateView.setText(currentItem.getDate());
-//        holder.mSummaryView.setText(currentItem.getSummary());
     }
 
     @Override
@@ -83,6 +72,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     //This interface provide onItemClick method which allow to click on something in the activities class
     public interface OnItemClickListener {
         void onItemClick(int position);
+    }
+
+    private static String getFormatedDate(String dateToChange) {
+        String sub[] = dateToChange.substring(2, 10).split("-");
+        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -117,11 +111,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
 
-        public void updateWithTopStories(TopStories.Result result/*, RequestManager glide*/) {
+        public void updateWithTopStories(TopStories.Result result, RequestManager glide) {
+
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-//            glide.load(result.getMultimedia().get().getUrl()).into(mImageView);
+            if (result.getMultimedia().size() != 0)
+            glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
+
 
         }
 
