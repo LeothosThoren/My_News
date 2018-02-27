@@ -19,8 +19,9 @@
     <!-- Toolbar title theme -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
-        <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">5dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:background">@color/colorPrimary</item>
 
     </style>
 
@@ -30,7 +31,14 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="MainStyle">
+        <!--<item name="android:padding">10dip</item>-->
+        <item name="android:layout_marginTop">5dip</item>
+        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginLeft">15dip</item>
+        <item name="android:layout_marginRight">15dip</item>
 
+    </style>
     <!--&lt;!&ndash; Popup theme &ndash;&gt;-->
     <!--<style name="PopupTheme" parent="ThemeOverlay.AppCompat.Dark">-->
         <!--<item name="android:layout_height">wrap_content</item>-->
