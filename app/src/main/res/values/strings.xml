@@ -14,5 +14,14 @@
     <string name="chevron"> > </string>
     <string name="begin_date">Begin date</string>
     <string name="end_date">End date</string>
+    <string name="checkbox1">Arts</string>
+    <string name="checkbox2">Business</string>
+    <string name="checkbox3">Entrepreneurs</string>
+    <string name="checkbox4">Politics</string>
+    <string name="checkbox5">Sports</string>
+    <string name="checkbox6">Travels</string>
+    <string name="search_button">SEARCH</string>
+
+
 
 </resources>

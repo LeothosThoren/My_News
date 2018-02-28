@@ -117,9 +117,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             this.mSummaryView.setText(result.getTitle());
             if (result.getMultimedia().size() != 0)
                 glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
-            else if (result.getMultimedia().size() == 0)
-                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
-
         }
 
         @Override

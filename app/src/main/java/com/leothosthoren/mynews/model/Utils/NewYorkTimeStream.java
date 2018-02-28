@@ -30,6 +30,8 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
+//Create observable for searchArticle
+
 //    public static Observable<TopStories.Multimedium> streamFetchTopStoriesImage() {
 //        NewYorkTimeService newYorkTimeService = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
 //        return newYorkTimeService.getTopStoriesImage()

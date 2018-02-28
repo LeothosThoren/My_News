@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.TextInputEditText
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/search_query_term"
+    style="@style/MainStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:cursorVisible="true"
+    android:focusable="true"
+    android:hint="@string/search_hint"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp"
+    android:textSize="18sp"
+    app:backgroundTint="@color/colorPrimary" />
