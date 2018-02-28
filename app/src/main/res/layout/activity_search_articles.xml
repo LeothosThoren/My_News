@@ -15,7 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/search_hint"
-        app:backgroundTint="@color/colorPrimary" />
+        app:backgroundTint="@color/colorPrimary"
+        app:backgroundSize="4dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        android:textSize="18sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,11 +33,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:hint="@string/begin_date"
             android:drawableEnd="@drawable/ic_select"
             android:drawableRight="@drawable/ic_select"
-            android:textColorHint="@color/black"
-            android:inputType="date" />
+            android:hint="@string/begin_date"
+            android:inputType="date"
+            android:textColorHint="@color/black" />
 
         <EditText
             android:id="@+id/end_date"
@@ -41,11 +45,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight=".5"
-            android:hint="@string/end_date"
             android:drawableEnd="@drawable/ic_select"
             android:drawableRight="@drawable/ic_select"
-            android:textColorHint="@color/black"
-            android:inputType="date" />
+            android:hint="@string/end_date"
+            android:inputType="date"
+            android:textColorHint="@color/black" />
 
     </LinearLayout>
 
@@ -65,7 +69,7 @@
 
             <CheckBox
                 android:id="@+id/checkbox_1"
-                style="@style/MainStyle"
+                style="@style/checkBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/customcheckbox"
@@ -74,7 +78,7 @@
 
             <CheckBox
                 android:id="@+id/checkbox_2"
-                style="@style/MainStyle"
+                style="@style/checkBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/customcheckbox"
@@ -82,7 +86,7 @@
 
             <CheckBox
                 android:id="@+id/checkbox_3"
-                style="@style/MainStyle"
+                style="@style/checkBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/customcheckbox"
@@ -99,7 +103,7 @@
 
             <CheckBox
                 android:id="@+id/checkbox_4"
-                style="@style/MainStyle"
+                style="@style/checkBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/customcheckbox"
@@ -107,7 +111,7 @@
 
             <CheckBox
                 android:id="@+id/checkbox_5"
-                style="@style/MainStyle"
+                style="@style/checkBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/customcheckbox"
@@ -116,7 +120,7 @@
 
             <CheckBox
                 android:id="@+id/checkbox_6"
-                style="@style/MainStyle"
+                style="@style/checkBoxStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:button="@drawable/customcheckbox"
