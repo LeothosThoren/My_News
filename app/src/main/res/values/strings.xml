@@ -22,6 +22,10 @@
     <string name="checkbox6">Travels</string>
     <string name="search_button">SEARCH</string>
 
-
+    <!-- Option menu title -->
+    <string name="research">Research</string>
+    <string name="notifications">Notifications</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
 
 </resources>

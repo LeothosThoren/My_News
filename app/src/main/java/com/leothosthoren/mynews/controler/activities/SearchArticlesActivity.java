@@ -47,6 +47,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         this.configureToolbar();
 
         setDate();
+        mSearchButton.setOnClickListener(this);
     }
 
     public void onCheckboxClicked(View view) {

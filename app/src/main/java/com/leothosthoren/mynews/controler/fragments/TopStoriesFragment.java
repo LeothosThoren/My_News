@@ -34,7 +34,7 @@ import io.reactivex.observers.DisposableObserver;
 import static com.leothosthoren.mynews.view.adapters.ViewPageAdapter.topStoriesSection;
 
 
-public class PageFragment extends Fragment {
+public class TopStoriesFragment extends Fragment {
     //Ice pick
 
     public static final String ITEMPOSITION = "webView_position";
@@ -54,12 +54,12 @@ public class PageFragment extends Fragment {
     private int position;
 
 
-    public PageFragment() {
+    public TopStoriesFragment() {
         // Required empty public constructor
     }
 
-    public static PageFragment newInstance(int position) {
-        PageFragment fragment = new PageFragment();
+    public static TopStoriesFragment newInstance(int position) {
+        TopStoriesFragment fragment = new TopStoriesFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
 

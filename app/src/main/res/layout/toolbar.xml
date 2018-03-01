@@ -12,5 +12,5 @@
 
     app:titleTextAppearance="@style/Toolbar.TitleText"
     app:titleTextColor="@color/colorAccent"
-    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+    app:popupTheme="@style/PopupTheme"
     />

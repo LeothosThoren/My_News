@@ -4,14 +4,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.leothosthoren.mynews.controler.fragments.PageFragment;
+import com.leothosthoren.mynews.controler.fragments.TopStoriesFragment;
 
 /**
  * Created by Sofiane M. alias Leothos Thoren on 31/01/2018
  */
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
-    public static final String[] topStoriesSection = {"home", "arts",};
-    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR",};
+    public static final String[] topStoriesSection = {"home", "arts", "science"};
+    private String tabTitle[] = {"TOP STORIES", "MOST POPULAR", "SIENCES",};
 
     protected ViewPageAdapter(FragmentManager fm) {
         super(fm);
@@ -19,7 +19,7 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return PageFragment.newInstance(position);
+        return TopStoriesFragment.newInstance(position);
     }
 
     @Override

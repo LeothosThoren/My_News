@@ -13,6 +13,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.view.adapters.ViewPageAdapter;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()) {
             case R.id.param_notifications:
+                Toast.makeText(this, "Test menu",Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.menu_activity_main_search:
                 launchSearchArticlesActivity();
@@ -69,12 +71,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             super.onBackPressed();
     }
 
-    private void showParamMenu() {
-
-        PopupMenu popupMenu = new PopupMenu(MainActivity.this, toolbar);
-        popupMenu.getMenuInflater().inflate(R.menu.menu_activity_main, popupMenu.getMenu());
-        popupMenu.show();
-    }
+//    private void showParamMenu() {
+//
+//        PopupMenu popupMenu = new PopupMenu(MainActivity.this, toolbar);
+//        popupMenu.getMenuInflater().inflate(R.menu.menu_activity_main, popupMenu.getMenu());
+//        popupMenu.show();
+//    }
 
     private void launchSearchArticlesActivity() {
         Intent intent = new Intent(MainActivity.this, SearchArticlesActivity.class);

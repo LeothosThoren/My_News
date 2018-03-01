@@ -12,8 +12,8 @@ import com.leothosthoren.mynews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.leothosthoren.mynews.controler.fragments.PageFragment.ITEMPOSITION;
-import static com.leothosthoren.mynews.controler.fragments.PageFragment.mTopStoriesArray;
+import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
+import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.mTopStoriesArray;
 
 public class WebViewActivity extends AppCompatActivity {
 

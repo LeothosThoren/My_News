@@ -14,12 +14,14 @@
         <item name="android:textColorPrimary">@color/colorAccent</item>
         <item name="android:layout_width">wrap_content</item>
 
+
     </style>
 
     <!-- Toolbar title theme -->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
         <item name="android:layout_margin">5dp</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/colorAccent</item>
         <item name="android:background">@color/colorPrimary</item>
 
@@ -31,8 +33,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <!--  -->
     <style name="MainStyle">
-        <!--<item name="android:padding">10dip</item>-->
         <item name="android:layout_marginTop">5dip</item>
         <item name="android:layout_marginBottom">5dip</item>
         <item name="android:layout_marginLeft">15dip</item>
@@ -46,11 +48,9 @@
         <item name="android:layout_marginRight">15dip</item>
         <item name="android:paddingLeft">10dip</item>
     </style>
-    <!--&lt;!&ndash; Popup theme &ndash;&gt;-->
-    <!--<style name="PopupTheme" parent="ThemeOverlay.AppCompat.Dark">-->
-        <!--<item name="android:layout_height">wrap_content</item>-->
-        <!--<item name="android:layout_width">wrap_content</item>-->
-        <!--<item name="android:padding">@dimen/padding</item>-->
-        <!--<item name="android:textStyle">bold</item>-->
-    <!--</style>-->
+
+    <!-- Popup theme -->
+    <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textStyle">italic</item>
+    </style>
 </resources>
