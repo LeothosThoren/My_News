@@ -86,10 +86,10 @@ public class PageFragment extends Fragment {
         this.buildRecyclerView();
         //Http requests
 
-//        if (position == 2)
-//            this.executeSecondHttpRequestWithRetrofit();
-//        else
-        this.executeHttpRequestWithRetrofit();
+        if (position == 1)
+            this.executeSecondHttpRequestWithRetrofit();
+        else
+            this.executeHttpRequestWithRetrofit();
 
         this.configureSwipeRefrechLayout();
 
