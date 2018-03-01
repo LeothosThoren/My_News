@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".controler.fragments.PageFragment">
+    tools:context=".controler.fragments.TopStoriesFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/frag_swipe_layout"
