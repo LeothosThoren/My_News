@@ -77,7 +77,7 @@ public class TopStoriesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View result = inflater.inflate(R.layout.fragment_main_layout, container, false);
+        View result = inflater.inflate(R.layout.fragment_top_stories_layout, container, false);
         ButterKnife.bind(this, result);
         position = getArguments().getInt(KEY_POSITION, -1);
         mProgressBar.getIndeterminateDrawable()

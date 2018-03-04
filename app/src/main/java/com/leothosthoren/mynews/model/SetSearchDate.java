@@ -13,13 +13,13 @@ import java.util.Locale;
 /**
  * Created by Sofiane M. alias Leothos Thoren on 28/02/2018
  */
-public class SetDate implements View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
+public class SetSearchDate implements View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
 
     private EditText editText;
     private Calendar mCalendar;
 
 
-    public SetDate(EditText editText, Context context){
+    public SetSearchDate(EditText editText, Context context){
         this.editText = editText;
         this.editText.setOnFocusChangeListener(this);
         mCalendar = Calendar.getInstance();

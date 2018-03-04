@@ -22,9 +22,7 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
-    //TODO : chainer les requêtes de façon à afficher les datas de mostpopular
     //Todo : Créer peut-être un autre adaptater pour mostpopular sinon bifurquer sur la solution multi fragment
-    //todo : Régler le problème de Glide
     //Todo : ajouter l'indice du tablayout dans l'intent afin d'avoir une ouverture de la webview plus précise
     //Todo : bosser sur la partie configuration et surtout recherche/ api search article
 
@@ -54,13 +52,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
         holder.updateWithTopStories(this.mTopStoriesResult.get(position), mGlide);
-
-//        final TopStories.Result currentItem = mTopStoriesResult.get(position);
-//        holder.mTextView.setText(currentItem.getSection());
-//        holder.mDateView.setText(getFormatedDate(currentItem.getPublishedDate()));
-//        holder.mSummaryView.setText(currentItem.getTitle());
-//        holder.mImageView.setImageURI(Uri.parse(currentItem.getMultimedia().get(0).getUrl()));
-
 
     }
 

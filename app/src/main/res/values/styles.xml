@@ -35,8 +35,8 @@
 
     <!--  -->
     <style name="MainStyle">
-        <item name="android:layout_marginTop">5dip</item>
-        <item name="android:layout_marginBottom">5dip</item>
+        <item name="android:layout_marginTop">10dip</item>
+        <item name="android:layout_marginBottom">10dip</item>
         <item name="android:layout_marginLeft">15dip</item>
         <item name="android:layout_marginRight">15dip</item>
     </style>
@@ -52,5 +52,11 @@
     <!-- Popup theme -->
     <style name="PopupTheme" parent="ThemeOverlay.AppCompat.Light">
         <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="Theme.App.Base" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <item name="colorControlHighlight">@color/colorPrimaryDark</item>
     </style>
 </resources>
