@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
@@ -15,13 +14,12 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.EditText;
 import android.widget.Toast;
-
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.model.SearchArticlesItems;
 import com.leothosthoren.mynews.model.SetSearchDate;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -30,10 +28,10 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     public String[] BOX_VALUES = {"Arts", "Business", "Entrepreneurs", "Politics", "Sports", "Travels"};
     @BindView(R.id.search_query_term)
     EditText mSearchQuery;
-    @BindView(R.id.begin_date)
-    EditText mBeginDate;
     @BindView(R.id.end_date)
     EditText mEndDate;
+    @BindView(R.id.begin_date)
+    EditText mBeginDate;
     @BindView(R.id.search_activity_search_button)
     Button mSearchButton;
     @BindView(R.id.checkbox_1)
@@ -48,8 +46,10 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     CheckBox mCheckBox5;
     @BindView(R.id.checkbox_6)
     CheckBox mCheckBox6;
+    public CheckBox [] mCheckBoxes = {mCheckBox1,mCheckBox2,mCheckBox3,mCheckBox4,mCheckBox5,mCheckBox6};
     @BindView(R.id.query_text_input_layout)
     TextInputLayout floatingHintLabel;
+    View mView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +61,18 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         this.displayErrorMessage(floatingHintLabel);
         this.setSearchDate();
         this.mSearchButton.setOnClickListener(this);
-
+        SearchArticlesItems.onCheckboxClicked(mView,this,mCheckBoxes);
 
     }
 
+    /*
+    * @method onClick
+    * @param v
+    *
+    * The search button performs all the action of control and check
+    * It calls the api
+    * Verify if all the inputs are corrects
+    * */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     public void onClick(View v) {
@@ -73,14 +81,20 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         // handle query not empty, otherwise toast text alert
         queryInputIsEmpty(mSearchQuery, floatingHintLabel);
         //When all the checkboxes are unchecked
-        onUncheckedBoxes();
+        //onUncheckedBoxes();
+        SearchArticlesItems.onUncheckedBoxes(v,mCheckBoxes);
+
 
         // launch http request,
         // check if result not null otherwise toast text alert
         // open view list recycler view
-        //Open webView from recycler view
+        // Open webView from recycler view
     }
-
+    /*
+    * @method configureToolbar
+    *
+    * This method call the toolbar layout and fixe it on the action bar, a return home feature is displayed
+    * */
     private void configureToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,13 +104,20 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         }
     }
 
+    /*
+    * @method displayErrorMessage
+    * @param textInputLayout option which allow to change the editText behavior
+    *
+    * This method handle the search text widget, before and after text change
+    * */
     public void displayErrorMessage(final TextInputLayout textInputLayout) {
         textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
+            //The text input set up an hint for the user
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 textInputLayout.setHintEnabled(true);
             }
-
+            //When user type something the error alert is disabled
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 textInputLayout.setErrorEnabled(false);
@@ -110,11 +131,23 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         });
     }
 
+    /*
+    * @setSearchDate
+    *
+    * This method allows to display the datePicker widget threw an edit text
+    * */
     private void setSearchDate() {
         SetSearchDate beginDate = new SetSearchDate(mBeginDate, this);
         SetSearchDate endDate = new SetSearchDate(mEndDate, this);
     }
 
+    /*
+    * @queryInputIsEmpty
+    * @param searchQuery
+    * @textInputLayout display a red alert message
+    *
+    * This method check if the search query input is empty, and if yes an error message occur
+    * */
     public void queryInputIsEmpty(EditText searchQuery, TextInputLayout textInputLayout) {
         if (searchQuery.getText().toString().isEmpty()) {
             textInputLayout.setError("You have to edit a query term search!!");
@@ -124,6 +157,13 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 
     }
 
+    /*
+    * @method onCheckboxClicked
+    * @param view
+    *
+    * This method handle the checkboxes behavior on click.
+    * If it's checked an action is executed
+    * */
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
@@ -151,6 +191,16 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         }
     }
 
+    /*
+    * @method boxSelection
+    * @param check boolean holder
+    * @param key is variable where data is stored
+    * @param value the data to store
+    *
+    * This method works with the method onCheckboxClicked, two actions are performed:
+    * -a checkbox is selected a value is hold
+    * -otherwise it's blanked
+    * */
     public void boxSelection(boolean check, String key, String value) {
         if (check) {
             key = value;
@@ -162,7 +212,12 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         }
     }
 
-
+    /*
+    * @method checkboxColorModifier
+    * @param color
+    *
+    * This method allows to change the color of every checkboxes at once
+    * */
     public void checkboxColorModifier(int color) {
         mCheckBox1.setTextColor(color);
         mCheckBox2.setTextColor(color);
@@ -172,22 +227,39 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         mCheckBox6.setTextColor(color);
     }
 
+    /*
+    * @method onUncheckedBoxes
+    *
+    * This method warns when all the checkboxes are unchecked
+    * */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public void onUncheckedBoxes() {
         if (!(mCheckBox1.isChecked() || mCheckBox2.isChecked() || mCheckBox3.isChecked()
                 || mCheckBox4.isChecked() || mCheckBox5.isChecked() || mCheckBox6.isChecked())) {
             checkboxColorModifier(Color.RED);
             //The sanckbar is display here to explain the user what to do
-            snackbarMessage(R.string.box_unchecked);
+            snackBarMessage(R.string.box_unchecked);
         }
     }
 
+    /*
+    * @toastMessage
+    * @param msg the message to display
+    *
+    * A simple reusable method which handle Toast message
+    * */
     public void toastMessage(String msg) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    * @method snackbarMessage
+    * @param msg
+    *
+    * A simple reusable method which handle SnackBar message
+    * */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public void snackbarMessage(int msg) {
+    public void snackBarMessage(int msg) {
         Snackbar snackbar = Snackbar
                 .make(findViewById(R.id.activity_search_article), msg, Snackbar.LENGTH_LONG);
         View sbView = snackbar.getView();

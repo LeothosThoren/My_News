@@ -15,29 +15,54 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <EditText
-            android:id="@+id/begin_date"
-            style="@style/MainStyle"
+        <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight=".5"
+            android:text="@string/begin_date" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_weight=".5"
+            android:text="@string/end_date" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <EditText
+            android:id="@+id/begin_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_weight=".5"
             android:drawableEnd="@drawable/ic_select"
             android:drawableRight="@drawable/ic_select"
             android:focusable="true"
-            android:hint="@string/begin_date"
             android:inputType="date"
             android:textColorHint="@color/black" />
 
         <EditText
             android:id="@+id/end_date"
-            style="@style/MainStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_weight=".5"
             android:drawableEnd="@drawable/ic_select"
             android:drawableRight="@drawable/ic_select"
             android:focusable="true"
-            android:hint="@string/end_date"
             android:inputType="date"
             android:textColorHint="@color/black" />
 

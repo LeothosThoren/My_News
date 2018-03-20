@@ -53,7 +53,6 @@ public class TopStoriesFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private int position;
 
-
     public TopStoriesFragment() {
         // Required empty public constructor
     }
@@ -62,7 +61,6 @@ public class TopStoriesFragment extends Fragment {
         TopStoriesFragment fragment = new TopStoriesFragment();
         Bundle args = new Bundle();
         args.putInt(KEY_POSITION, position);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,50 +77,62 @@ public class TopStoriesFragment extends Fragment {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_top_stories_layout, container, false);
         ButterKnife.bind(this, result);
+        //We get the index position of the viewPager
         position = getArguments().getInt(KEY_POSITION, -1);
+        //A progress bar is loaded and setted
         mProgressBar.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
         //Call the recyclerView builder method
         this.buildRecyclerView();
-        //Http requests
-
+        //Http requests handler
         if (position == 1)
             this.executeSecondHttpRequestWithRetrofit();
         else
             this.executeHttpRequestWithRetrofit();
-
+        //It's possible to refresh the Uri api on vertical swipe from the top to the bottom
         this.configureSwipeRefrechLayout();
-
-        // 6 - Update widgets with it
 
         return result;
     }
 
+    //Called for better performances
     @Override
     public void onDestroy() {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
 
+    /*
+    * @method buildRecyclerView
+    *
+    * This method manages the recyclerView set up
+    * */
     private void buildRecyclerView() {
-
+        //Calling the adapter
         mAdapter = new RecyclerViewAdapter(mTopStoriesArray, Glide.with(this));
         //Set them with natives methods
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        this.displayWebView();
+        //When user click on an item a new activity is launched to display a webView
+        this.displayActivity();
     }
 
-    private void displayWebView() {
+    /*
+    * @method displayActivity
+    *
+    * Used to open a web view directly in the app, not by default application
+    * */
+    private void displayActivity() {
         mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Here we allow the toast text to appear only if the comment is not empty at his own position
+                //Here we allow the toast text to appear on click
                 Toast.makeText(getContext(),
                         "Click on item number " + position + "URL : " + mTopStoriesArray.get(position).getShortUrl(),
                         Toast.LENGTH_SHORT).show();
 
+                //Intent for the activity calling
                 Intent intent = new Intent(getContext(), WebViewActivity.class);
                 intent.putExtra(ITEMPOSITION, position);
                 startActivity(intent);
@@ -130,13 +140,15 @@ public class TopStoriesFragment extends Fragment {
                 //Here we are going to implements a web view
 //                WebView webview = new WebView(getContext());
 //                webview.loadUrl(mTopStoriesArray.get(position).getUrl());
-
-
             }
         });
     }
 
-
+    /*
+    * @method configureSwipeRefrechLayout
+    *
+    * When the screen is swipe, the http request is executed
+    * */
     private void configureSwipeRefrechLayout() {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -145,6 +157,7 @@ public class TopStoriesFragment extends Fragment {
             }
         });
     }
+
 
     private void executeSecondHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
@@ -185,6 +198,7 @@ public class TopStoriesFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+                        internetDisable();
                     }
 
                     @Override
@@ -208,22 +222,24 @@ public class TopStoriesFragment extends Fragment {
         this.mProgressBar.setVisibility(View.VISIBLE);
     }
 
-//    private void updateUIWhenStopingHTTPRequest(String response) {
-//        mProgressBar.setVisibility(View.GONE);
-////        this.mTextView.setText(response);
-//    }
+    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar, List<?> objectList) {
+        bar.setVisibility(View.GONE);
+        refresh.setRefreshing(false);
+        objectList.clear();
+
+    }
+
+    private void internetDisable() {
+        mProgressBar.setVisibility(View.GONE);
+        Toast.makeText(getContext(),
+                getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+    }
 
     private void upDateUI(TopStories topStories) {
-        this.mProgressBar.setVisibility(View.GONE);
-        mRefreshLayout.setRefreshing(false);
-        mTopStoriesArray.clear();
-        //Test
+        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar, mTopStoriesArray);
         List<TopStories.Result> resultList = topStories.getResults();
         mTopStoriesArray.addAll(resultList);
-        //Test
-
         mAdapter.notifyDataSetChanged();
-
     }
 
     private void upDateUIMP(MostPopular Mostpopular) {

@@ -32,5 +32,7 @@
     <string name="help">Help</string>
 
 
+    <!-- Http requests -->
+    <string name="no_internet">NO INTERNET CONNECTION!</string>
 
 </resources>

@@ -22,7 +22,6 @@ public class WebViewActivity extends AppCompatActivity {
     @BindView(R.id.web_view)
     WebView mWebView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +33,12 @@ public class WebViewActivity extends AppCompatActivity {
 
     }
 
+    /*
+    * @method configureToolbar
+    *
+    * This method call the toolbar layout and fixes it on the action bar,
+    * a return home feature is displayed
+    * */
     private void configureToolbar() {
         setSupportActionBar(mToolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -42,6 +47,13 @@ public class WebViewActivity extends AppCompatActivity {
         }
     }
 
+
+    /*
+    * @method displayWebView
+    *
+    * Load and display an Uri into a web page view
+    * The webView get an Uri from an  array object method
+    * */
     private void displayWebView() {
         int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
         mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
@@ -53,6 +65,11 @@ public class WebViewActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * @method onBackPressed
+    *
+    * Handle the back button from the device
+    * */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
