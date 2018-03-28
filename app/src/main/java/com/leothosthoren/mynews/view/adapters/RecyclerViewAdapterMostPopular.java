@@ -21,19 +21,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Sofiane M. alias Leothos Thoren on 01/02/2018
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
+public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<RecyclerViewAdapterMostPopular.ItemViewHolder> {
 
-    //Todo : Créer peut-être un autre adaptater pour mostpopular sinon bifurquer sur la solution multi fragment
-    //Todo : ajouter l'indice du tablayout dans l'intent afin d'avoir une ouverture de la webview plus précise
-    //Todo : bosser sur la partie configuration et surtout recherche/ api search article
-
-    private List<TopStories.Result> mTopStoriesResult;
+    private List<MostPopular.Result> mMostPopularResult;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-
-    public RecyclerViewAdapter(List<TopStories.Result> topStoriesResult, RequestManager glide) {
-        mTopStoriesResult = topStoriesResult;
+    public RecyclerViewAdapterMostPopular(List<MostPopular.Result> mostPopularResult, RequestManager glide) {
+        mMostPopularResult = mostPopularResult;
         mGlide = glide;
     }
 
@@ -52,13 +47,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.updateWithTopStories(this.mTopStoriesResult.get(position), mGlide);
+        holder.updateWithMostPopular(this.mMostPopularResult.get(position), mGlide);
 
     }
 
     @Override
     public int getItemCount() {
-        return mTopStoriesResult.size();
+        return mMostPopularResult.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -102,13 +97,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
 
-        public void updateWithTopStories(TopStories.Result result, RequestManager glide) {
+        public void updateWithMostPopular(MostPopular.Result result, RequestManager glide) {
 
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-            if (result.getMultimedia().size() != 0)
-                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
+            if (result.getMedia().size() != 0)
+                glide.load(result.getMedia().get(0).getMediaMetadata().getUrl()).into(mImageView);
         }
 
         @Override

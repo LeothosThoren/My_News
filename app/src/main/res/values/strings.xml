@@ -23,6 +23,7 @@
     <string name="search_button">SEARCH</string>
     <string name="box_unchecked">You must select at least one box!</string>
     <string name="api_answer">Sorry, we couldn\'t find what you seek. Try again!</string>
+    <string name="query_error">You have to edit a query term search!!</string>
 
 
     <!-- Option menu title -->

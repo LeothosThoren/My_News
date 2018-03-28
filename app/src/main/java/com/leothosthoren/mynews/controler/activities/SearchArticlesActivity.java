@@ -11,17 +11,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.TextView;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.SearchArticlesItems;
+import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.SetSearchDate;
+import com.leothosthoren.mynews.model.TopStories;
+import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
     public String[] checkboxData = new String[6];
@@ -46,10 +56,12 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     CheckBox mCheckBox5;
     @BindView(R.id.checkbox_6)
     CheckBox mCheckBox6;
-    public CheckBox [] mCheckBoxes = {mCheckBox1,mCheckBox2,mCheckBox3,mCheckBox4,mCheckBox5,mCheckBox6};
     @BindView(R.id.query_text_input_layout)
     TextInputLayout floatingHintLabel;
-    View mView;
+    @BindView(R.id.textTest) TextView textTest;
+    private Disposable mDisposable;
+    private final List<MostPopular.Result> mResultList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +73,48 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         this.displayErrorMessage(floatingHintLabel);
         this.setSearchDate();
         this.mSearchButton.setOnClickListener(this);
-        SearchArticlesItems.onCheckboxClicked(mView,this,mCheckBoxes);
+
+        executeHttpRequestWithRetrofit();
 
     }
 
+    public void executeHttpRequestWithRetrofit() {
+        textTest.setText("Start");
+
+        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
+                .subscribeWith(new DisposableObserver<MostPopular.Result>() {
+
+                    @Override
+                    public void onNext(MostPopular.Result topStoriesItems) {
+                        Log.d("TAG", "On Next");
+
+                        mResultList.add(topStoriesItems);
+                        textTest.setText(mResultList.get(0).getUrl());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+                        textTest.setText("Error");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("TAG", "On Complete !");
+                    }
+                });
+    }
+
+    private void disposeWhenDestroy() {
+        if (this.mDisposable != null && !this.mDisposable.isDisposed())
+            this.mDisposable.dispose();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
+    }
     /*
     * @method onClick
     * @param v
@@ -81,8 +131,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         // handle query not empty, otherwise toast text alert
         queryInputIsEmpty(mSearchQuery, floatingHintLabel);
         //When all the checkboxes are unchecked
-        //onUncheckedBoxes();
-        SearchArticlesItems.onUncheckedBoxes(v,mCheckBoxes);
+        onUncheckedBoxes();
 
 
         // launch http request,
@@ -90,6 +139,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         // open view list recycler view
         // Open webView from recycler view
     }
+
     /*
     * @method configureToolbar
     *
@@ -117,6 +167,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 textInputLayout.setHintEnabled(true);
             }
+
             //When user type something the error alert is disabled
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -150,7 +201,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     * */
     public void queryInputIsEmpty(EditText searchQuery, TextInputLayout textInputLayout) {
         if (searchQuery.getText().toString().isEmpty()) {
-            textInputLayout.setError("You have to edit a query term search!!");
+            textInputLayout.setError(getResources().getString(R.string.query_error));
             textInputLayout.setErrorEnabled(true);
         } else
             textInputLayout.setErrorEnabled(false);

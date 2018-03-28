@@ -3,6 +3,8 @@ package com.leothosthoren.mynews.model.Utils;
 import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -31,11 +33,11 @@ public interface NewYorkTimeService {
     Observable<TopStories> getTopStories(@Path("section") String section);
 
 
-    @GET("svc/mostpopular/v2/mostviewed/{section}/1.json?api-key="+ApiKeyMostPopular)
-    Observable<MostPopular> getMostPopular(@Path("section") String section);
+    @GET("svc/mostpopular/v2/mostemailed/all-sections/7.json?api-key="+ApiKeyMostPopular)
+    Observable<MostPopular.Result> getMostPopular();
 
-//    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
-//    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
+    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
+    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
 
 
 }

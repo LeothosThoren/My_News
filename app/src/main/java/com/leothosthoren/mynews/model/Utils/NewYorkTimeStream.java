@@ -3,6 +3,7 @@ package com.leothosthoren.mynews.model.Utils;
 import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -22,9 +23,9 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<MostPopular> streamFetchMostPopular(String section) {
+    public static Observable<MostPopular.Result> streamFetchMostPopular() {
         NewYorkTimeService nyts2 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
-        return nyts2.getMostPopular(section)
+        return nyts2.getMostPopular()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

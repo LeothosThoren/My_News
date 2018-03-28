@@ -40,7 +40,7 @@ public class TopStoriesFragment extends Fragment {
     public static final String ITEMPOSITION = "webView_position";
     public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
     private static final String KEY_POSITION = "position";
-    private final List<MostPopular.Result> mResultList = new ArrayList<>();
+//    private final List<MostPopular.Result> mResultList = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
@@ -85,9 +85,9 @@ public class TopStoriesFragment extends Fragment {
         //Call the recyclerView builder method
         this.buildRecyclerView();
         //Http requests handler
-        if (position == 1)
-            this.executeSecondHttpRequestWithRetrofit();
-        else
+//        if (position == 1)
+//            this.executeSecondHttpRequestWithRetrofit();
+//        else
             this.executeHttpRequestWithRetrofit();
         //It's possible to refresh the Uri api on vertical swipe from the top to the bottom
         this.configureSwipeRefrechLayout();
@@ -128,9 +128,9 @@ public class TopStoriesFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear on click
-                Toast.makeText(getContext(),
-                        "Click on item number " + position + "URL : " + mTopStoriesArray.get(position).getShortUrl(),
-                        Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(),
+//                        "Click on item number " + position + "URL : " + mTopStoriesArray.get(position).getShortUrl(),
+//                        Toast.LENGTH_SHORT).show();
 
                 //Intent for the activity calling
                 Intent intent = new Intent(getContext(), WebViewActivity.class);
@@ -159,29 +159,29 @@ public class TopStoriesFragment extends Fragment {
     }
 
 
-    private void executeSecondHttpRequestWithRetrofit() {
-        this.updateUIWhenStartingHTTPRequest();
-
-        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular(topStoriesSection[position])
-                .subscribeWith(new DisposableObserver<MostPopular>() {
-
-                    @Override
-                    public void onNext(MostPopular MostpopularItems) {
-                        Log.d("TAG", "On Next");
-                        upDateUIMP(MostpopularItems);
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("TAG", "On Complete !");
-                    }
-                });
-    }
+//    private void executeSecondHttpRequestWithRetrofit() {
+//        this.updateUIWhenStartingHTTPRequest();
+//
+//        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular(/*topStoriesSection[position]*/)
+//                .subscribeWith(new DisposableObserver<MostPopular>() {
+//
+//                    @Override
+//                    public void onNext(MostPopular MostpopularItems) {
+//                        Log.d("TAG", "On Next");
+//                        upDateUIMP(MostpopularItems);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        Log.d("TAG", "On Complete !");
+//                    }
+//                });
+//    }
 
     public void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
@@ -242,18 +242,18 @@ public class TopStoriesFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-    private void upDateUIMP(MostPopular Mostpopular) {
-        this.mProgressBar.setVisibility(View.GONE);
-        mRefreshLayout.setRefreshing(false);
-        mTopStoriesArray.clear();
-        //Test
-        List<MostPopular.Result> resultListMostPop = Mostpopular.getResults();
-        mResultList.addAll(resultListMostPop);
-        //Test
-
-        mAdapter.notifyDataSetChanged();
-
-    }
+//    private void upDateUIMP(MostPopular Mostpopular) {
+//        this.mProgressBar.setVisibility(View.GONE);
+//        mRefreshLayout.setRefreshing(false);
+//        mTopStoriesArray.clear();
+//        //Test
+//        List<MostPopular.Result> resultListMostPop = Mostpopular.getResults();
+////        mResultList.addAll(resultListMostPop);
+//        //Test
+//
+//        mAdapter.notifyDataSetChanged();
+//
+//    }
 
 }
 
