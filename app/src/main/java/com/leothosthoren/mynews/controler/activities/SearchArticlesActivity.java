@@ -82,13 +82,13 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         textTest.setText("Start");
 
         this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
-                .subscribeWith(new DisposableObserver<MostPopular.Result>() {
+                .subscribeWith(new DisposableObserver<MostPopular>() {
 
                     @Override
-                    public void onNext(MostPopular.Result topStoriesItems) {
+                    public void onNext(MostPopular topStoriesItems) {
                         Log.d("TAG", "On Next");
 
-                        mResultList.add(topStoriesItems);
+                        mResultList.add(topStoriesItems.getResults().get(0));
                         textTest.setText(mResultList.get(0).getUrl());
                     }
 

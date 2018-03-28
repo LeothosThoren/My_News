@@ -18,7 +18,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
@@ -40,7 +39,6 @@ public class TopStoriesFragment extends Fragment {
     public static final String ITEMPOSITION = "webView_position";
     public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
     private static final String KEY_POSITION = "position";
-//    private final List<MostPopular.Result> mResultList = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
@@ -80,15 +78,11 @@ public class TopStoriesFragment extends Fragment {
         //We get the index position of the viewPager
         position = getArguments().getInt(KEY_POSITION, -1);
         //A progress bar is loaded and setted
-        mProgressBar.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
+        this.progressBarHandler();
         //Call the recyclerView builder method
         this.buildRecyclerView();
-        //Http requests handler
-//        if (position == 1)
-//            this.executeSecondHttpRequestWithRetrofit();
-//        else
-            this.executeHttpRequestWithRetrofit();
+
+        this.executeHttpRequestWithRetrofit();
         //It's possible to refresh the Uri api on vertical swipe from the top to the bottom
         this.configureSwipeRefrechLayout();
 
@@ -158,30 +152,11 @@ public class TopStoriesFragment extends Fragment {
         });
     }
 
-
-//    private void executeSecondHttpRequestWithRetrofit() {
-//        this.updateUIWhenStartingHTTPRequest();
+    private void progressBarHandler() {
+        mProgressBar.getIndeterminateDrawable()
+                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
+    }
 //
-//        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular(/*topStoriesSection[position]*/)
-//                .subscribeWith(new DisposableObserver<MostPopular>() {
-//
-//                    @Override
-//                    public void onNext(MostPopular MostpopularItems) {
-//                        Log.d("TAG", "On Next");
-//                        upDateUIMP(MostpopularItems);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("TAG", "On Complete !");
-//                    }
-//                });
-//    }
 
     public void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
@@ -242,18 +217,6 @@ public class TopStoriesFragment extends Fragment {
         mAdapter.notifyDataSetChanged();
     }
 
-//    private void upDateUIMP(MostPopular Mostpopular) {
-//        this.mProgressBar.setVisibility(View.GONE);
-//        mRefreshLayout.setRefreshing(false);
-//        mTopStoriesArray.clear();
-//        //Test
-//        List<MostPopular.Result> resultListMostPop = Mostpopular.getResults();
-////        mResultList.addAll(resultListMostPop);
-//        //Test
-//
-//        mAdapter.notifyDataSetChanged();
-//
-//    }
 
 }
 

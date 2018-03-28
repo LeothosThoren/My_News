@@ -9,9 +9,12 @@ import android.webkit.WebViewClient;
 
 import com.leothosthoren.mynews.R;
 
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.leothosthoren.mynews.controler.fragments.MostPopularFragment.mMostPopularList;
 import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
 import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.mTopStoriesArray;
 
@@ -29,7 +32,8 @@ public class WebViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         configureToolbar();
-        displayWebView();
+        displayWebView(mTopStoriesArray);
+        displayWebView(mMostPopularList);
 
     }
 
@@ -54,9 +58,12 @@ public class WebViewActivity extends AppCompatActivity {
     * Load and display an Uri into a web page view
     * The webView get an Uri from an  array object method
     * */
-    private void displayWebView() {
+    private void displayWebView(List<?> objects) {
         int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
-        mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
+        if (objects == mTopStoriesArray)
+            mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
+        else if (objects == mMostPopularList)
+            mWebView.loadUrl(mMostPopularList.get(pos).getUrl());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

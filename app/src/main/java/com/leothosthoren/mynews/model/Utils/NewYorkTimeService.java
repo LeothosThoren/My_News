@@ -34,7 +34,7 @@ public interface NewYorkTimeService {
 
 
     @GET("svc/mostpopular/v2/mostemailed/all-sections/7.json?api-key="+ApiKeyMostPopular)
-    Observable<MostPopular.Result> getMostPopular();
+    Observable<MostPopular> getMostPopular();
 
     @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
     Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);

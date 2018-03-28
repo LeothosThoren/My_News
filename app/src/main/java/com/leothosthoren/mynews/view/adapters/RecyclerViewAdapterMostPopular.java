@@ -102,8 +102,7 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-            if (result.getMedia().size() != 0)
-                glide.load(result.getMedia().get(0).getMediaMetadata().getUrl()).into(mImageView);
+            glide.load(result.getUrl()).into(mImageView);
         }
 
         @Override

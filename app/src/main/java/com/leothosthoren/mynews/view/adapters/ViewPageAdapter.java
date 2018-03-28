@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.leothosthoren.mynews.controler.fragments.MostPopularFragment;
 import com.leothosthoren.mynews.controler.fragments.TopStoriesFragment;
 
 /**
@@ -19,7 +20,13 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return TopStoriesFragment.newInstance(position);
+        switch (position) {
+            case 1:
+                return MostPopularFragment.newInstance(position);
+            default:
+                return TopStoriesFragment.newInstance(position);
+        }
+
     }
 
     @Override

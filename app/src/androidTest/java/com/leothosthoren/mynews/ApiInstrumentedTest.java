@@ -24,22 +24,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 @RunWith(AndroidJUnit4.class)
 public class ApiInstrumentedTest {
-//    @Test
-//    public void fetchMostPopularApi() throws Exception {
-//
-//        Observable<MostPopular> mostPopularObservable = NewYorkTimeStream.streamFetchMostPopular("all-sections");
-//
-//        TestObserver<MostPopular> testObserver = new TestObserver<>();
-//
-//        mostPopularObservable.subscribeWith(testObserver)
-//                .assertNoErrors()
-//                .assertNoTimeout()
-//                .awaitTerminalEvent();
-//
-//        MostPopular mostPopularFetched = testObserver.values().get(0);
-//
-//        assertThat("View number of article 1707", mostPopularFetched.getResults().get(0).getType().equals("Article"));
-//    }
+    @Test
+    public void fetchMostPopularApi() throws Exception {
+
+        Observable<MostPopular> mostPopularObservable = NewYorkTimeStream.streamFetchMostPopular();
+
+        TestObserver<MostPopular> testObserver = new TestObserver<>();
+
+        mostPopularObservable.subscribeWith(testObserver)
+                .assertNoErrors()
+                .assertNoTimeout()
+                .awaitTerminalEvent();
+
+        MostPopular mostPopularFetched = testObserver.values().get(0);
+
+        assertThat("MostPopular", mostPopularFetched.getResults().get(0).getCountType().equals("EMAILED"));
+    }
 
     @Test
     public void fetchTopStoriesApi() throws Exception {
@@ -55,6 +55,6 @@ public class ApiInstrumentedTest {
 
         TopStories mostPopularFetched = testObserver.values().get(0);
 
-        assertThat("View", mostPopularFetched.getResults().get(0).getItemType().equals("Article"));
+        assertThat("TopStories", mostPopularFetched.getResults().get(0).getItemType().equals("Article"));
     }
 }

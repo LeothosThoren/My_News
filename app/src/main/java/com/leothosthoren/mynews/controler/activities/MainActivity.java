@@ -175,13 +175,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    private void configureDrawerLayout() {
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
-                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-    }
+//    private void configureDrawerLayout() {
+//        this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
+//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
+//                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        drawerLayout.addDrawerListener(toggle);
+//        toggle.syncState();
+//    }
 //
 //    private void configureNavigationView() {
 //        this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);

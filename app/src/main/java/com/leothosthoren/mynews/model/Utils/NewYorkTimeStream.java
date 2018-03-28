@@ -23,7 +23,7 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public static Observable<MostPopular.Result> streamFetchMostPopular() {
+    public static Observable<MostPopular> streamFetchMostPopular() {
         NewYorkTimeService nyts2 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
         return nyts2.getMostPopular()
                 .subscribeOn(Schedulers.io())

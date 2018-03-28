@@ -114,32 +114,6 @@ public class TopStories {
 
     }
 
-    public class RelatedUrl {
-
-        @SerializedName("suggested_link_text")
-        @Expose
-        private String suggestedLinkText;
-        @SerializedName("url")
-        @Expose
-        private String url;
-
-        public String getSuggestedLinkText() {
-            return suggestedLinkText;
-        }
-
-        public void setSuggestedLinkText(String suggestedLinkText) {
-            this.suggestedLinkText = suggestedLinkText;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-    }
-
     public class Result {
 
         @SerializedName("section")
@@ -178,30 +152,9 @@ public class TopStories {
         @SerializedName("published_date")
         @Expose
         private String publishedDate;
-        @SerializedName("material_type_facet")
-        @Expose
-        private String materialTypeFacet;
-        @SerializedName("kicker")
-        @Expose
-        private String kicker;
-        @SerializedName("des_facet")
-        @Expose
-        private List<String> desFacet = null;
-        @SerializedName("org_facet")
-        @Expose
-        private List<String> orgFacet = null;
-        @SerializedName("per_facet")
-        @Expose
-        private List<String> perFacet = null;
-        @SerializedName("geo_facet")
-        @Expose
-        private List<String> geoFacet = null;
         @SerializedName("multimedia")
         @Expose
         private List<Multimedium> multimedia = null;
-        @SerializedName("related_urls")
-        @Expose
-        private List<RelatedUrl> relatedUrls = null;
 
         public String getSection() {
             return section;
@@ -299,68 +252,12 @@ public class TopStories {
             this.publishedDate = publishedDate;
         }
 
-        public String getMaterialTypeFacet() {
-            return materialTypeFacet;
-        }
-
-        public void setMaterialTypeFacet(String materialTypeFacet) {
-            this.materialTypeFacet = materialTypeFacet;
-        }
-
-        public String getKicker() {
-            return kicker;
-        }
-
-        public void setKicker(String kicker) {
-            this.kicker = kicker;
-        }
-
-        public List<String> getDesFacet() {
-            return desFacet;
-        }
-
-        public void setDesFacet(List<String> desFacet) {
-            this.desFacet = desFacet;
-        }
-
-        public List<String> getOrgFacet() {
-            return orgFacet;
-        }
-
-        public void setOrgFacet(List<String> orgFacet) {
-            this.orgFacet = orgFacet;
-        }
-
-        public List<String> getPerFacet() {
-            return perFacet;
-        }
-
-        public void setPerFacet(List<String> perFacet) {
-            this.perFacet = perFacet;
-        }
-
-        public List<String> getGeoFacet() {
-            return geoFacet;
-        }
-
-        public void setGeoFacet(List<String> geoFacet) {
-            this.geoFacet = geoFacet;
-        }
-
         public List<Multimedium> getMultimedia() {
             return multimedia;
         }
 
         public void setMultimedia(List<Multimedium> multimedia) {
             this.multimedia = multimedia;
-        }
-
-        public List<RelatedUrl> getRelatedUrls() {
-            return relatedUrls;
-        }
-
-        public void setRelatedUrls(List<RelatedUrl> relatedUrls) {
-            this.relatedUrls = relatedUrls;
         }
 
     }

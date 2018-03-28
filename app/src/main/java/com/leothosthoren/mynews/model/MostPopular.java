@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class MostPopular {
+
     @SerializedName("status")
     @Expose
     private String status;
@@ -50,6 +51,7 @@ public class MostPopular {
     public void setResults(List<Result> results) {
         this.results = results;
     }
+
 
     public class MediaMetadata {
 
@@ -100,66 +102,6 @@ public class MostPopular {
 
     }
 
-    public class Medium {
-
-        @SerializedName("type")
-        @Expose
-        private String type;
-        @SerializedName("subtype")
-        @Expose
-        private String subtype;
-        @SerializedName("caption")
-        @Expose
-        private String caption;
-        @SerializedName("copyright")
-        @Expose
-        private String copyright;
-        @SerializedName("media-metadata")
-        @Expose
-        private MediaMetadata mediaMetadata;
-
-        public String getType() {
-            return type;
-        }
-
-        public void setType(String type) {
-            this.type = type;
-        }
-
-        public String getSubtype() {
-            return subtype;
-        }
-
-        public void setSubtype(String subtype) {
-            this.subtype = subtype;
-        }
-
-        public String getCaption() {
-            return caption;
-        }
-
-        public void setCaption(String caption) {
-            this.caption = caption;
-        }
-
-        public String getCopyright() {
-            return copyright;
-        }
-
-        public void setCopyright(String copyright) {
-            this.copyright = copyright;
-        }
-
-        public MediaMetadata getMediaMetadata() {
-            return mediaMetadata;
-        }
-
-        public void setMediaMetadata(MediaMetadata mediaMetadata) {
-            this.mediaMetadata = mediaMetadata;
-        }
-
-    }
-
     public class Result {
 
         @SerializedName("url")
@@ -189,21 +131,6 @@ public class MostPopular {
         @SerializedName("source")
         @Expose
         private String source;
-//        @SerializedName("des_facet")
-//        @Expose
-//        private DesFacet desFacet;
-//        @SerializedName("org_facet")
-//        @Expose
-//        private OrgFacet orgFacet;
-//        @SerializedName("per_facet")
-//        @Expose
-//        private PerFacet perFacet;
-//        @SerializedName("geo_facet")
-//        @Expose
-//        private GeoFacet geoFacet;
-        @SerializedName("media")
-        @Expose
-        private List<Medium> media = null;
 
         public String getUrl() {
             return url;
@@ -277,115 +204,6 @@ public class MostPopular {
             this.source = source;
         }
 
-//        public DesFacet getDesFacet() {
-//            return desFacet;
-//        }
-//
-//        public void setDesFacet(DesFacet desFacet) {
-//            this.desFacet = desFacet;
-//        }
-//
-//        public OrgFacet getOrgFacet() {
-//            return orgFacet;
-//        }
-//
-//        public void setOrgFacet(OrgFacet orgFacet) {
-//            this.orgFacet = orgFacet;
-//        }
-//
-//        public PerFacet getPerFacet() {
-//            return perFacet;
-//        }
-//
-//        public void setPerFacet(PerFacet perFacet) {
-//            this.perFacet = perFacet;
-//        }
-//
-//        public GeoFacet getGeoFacet() {
-//            return geoFacet;
-//        }
-//
-//        public void setGeoFacet(GeoFacet geoFacet) {
-//            this.geoFacet = geoFacet;
-//        }
-
-        public List<Medium> getMedia() {
-            return media;
-        }
-
-        public void setMedia(List<Medium> media) {
-            this.media = media;
-        }
-
     }
 
-//    public class OrgFacet {
-//
-//
-//    }
-//
-//    public class PerFacet {
-//
-//
-//    }
-//
-//    public class DesFacet {
-//
-//
-//    }
-//
-//
-//    public class GeoFacet {
-//
-//
-//    }
-
-    public class Suite {
-
-        @SerializedName("status")
-        @Expose
-        private String status;
-        @SerializedName("copyright")
-        @Expose
-        private String copyright;
-        @SerializedName("errors")
-        @Expose
-        private List<String> errors = null;
-        @SerializedName("results")
-        @Expose
-        private List<Object> results = null;
-
-        public String getStatus() {
-            return status;
-        }
-
-        public void setStatus(String status) {
-            this.status = status;
-        }
-
-        public String getCopyright() {
-            return copyright;
-        }
-
-        public void setCopyright(String copyright) {
-            this.copyright = copyright;
-        }
-
-        public List<String> getErrors() {
-            return errors;
-        }
-
-        public void setErrors(List<String> errors) {
-            this.errors = errors;
-        }
-
-        public List<Object> getResults() {
-            return results;
-        }
-
-        public void setResults(List<Object> results) {
-            this.results = results;
-        }
-
-    }
 }
