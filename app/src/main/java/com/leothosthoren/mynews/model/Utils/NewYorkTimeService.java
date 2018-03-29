@@ -1,6 +1,8 @@
 package com.leothosthoren.mynews.model.Utils;
 
+import com.leothosthoren.mynews.model.ModelApi;
 import com.leothosthoren.mynews.model.MostPopular;
+import com.leothosthoren.mynews.model.SearchArticle;
 import com.leothosthoren.mynews.model.TopStories;
 
 import java.util.List;
@@ -30,15 +32,17 @@ public interface NewYorkTimeService {
 
 
     @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
-    Observable<TopStories> getTopStories(@Path("section") String section);
+    Observable<ModelApi> getTopStories(@Path("section") String section);
 
 
-    @GET("svc/mostpopular/v2/mostemailed/all-sections/7.json?api-key="+ApiKeyMostPopular)
-    Observable<MostPopular> getMostPopular();
+    @GET("svc/mostpopular/v2/mostemailed/all-sections/1.json?api-key="+ApiKeyMostPopular)
+    Observable<ModelApi> getMostPopular();
 
-    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
-    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
+//    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
+//    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
 
+    @GET("svc/search/v2/articlesearch.json?q=Obama&api-key="+ApiKeySearchArticle)
+    Observable<SearchArticle.Response> getSearchArticle();
 
 }
 

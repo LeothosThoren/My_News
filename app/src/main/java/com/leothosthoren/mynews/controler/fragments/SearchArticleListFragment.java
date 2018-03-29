@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,10 +21,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.ModelApi;
 import com.leothosthoren.mynews.model.MostPopular;
+import com.leothosthoren.mynews.model.SearchArticle;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
+import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterSearchArticle;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,18 +36,11 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
-
-
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MostPopularFragment extends Fragment {
+public class SearchArticleListFragment extends Fragment {
 
-    private static final String KEY_POSITION = "position";
-    public static final List<MostPopular.Result> mMostPopularList = new ArrayList<>();
-    public static final String ITEMPOSITION = "webView_position";
-    RecyclerViewAdapterMostPopular mAdapter;
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
@@ -52,34 +49,25 @@ public class MostPopularFragment extends Fragment {
     SwipeRefreshLayout mRefreshLayout;
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
-    private int position;
+    private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
+    public static final List<SearchArticle.Doc> mDocArrayList = new ArrayList<>();
 
-
-    public MostPopularFragment() {
+    public SearchArticleListFragment() {
         // Required empty public constructor
     }
 
-    public static MostPopularFragment newInstance(int position) {
-        MostPopularFragment fragment = new MostPopularFragment();
-        Bundle args = new Bundle();
-        args.putInt(KEY_POSITION, position);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View result = inflater.inflate(R.layout.fragment_most_popular, container, false);
-        ButterKnife.bind(this, result);
-        position = getArguments().getInt(KEY_POSITION, -1);
+        View v = inflater.inflate(R.layout.fragment_search_article_list, container, false);
+        ButterKnife.bind(this, v);
         this.buildRecyclerView();
-        this.configureSwipeRefrechLayout();
         this.progressBarHandler();
-//        this.executeSecondHttpRequestWithRetrofit();
-
-        return result;
+        this.configureSwipeRefrechLayout();
+        this.executeSearchArticleHttpRequest();
+        return v;
     }
 
     /*
@@ -89,78 +77,74 @@ public class MostPopularFragment extends Fragment {
    * */
     private void buildRecyclerView() {
         //Calling the adapter
-        mAdapter = new RecyclerViewAdapterMostPopular(mMostPopularList, Glide.with(this));
+        mAdapterSearchArticle = new RecyclerViewAdapterSearchArticle(mDocArrayList, Glide.with(this));
         //Set them with natives methods
         mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapterSearchArticle);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
         this.displayActivity();
     }
 
     /*
-   * @method displayActivity
-   *
-   * Used to open a web view directly in the app, not by default application
-   * */
+  * @method displayActivity
+  *
+  * Used to open a web view directly in the app, not by default application
+  * */
     private void displayActivity() {
-        mAdapter.setOnItemClickListener(new RecyclerViewAdapterMostPopular.OnItemClickListener() {
+        mAdapterSearchArticle.setOnItemClickListener(new RecyclerViewAdapterSearchArticle.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Here we allow the toast text to appear on click
-                Toast.makeText(getContext(),
-                        "Click on item number " + position + "URL : " + mMostPopularList.get(position).getUrl(),
-                        Toast.LENGTH_SHORT).show();
 
                 //Intent for the activity calling
                 Intent intent = new Intent(getContext(), WebViewActivity.class);
-                intent.putExtra(ITEMPOSITION, position);
+//                intent.putExtra(ITEMPOSITION, position);
                 startActivity(intent);
             }
         });
     }
 
-//    private void executeSecondHttpRequestWithRetrofit() {
-//        this.updateUIWhenStartingHTTPRequest();
-//
-//        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
-//                .subscribeWith(new DisposableObserver<ModelApi>() {
-//
-//                    @Override
-//                    public void onNext(ModelApi MostpopularItems) {
-//                        Log.d("TAG", "On Next");
-//                        upDateUIMP(MostpopularItems);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
-//                        internetDisable();
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("TAG", "On Complete !");
-//                    }
-//                });
-//    }
+    private void executeSearchArticleHttpRequest() {
+        this.updateUIWhenStartingHTTPRequest();
 
-    // 4 - Dispose subscription
-    private void disposeWhenDestroy() {
-        if (this.mDisposable != null && !this.mDisposable.isDisposed())
-            this.mDisposable.dispose();
+        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle()
+                .subscribeWith(new DisposableObserver<SearchArticle.Response>() {
+
+                    @Override
+                    public void onNext(SearchArticle.Response article) {
+                        Log.d("Search Article", "On Next");
+                        upDateUISearchArticle(article);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("Search Article", "On Error" + Log.getStackTraceString(e));
+                        internetDisable();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("Search Article", "On Complete !");
+                    }
+                });
     }
 
-    //Called for better performances
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.disposeWhenDestroy();
-    }
+        // 4 - Dispose subscription
+        private void disposeWhenDestroy() {
+            if (this.mDisposable != null && !this.mDisposable.isDisposed())
+                this.mDisposable.dispose();
+        }
 
-    // ------------------
-    //  UPDATE UI
-    // ------------------
+        //Called for better performances
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            this.disposeWhenDestroy();
+        }
+
+        // ------------------
+        //  UPDATE UI
+        // ------------------
 
     /*
    * @method configureSwipeRefrechLayout
@@ -198,11 +182,11 @@ public class MostPopularFragment extends Fragment {
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
-    private void upDateUIMP(MostPopular mostpopular) {
-        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar, mMostPopularList);
-        List<MostPopular.Result> resultList = mostpopular.getResults();
-        mMostPopularList.addAll(resultList);
-        mAdapter.notifyDataSetChanged();
+    private void upDateUISearchArticle(SearchArticle.Response searchArticle) {
+        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar, mDocArrayList);
+        List<SearchArticle.Doc> resultList = searchArticle.getDocs();
+        mDocArrayList.addAll(resultList);
+        mAdapterSearchArticle.notifyDataSetChanged();
 
     }
 

@@ -60,10 +60,10 @@ public class WebViewActivity extends AppCompatActivity {
     * */
     private void displayWebView(List<?> objects) {
         int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
-        if (objects == mTopStoriesArray)
-            mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
-        else if (objects == mMostPopularList)
-            mWebView.loadUrl(mMostPopularList.get(pos).getUrl());
+//        if (objects == mTopStoriesArray)
+//            mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
+//        else if (objects == mMostPopularList)
+//            mWebView.loadUrl(mMostPopularList.get(pos).getUrl());
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

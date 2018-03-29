@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.ModelApi;
+import com.leothosthoren.mynews.model.MostPopular;
+import com.leothosthoren.mynews.model.SearchArticle;
 
 import java.util.List;
 
@@ -20,19 +21,14 @@ import butterknife.ButterKnife;
 /**
  * Created by Sofiane M. alias Leothos Thoren on 01/02/2018
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
+public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<RecyclerViewAdapterSearchArticle.ItemViewHolder> {
 
-    //Todo : Créer peut-être un autre adaptater pour mostpopular sinon bifurquer sur la solution multi fragment
-    //Todo : ajouter l'indice du tablayout dans l'intent afin d'avoir une ouverture de la webview plus précise
-    //Todo : bosser sur la partie configuration et surtout recherche/ api search article
-
-    private List<ModelApi.Result> mTopStoriesResult;
+    private List<SearchArticle.Doc> mMostPopularResult;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-
-    public RecyclerViewAdapter(List<ModelApi.Result> topStoriesResult, RequestManager glide) {
-        mTopStoriesResult = topStoriesResult;
+    public RecyclerViewAdapterSearchArticle(List<SearchArticle.Doc> mostPopularResult, RequestManager glide) {
+        mMostPopularResult = mostPopularResult;
         mGlide = glide;
     }
 
@@ -51,13 +47,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.updateWithTopStories(this.mTopStoriesResult.get(position), mGlide);
+        holder.updateWithSearchArticle(this.mMostPopularResult.get(position), mGlide);
 
     }
 
     @Override
     public int getItemCount() {
-        return mTopStoriesResult.size();
+        return mMostPopularResult.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -101,16 +97,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
 
-        public void updateWithTopStories(ModelApi.Result result, RequestManager glide) {
+        public void updateWithSearchArticle(SearchArticle.Doc result, RequestManager glide) {
 
-            this.mTextView.setText(result.getSection());
-            this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
-            this.mSummaryView.setText(result.getTitle());
-//            if (result.getMultimedia().get(0).getUrl() != null)
-//                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
-//            if (result.getMedia().get(0).getUrl() != null)
-//                glide.load(result.getMedia().get(0).getUrl()).into(mImageView);
-
+            this.mTextView.setText(result.getSectionName());
+            this.mDateView.setText(getFormatedDate(result.getPubDate()));
+            this.mSummaryView.setText(result.getHeadline().getMain());
+            if (result.getMultimedia() != null )
+            glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
         }
 
         @Override

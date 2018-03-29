@@ -20,12 +20,12 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
-            case 1:
-                return MostPopularFragment.newInstance(position);
-            default:
+//        switch (position) {
+//            case 1:
+//                return MostPopularFragment.newInstance(position);
+//            default:
                 return TopStoriesFragment.newInstance(position);
-        }
+//        }
 
     }
 

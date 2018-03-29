@@ -11,13 +11,13 @@ public class TopStories {
 
     @SerializedName("results")
     @Expose
-    private List<Result> results = null;
+    private List<Resultum> results = null;
 
-    public List<Result> getResults() {
+    public List<Resultum> getResults() {
         return results;
     }
 
-    public void setResults(List<Result> results) {
+    public void setResults(List<Resultum> results) {
         this.results = results;
     }
 
@@ -114,7 +114,7 @@ public class TopStories {
 
     }
 
-    public class Result {
+    public class Resultum {
 
         @SerializedName("section")
         @Expose

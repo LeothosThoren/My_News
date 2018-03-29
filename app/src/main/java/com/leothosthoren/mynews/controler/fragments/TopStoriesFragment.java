@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.TopStories;
+import com.leothosthoren.mynews.model.ModelApi;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
 
@@ -37,7 +37,7 @@ public class TopStoriesFragment extends Fragment {
     //Ice pick
 
     public static final String ITEMPOSITION = "webView_position";
-    public static final List<TopStories.Result> mTopStoriesArray = new ArrayList<>();
+    public static final List<ModelApi.Result> mTopStoriesArray = new ArrayList<>();
     private static final String KEY_POSITION = "position";
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
@@ -81,8 +81,10 @@ public class TopStoriesFragment extends Fragment {
         this.progressBarHandler();
         //Call the recyclerView builder method
         this.buildRecyclerView();
-
-        this.executeHttpRequestWithRetrofit();
+        if (position == 1)
+            this.executeSecondHttpRequestWithRetrofit();
+        else
+            this.executeHttpRequestWithRetrofit();
         //It's possible to refresh the Uri api on vertical swipe from the top to the bottom
         this.configureSwipeRefrechLayout();
 
@@ -147,7 +149,10 @@ public class TopStoriesFragment extends Fragment {
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                executeHttpRequestWithRetrofit();
+                if (position == 1)
+                    executeSecondHttpRequestWithRetrofit();
+                else
+                    executeHttpRequestWithRetrofit();
             }
         });
     }
@@ -156,29 +161,54 @@ public class TopStoriesFragment extends Fragment {
         mProgressBar.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
     }
-//
 
-    public void executeHttpRequestWithRetrofit() {
+    //
+    private void executeSecondHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
 
-        this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
-                .subscribeWith(new DisposableObserver<TopStories>() {
+        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
+                .subscribeWith(new DisposableObserver<ModelApi>() {
 
                     @Override
-                    public void onNext(TopStories topStoriesItems) {
-                        Log.d("TAG", "On Next");
-                        upDateUI(topStoriesItems);
+                    public void onNext(ModelApi MostpopularItems) {
+                        Log.d("MostPopular Tag", "On Next");
+                        upDateUI(MostpopularItems);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+                        Log.d("MostPopular Tag", "On Error" + Log.getStackTraceString(e));
                         internetDisable();
                     }
 
                     @Override
                     public void onComplete() {
-                        Log.d("TAG", "On Complete !");
+                        Log.d("MostPopular Tag", "On Complete !");
+                    }
+                });
+    }
+
+    public void executeHttpRequestWithRetrofit() {
+        this.updateUIWhenStartingHTTPRequest();
+
+        this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
+                .subscribeWith(new DisposableObserver<ModelApi>() {
+
+                    @Override
+                    public void onNext(ModelApi topStoriesItems) {
+                        Log.d("TopStories Tag", "On Next");
+                        upDateUI(topStoriesItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("TopStories Tag", "On Error" + Log.getStackTraceString(e).toUpperCase());
+                        internetDisable();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("TopStories Tag", "On Complete !");
                     }
                 });
     }
@@ -210,9 +240,9 @@ public class TopStoriesFragment extends Fragment {
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
-    private void upDateUI(TopStories topStories) {
+    private void upDateUI(ModelApi topStories) {
         updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar, mTopStoriesArray);
-        List<TopStories.Result> resultList = topStories.getResults();
+        List<ModelApi.Result> resultList = topStories.getResults();
         mTopStoriesArray.addAll(resultList);
         mAdapter.notifyDataSetChanged();
     }

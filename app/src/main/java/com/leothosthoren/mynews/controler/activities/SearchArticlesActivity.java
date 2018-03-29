@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,18 +19,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.MostPopular;
+import com.leothosthoren.mynews.controler.fragments.SearchArticleListFragment;
 import com.leothosthoren.mynews.model.SetSearchDate;
-import com.leothosthoren.mynews.model.TopStories;
-import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
     public String[] checkboxData = new String[6];
@@ -58,9 +50,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     CheckBox mCheckBox6;
     @BindView(R.id.query_text_input_layout)
     TextInputLayout floatingHintLabel;
-    @BindView(R.id.textTest) TextView textTest;
-    private Disposable mDisposable;
-    private final List<MostPopular.Result> mResultList = new ArrayList<>();
+    private SearchArticleListFragment mFragment;
 
 
     @Override
@@ -74,47 +64,22 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         this.setSearchDate();
         this.mSearchButton.setOnClickListener(this);
 
-        executeHttpRequestWithRetrofit();
-
     }
 
-    public void executeHttpRequestWithRetrofit() {
-        textTest.setText("Start");
+    private void configureAndShowMainFragment() {
+        // A - Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
+        mFragment = (SearchArticleListFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_search_article_list);
 
-        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
-                .subscribeWith(new DisposableObserver<MostPopular>() {
-
-                    @Override
-                    public void onNext(MostPopular topStoriesItems) {
-                        Log.d("TAG", "On Next");
-
-                        mResultList.add(topStoriesItems.getResults().get(0));
-                        textTest.setText(mResultList.get(0).getUrl());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
-                        textTest.setText("Error");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        Log.d("TAG", "On Complete !");
-                    }
-                });
+        if (mFragment == null) {
+            // B - Create new main fragment
+            mFragment = new SearchArticleListFragment();
+            // C - Add it to FrameLayout container
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frame_layout_search_article_list, mFragment)
+                    .commit();
+        }
     }
 
-    private void disposeWhenDestroy() {
-        if (this.mDisposable != null && !this.mDisposable.isDisposed())
-            this.mDisposable.dispose();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        this.disposeWhenDestroy();
-    }
     /*
     * @method onClick
     * @param v
@@ -203,8 +168,11 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         if (searchQuery.getText().toString().isEmpty()) {
             textInputLayout.setError(getResources().getString(R.string.query_error));
             textInputLayout.setErrorEnabled(true);
-        } else
+        } else {
             textInputLayout.setErrorEnabled(false);
+            configureAndShowMainFragment();
+        }
+
 
     }
 
@@ -261,6 +229,15 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             key = "";
             toastMessage(value + " is deselected");
         }
+    }
+    
+    public String sectionQuery (String [] checkboxesData){
+        StringBuffer res = new StringBuffer();
+        for (String box: checkboxesData){
+            res.append(box);
+        }
+
+        return res.toString();
     }
 
     /*
@@ -320,4 +297,8 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         snackbar.show();
     }
 
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
 }
