@@ -2,14 +2,11 @@ package com.leothosthoren.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.observers.TestObserver;

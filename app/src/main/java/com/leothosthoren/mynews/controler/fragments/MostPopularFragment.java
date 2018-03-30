@@ -19,9 +19,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.ModelApi;
-import com.leothosthoren.mynews.model.MostPopular;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.most.popular.MostPopular;
+import com.leothosthoren.mynews.model.most.popular.Result;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
 
 import java.util.ArrayList;
@@ -32,8 +32,6 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -41,7 +39,7 @@ import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.IT
 public class MostPopularFragment extends Fragment {
 
     private static final String KEY_POSITION = "position";
-    public static final List<MostPopular.Result> mMostPopularList = new ArrayList<>();
+    public static final List<Result> mMostPopularList = new ArrayList<>();
     public static final String ITEMPOSITION = "webView_position";
     RecyclerViewAdapterMostPopular mAdapter;
     @BindView(R.id.frag_recycler_view)
@@ -77,7 +75,7 @@ public class MostPopularFragment extends Fragment {
         this.buildRecyclerView();
         this.configureSwipeRefrechLayout();
         this.progressBarHandler();
-//        this.executeSecondHttpRequestWithRetrofit();
+        this.executeMostPopularHttpRequest();
 
         return result;
     }
@@ -120,30 +118,30 @@ public class MostPopularFragment extends Fragment {
         });
     }
 
-//    private void executeSecondHttpRequestWithRetrofit() {
-//        this.updateUIWhenStartingHTTPRequest();
-//
-//        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
-//                .subscribeWith(new DisposableObserver<ModelApi>() {
-//
-//                    @Override
-//                    public void onNext(ModelApi MostpopularItems) {
-//                        Log.d("TAG", "On Next");
-//                        upDateUIMP(MostpopularItems);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
-//                        internetDisable();
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("TAG", "On Complete !");
-//                    }
-//                });
-//    }
+    private void executeMostPopularHttpRequest() {
+        this.updateUIWhenStartingHTTPRequest();
+
+        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
+                .subscribeWith(new DisposableObserver<MostPopular>() {
+
+                    @Override
+                    public void onNext(MostPopular MostpopularItems) {
+                        Log.d("TAG", "On Next");
+                        upDateUIMP(MostpopularItems);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+                        internetDisable();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d("TAG", "On Complete !");
+                    }
+                });
+    }
 
     // 4 - Dispose subscription
     private void disposeWhenDestroy() {
@@ -185,10 +183,10 @@ public class MostPopularFragment extends Fragment {
         this.mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar, List<?> objectList) {
+    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
         bar.setVisibility(View.GONE);
         refresh.setRefreshing(false);
-        objectList.clear();
+        mMostPopularList.clear();
 
     }
 
@@ -199,8 +197,8 @@ public class MostPopularFragment extends Fragment {
     }
 
     private void upDateUIMP(MostPopular mostpopular) {
-        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar, mMostPopularList);
-        List<MostPopular.Result> resultList = mostpopular.getResults();
+        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        List<Result> resultList = mostpopular.getResults();
         mMostPopularList.addAll(resultList);
         mAdapter.notifyDataSetChanged();
 

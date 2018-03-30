@@ -1,11 +1,8 @@
 package com.leothosthoren.mynews.model.Utils;
 
-import com.leothosthoren.mynews.model.ModelApi;
-import com.leothosthoren.mynews.model.MostPopular;
-import com.leothosthoren.mynews.model.SearchArticle;
 import com.leothosthoren.mynews.model.TopStories;
-
-import java.util.List;
+import com.leothosthoren.mynews.model.most.popular.MostPopular;
+import com.leothosthoren.mynews.model.search.articles.SearchArticle;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;
@@ -13,7 +10,6 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 /**
  * Created by Sofiane M. alias Leothos Thoren on 13/02/2018
@@ -32,17 +28,17 @@ public interface NewYorkTimeService {
 
 
     @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
-    Observable<ModelApi> getTopStories(@Path("section") String section);
+    Observable<TopStories> getTopStories(@Path("section") String section);
 
 
     @GET("svc/mostpopular/v2/mostemailed/all-sections/1.json?api-key="+ApiKeyMostPopular)
-    Observable<ModelApi> getMostPopular();
+    Observable<MostPopular> getMostPopular();
 
 //    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
 //    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
 
-    @GET("svc/search/v2/articlesearch.json?q=Obama&api-key="+ApiKeySearchArticle)
-    Observable<SearchArticle.Response> getSearchArticle();
+    @GET("svc/search/v2/articlesearch.json?q=France&begin_date=20170315&fq=news_desk:(Arts)&page=2&api-key="+ApiKeySearchArticle)
+    Observable<SearchArticle> getSearchArticle();
 
 }
 

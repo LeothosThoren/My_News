@@ -1,5 +1,5 @@
 
-package com.example;
+package com.leothosthoren.mynews.model.search.articles;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

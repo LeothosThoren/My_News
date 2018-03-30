@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -15,15 +17,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.fragments.SearchArticleListFragment;
+import com.leothosthoren.mynews.model.HttpConnectivity;
 import com.leothosthoren.mynews.model.SetSearchDate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.disposables.Disposable;
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
     public String[] checkboxData = new String[6];
@@ -97,6 +102,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         queryInputIsEmpty(mSearchQuery, floatingHintLabel);
         //When all the checkboxes are unchecked
         onUncheckedBoxes();
+
 
 
         // launch http request,

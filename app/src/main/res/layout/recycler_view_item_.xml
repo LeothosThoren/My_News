@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dip">
+    android:layout_height="105dp">
 
     <RelativeLayout
         android:id="@+id/item_layout"
@@ -50,19 +50,18 @@
         <TextView
             android:id="@+id/item_summary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_height="match_parent"
             android:layout_below="@+id/item_title"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@+id/item_image"
+            android:background="@drawable/border"
             android:ellipsize="end"
             android:maxLines="2"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="Summary"
             android:textColor="@color/grey"
-            android:textSize="22sp"
-            android:background="@drawable/border"/>
+            android:textSize="20sp" />
 
     </RelativeLayout>
 

@@ -1,9 +1,9 @@
+package com.leothosthoren.mynews.model.search.articles;
 
-package com.example;
-
-import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
 
 public class Doc {
 
@@ -22,18 +22,9 @@ public class Doc {
     @SerializedName("print_page")
     @Expose
     private String printPage;
-    @SerializedName("blog")
-    @Expose
-    private List<String> blog = null;
     @SerializedName("source")
     @Expose
     private String source;
-    @SerializedName("headline")
-    @Expose
-    private Headline headline;
-    @SerializedName("keywords")
-    @Expose
-    private Keywords keywords;
     @SerializedName("pub_date")
     @Expose
     private String pubDate;
@@ -49,9 +40,6 @@ public class Doc {
     @SerializedName("subsection_name")
     @Expose
     private String subsectionName;
-    @SerializedName("byline")
-    @Expose
-    private Byline byline;
     @SerializedName("type_of_material")
     @Expose
     private String typeOfMaterial;
@@ -108,36 +96,12 @@ public class Doc {
         this.printPage = printPage;
     }
 
-    public List<String> getBlog() {
-        return blog;
-    }
-
-    public void setBlog(List<String> blog) {
-        this.blog = blog;
-    }
-
     public String getSource() {
         return source;
     }
 
     public void setSource(String source) {
         this.source = source;
-    }
-
-    public Headline getHeadline() {
-        return headline;
-    }
-
-    public void setHeadline(Headline headline) {
-        this.headline = headline;
-    }
-
-    public Keywords getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(Keywords keywords) {
-        this.keywords = keywords;
     }
 
     public String getPubDate() {
@@ -178,14 +142,6 @@ public class Doc {
 
     public void setSubsectionName(String subsectionName) {
         this.subsectionName = subsectionName;
-    }
-
-    public Byline getByline() {
-        return byline;
-    }
-
-    public void setByline(Byline byline) {
-        this.byline = byline;
     }
 
     public String getTypeOfMaterial() {

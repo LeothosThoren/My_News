@@ -10,9 +10,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.MostPopular;
-import com.leothosthoren.mynews.model.SearchArticle;
+import com.leothosthoren.mynews.model.search.articles.Doc;
+import com.leothosthoren.mynews.model.search.articles.Response;
+import com.leothosthoren.mynews.model.search.articles.SearchArticle;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -23,12 +25,12 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<RecyclerViewAdapterSearchArticle.ItemViewHolder> {
 
-    private List<SearchArticle.Doc> mMostPopularResult;
+    private List<Doc> mList;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-    public RecyclerViewAdapterSearchArticle(List<SearchArticle.Doc> mostPopularResult, RequestManager glide) {
-        mMostPopularResult = mostPopularResult;
+    public RecyclerViewAdapterSearchArticle(List<Doc> docList, RequestManager glide) {
+        mList = docList;
         mGlide = glide;
     }
 
@@ -47,13 +49,13 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
 
-        holder.updateWithSearchArticle(this.mMostPopularResult.get(position), mGlide);
+        holder.updateWithSearchArticle(this.mList.get(position), mGlide);
 
     }
 
     @Override
     public int getItemCount() {
-        return mMostPopularResult.size();
+        return mList.size();
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -97,13 +99,13 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
             });
         }
 
-        public void updateWithSearchArticle(SearchArticle.Doc result, RequestManager glide) {
+        public void updateWithSearchArticle(Doc searchArticle, RequestManager glide) {
 
-            this.mTextView.setText(result.getSectionName());
-            this.mDateView.setText(getFormatedDate(result.getPubDate()));
-            this.mSummaryView.setText(result.getHeadline().getMain());
-            if (result.getMultimedia() != null )
-            glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
+            this.mTextView.setText(searchArticle.getSectionName());
+            this.mDateView.setText(getFormatedDate(searchArticle.getPubDate()));
+            this.mSummaryView.setText(searchArticle.getSnippet());
+            if (searchArticle.getMultimedia().size() != 0 )
+            glide.load(searchArticle.getMultimedia().get(0).getUrl()).into(this.mImageView);
         }
 
         @Override

@@ -7,25 +7,23 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.MostPopular;
-import com.leothosthoren.mynews.model.SearchArticle;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
-import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
+import com.leothosthoren.mynews.model.search.articles.Doc;
+import com.leothosthoren.mynews.model.search.articles.Response;
+import com.leothosthoren.mynews.model.search.articles.SearchArticle;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterSearchArticle;
 
 import java.util.ArrayList;
@@ -50,12 +48,12 @@ public class SearchArticleListFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
-    public static final List<SearchArticle.Doc> mDocArrayList = new ArrayList<>();
+    public final List<Doc> mDocArrayList = new ArrayList<>();
+
 
     public SearchArticleListFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -108,12 +106,13 @@ public class SearchArticleListFragment extends Fragment {
         this.updateUIWhenStartingHTTPRequest();
 
         this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle()
-                .subscribeWith(new DisposableObserver<SearchArticle.Response>() {
+                .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override
-                    public void onNext(SearchArticle.Response article) {
+                    public void onNext(SearchArticle article) {
                         Log.d("Search Article", "On Next");
                         upDateUISearchArticle(article);
+//                            mTextViewTest.setText(article.getResponse().getDocs().get(0).getSectionName());
                     }
 
                     @Override
@@ -169,10 +168,10 @@ public class SearchArticleListFragment extends Fragment {
         this.mProgressBar.setVisibility(View.VISIBLE);
     }
 
-    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar, List<?> objectList) {
+    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
         bar.setVisibility(View.GONE);
         refresh.setRefreshing(false);
-        objectList.clear();
+        this.mDocArrayList.clear();
 
     }
 
@@ -182,10 +181,10 @@ public class SearchArticleListFragment extends Fragment {
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
-    private void upDateUISearchArticle(SearchArticle.Response searchArticle) {
-        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar, mDocArrayList);
-        List<SearchArticle.Doc> resultList = searchArticle.getDocs();
-        mDocArrayList.addAll(resultList);
+    private void upDateUISearchArticle(SearchArticle searchArticle) {
+        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        List<Doc> docs = searchArticle.getResponse().getDocs();
+        this.mDocArrayList.addAll(docs);
         mAdapterSearchArticle.notifyDataSetChanged();
 
     }

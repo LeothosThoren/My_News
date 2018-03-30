@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.ModelApi;
+import com.leothosthoren.mynews.model.TopStories;
 
 import java.util.List;
 
@@ -22,16 +23,12 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
 
-    //Todo : Créer peut-être un autre adaptater pour mostpopular sinon bifurquer sur la solution multi fragment
-    //Todo : ajouter l'indice du tablayout dans l'intent afin d'avoir une ouverture de la webview plus précise
-    //Todo : bosser sur la partie configuration et surtout recherche/ api search article
-
-    private List<ModelApi.Result> mTopStoriesResult;
+    private List<TopStories.Resultum> mTopStoriesResult;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
 
-    public RecyclerViewAdapter(List<ModelApi.Result> topStoriesResult, RequestManager glide) {
+    public RecyclerViewAdapter(List<TopStories.Resultum> topStoriesResult, RequestManager glide) {
         mTopStoriesResult = topStoriesResult;
         mGlide = glide;
     }
@@ -101,13 +98,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             });
         }
 
-        public void updateWithTopStories(ModelApi.Result result, RequestManager glide) {
+        public void updateWithTopStories(TopStories.Resultum result, RequestManager glide) {
 
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-//            if (result.getMultimedia().get(0).getUrl() != null)
-//                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
+            if (result.getMultimedia().size() != 0)
+                glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
 //            if (result.getMedia().get(0).getUrl() != null)
 //                glide.load(result.getMedia().get(0).getUrl()).into(mImageView);
 

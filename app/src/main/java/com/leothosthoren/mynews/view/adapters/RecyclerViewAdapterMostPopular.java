@@ -10,8 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.MostPopular;
-import com.leothosthoren.mynews.model.TopStories;
+import com.leothosthoren.mynews.model.most.popular.Result;
 
 import java.util.List;
 
@@ -23,11 +22,11 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<RecyclerViewAdapterMostPopular.ItemViewHolder> {
 
-    private List<MostPopular.Result> mMostPopularResult;
+    private List<Result> mMostPopularResult;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-    public RecyclerViewAdapterMostPopular(List<MostPopular.Result> mostPopularResult, RequestManager glide) {
+    public RecyclerViewAdapterMostPopular(List<Result> mostPopularResult, RequestManager glide) {
         mMostPopularResult = mostPopularResult;
         mGlide = glide;
     }
@@ -97,12 +96,13 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
             });
         }
 
-        public void updateWithMostPopular(MostPopular.Result result, RequestManager glide) {
+        public void updateWithMostPopular(Result result, RequestManager glide) {
 
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-            glide.load(result.getUrl()).into(mImageView);
+            if(result.getMedia().size() != 0)
+            glide.load(result.getMedia().get(0).getMediaMetadata().getUrl()).into(mImageView);
         }
 
         @Override
