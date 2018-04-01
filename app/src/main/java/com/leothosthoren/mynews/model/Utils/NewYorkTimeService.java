@@ -10,6 +10,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Sofiane M. alias Leothos Thoren on 13/02/2018
@@ -40,8 +41,11 @@ public interface NewYorkTimeService {
 //    @GET("svc/search/v2/articlesearch.json?q=France&begin_date=20170315&fq=news_desk:(Arts)&page=2&api-key="+ApiKeySearchArticle)
 //    Observable<SearchArticle> getSearchArticle();
 
-    @GET("search/v2/articlesearch.json?q=new+york+time&page=2&sort=newest&api-key="+ApiKeySearchArticle)
-    Observable<SearchArticle> getSearchArticle();
+    @GET("search/v2/articlesearch.json?sort=newest&page=1&api-key="+ApiKeySearchArticle)
+    Observable<SearchArticle> getSearchArticle(@Query("q") String query,
+                                               @Query("fq") String news_desk,
+                                               @Query("begin_date") String begin_date,
+                                               @Query("end_date") String end_date);
 
 }
 

@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -111,10 +112,14 @@ public class MostPopularFragment extends Fragment {
                         "Click on item number " + position + "URL : " + mMostPopularList.get(position).getUrl(),
                         Toast.LENGTH_SHORT).show();
 
-                //Intent for the activity calling
-                Intent intent = new Intent(getContext(), WebViewActivity.class);
-                intent.putExtra(ITEMPOSITION, position);
-                startActivity(intent);
+//                //Intent for the activity calling
+//                Intent intent = new Intent(getContext(), WebViewActivity.class);
+//                intent.putExtra(ITEMPOSITION, position);
+//                startActivity(intent);
+
+//                Here we are going to implements a web view
+                WebView webview = new WebView(getContext());
+                webview.loadUrl(mMostPopularList.get(position).getUrl());
             }
         });
     }

@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -121,18 +122,18 @@ public class TopStoriesFragment extends Fragment {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear on click
-//                Toast.makeText(getContext(),
-//                        "Click on item number " + position + "URL : " + mTopStoriesArray.get(position).getShortUrl(),
-//                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),
+                        "Click on item number " + position + " URL : " + mTopStoriesArray.get(position).getShortUrl(),
+                        Toast.LENGTH_SHORT).show();
 
-                //Intent for the activity calling
-                Intent intent = new Intent(getContext(), WebViewActivity.class);
-                intent.putExtra(ITEMPOSITION, position);
-                startActivity(intent);
+//                //Intent for the activity calling
+//                Intent intent = new Intent(getContext(), WebViewActivity.class);
+//                intent.putExtra(ITEMPOSITION, mTopStoriesArray.get(position).getShortUrl());
+//                startActivity(intent);
 
-                //Here we are going to implements a web view
-//                WebView webview = new WebView(getContext());
-//                webview.loadUrl(mTopStoriesArray.get(position).getUrl());
+//                Here we are going to implements a web view
+                WebView webview = new WebView(getContext());
+                webview.loadUrl(mTopStoriesArray.get(position).getUrl());
             }
         });
     }
@@ -156,31 +157,6 @@ public class TopStoriesFragment extends Fragment {
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
     }
 
-//    //
-//    private void executeSecondHttpRequestWithRetrofit() {
-//        this.updateUIWhenStartingHTTPRequest();
-//
-//        this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
-//                .subscribeWith(new DisposableObserver<MostPopular>() {
-//
-//                    @Override
-//                    public void onNext(MostPopular MostpopularItems) {
-//                        Log.d("MostPopular Tag", "On Next");
-//                        upDateUI(MostpopularItems);
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        Log.d("MostPopular Tag", "On Error" + Log.getStackTraceString(e));
-//                        internetDisable();
-//                    }
-//
-//                    @Override
-//                    public void onComplete() {
-//                        Log.d("MostPopular Tag", "On Complete !");
-//                    }
-//                });
-//    }
 
     public void executeHttpRequestWithRetrofit() {
         this.updateUIWhenStartingHTTPRequest();
@@ -191,7 +167,7 @@ public class TopStoriesFragment extends Fragment {
                     @Override
                     public void onNext(TopStories topStoriesItems) {
                         Log.d("TopStories Tag", "On Next");
-                        upDateUI(topStoriesItems);
+                        upDateTopStoriesUI(topStoriesItems);
                     }
 
                     @Override
@@ -234,10 +210,8 @@ public class TopStoriesFragment extends Fragment {
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
-    private void upDateUI(TopStories topStories) {
+    private void upDateTopStoriesUI(TopStories topStories) {
         updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
-
-//        List<TopStories.Resultum> resultList = topStories.getResults();
         this.mTopStoriesArray.addAll(topStories.getResults());
         this.mAdapter.notifyDataSetChanged();
     }

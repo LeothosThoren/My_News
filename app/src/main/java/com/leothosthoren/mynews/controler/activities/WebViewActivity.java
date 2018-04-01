@@ -9,12 +9,11 @@ import android.webkit.WebViewClient;
 
 import com.leothosthoren.mynews.R;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
+
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -55,19 +54,17 @@ public class WebViewActivity extends AppCompatActivity {
     * Load and display an Uri into a web page view
     * The webView get an Uri from an  array object method
     * */
-    private void displayWebView(String Url) {
-        int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
-//        if (objects == mTopStoriesArray)
-//            mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());
-//        else if (objects == mMostPopularList)
-//            mWebView.loadUrl(mMostPopularList.get(pos).getUrl());
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                return super.shouldOverrideUrlLoading(view, url);
-            }
-        });
-    }
+//    private void displayWebView(String Url) {
+//        int uri = getIntent().getIntExtra(ITEMPOSITION, 0);
+//            mWebView.loadUrl();
+//
+//        mWebView.setWebViewClient(new WebViewClient() {
+//            @Override
+//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//                return super.shouldOverrideUrlLoading(view, url);
+//            }
+//        });
+//    }
 
     /*
     * @method onBackPressed

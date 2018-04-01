@@ -13,6 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewFragment;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,7 +39,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SearchArticleListFragment extends Fragment {
+public class SearchArticleFragment extends Fragment {
 
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
@@ -49,11 +51,13 @@ public class SearchArticleListFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
     public List<Doc> mDocArrayList = new ArrayList<>();
+    public String s;
 
-
-    public SearchArticleListFragment() {
+    public SearchArticleFragment() {
         // Required empty public constructor
     }
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,6 +86,7 @@ public class SearchArticleListFragment extends Fragment {
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
         this.displayActivity();
+
     }
 
     /*
@@ -95,24 +100,28 @@ public class SearchArticleListFragment extends Fragment {
             public void onItemClick(int position) {
 
                 //Intent for the activity calling
-                Intent intent = new Intent(getContext(), WebViewActivity.class);
-//                intent.putExtra(ITEMPOSITION, position);
-                startActivity(intent);
+//                Intent intent = new Intent(getContext(), WebViewActivity.class);
+////                intent.putExtra(ITEMPOSITION, position);
+//                startActivity(intent);
+
+//                Here we are going to implements a web view
+                WebView webview = new WebView(getContext());
+                webview.loadUrl(mDocArrayList.get(position).getWebUrl());
             }
         });
     }
 
     private void executeSearchArticleHttpRequest() {
         this.updateUIWhenStartingHTTPRequest();
-
-        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle()
+        s = getArguments().getString("EditTextVal");
+        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(s, "news_desk:(Travel Arts)", "19900804", "20180401")
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override
                     public void onNext(SearchArticle article) {
                         Log.d("Search Article", "On Next");
                         upDateUISearchArticle(article);
-//                            mTextViewTest.setText(article.getResponse().getDocs().get(0).getSectionName());
+
                     }
 
                     @Override
@@ -154,7 +163,7 @@ public class SearchArticleListFragment extends Fragment {
         this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                executeSearchArticleHttpRequest();
             }
         });
     }

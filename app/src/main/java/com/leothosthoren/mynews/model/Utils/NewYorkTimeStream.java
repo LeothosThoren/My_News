@@ -33,9 +33,9 @@ public class NewYorkTimeStream {
 
 //Create observable for searchArticle
 
-    public static Observable<SearchArticle> streamFetchSearchArticle() {
+    public static Observable<SearchArticle> streamFetchSearchArticle(String query, String news_desk, String begin_date, String end_date) {
         NewYorkTimeService nyts3 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
-        return nyts3.getSearchArticle()
+        return nyts3.getSearchArticle(query, news_desk, begin_date, end_date)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);
