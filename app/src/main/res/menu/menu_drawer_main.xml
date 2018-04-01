@@ -6,7 +6,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/activity_main_drawer_news"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:icon="@drawable/ic_no_image"
             android:title="Fil d'actualité" />
     </group>
 
@@ -15,11 +15,11 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/activity_main_drawer_profile"
-                    android:icon="@mipmap/ic_launcher"
+                    android:icon="@drawable/ic_no_image"
                     android:title="Profil" />
                 <item
                     android:id="@+id/activity_main_drawer_settings"
-                    android:icon="@mipmap/ic_launcher_round"
+                    android:icon="@drawable/ic_no_image"
                     android:title="Paramètres" />
             </group>
         </menu>

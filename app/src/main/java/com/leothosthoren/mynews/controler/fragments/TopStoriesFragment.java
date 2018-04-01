@@ -37,7 +37,7 @@ public class TopStoriesFragment extends Fragment {
     //Ice pick
 
     public static final String ITEMPOSITION = "webView_position";
-    public static final List<TopStories.Resultum> mTopStoriesArray = new ArrayList<>();
+    public List<TopStories.Resultum> mTopStoriesArray = new ArrayList<>();
     private static final String KEY_POSITION = "position";
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
@@ -102,11 +102,11 @@ public class TopStoriesFragment extends Fragment {
     * */
     private void buildRecyclerView() {
         //Calling the adapter
-        mAdapter = new RecyclerViewAdapter(mTopStoriesArray, Glide.with(this));
+        this.mAdapter = new RecyclerViewAdapter(mTopStoriesArray, Glide.with(this));
         //Set them with natives methods
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.mRecyclerView.setHasFixedSize(true);
+        this.mRecyclerView.setAdapter(mAdapter);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
         this.displayActivity();
     }
@@ -117,7 +117,7 @@ public class TopStoriesFragment extends Fragment {
     * Used to open a web view directly in the app, not by default application
     * */
     private void displayActivity() {
-        mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+        this.mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear on click
@@ -143,7 +143,7 @@ public class TopStoriesFragment extends Fragment {
     * When the screen is swipe, the http request is executed
     * */
     private void configureSwipeRefrechLayout() {
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 executeHttpRequestWithRetrofit();
@@ -152,7 +152,7 @@ public class TopStoriesFragment extends Fragment {
     }
 
     private void progressBarHandler() {
-        mProgressBar.getIndeterminateDrawable()
+        this.mProgressBar.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
     }
 
@@ -224,21 +224,22 @@ public class TopStoriesFragment extends Fragment {
     private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
         bar.setVisibility(View.GONE);
         refresh.setRefreshing(false);
-        mTopStoriesArray.clear();
+        this.mTopStoriesArray.clear();
 
     }
 
     private void internetDisable() {
-        mProgressBar.setVisibility(View.GONE);
+        this.mProgressBar.setVisibility(View.GONE);
         Toast.makeText(getContext(),
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
     private void upDateUI(TopStories topStories) {
         updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
-        List<TopStories.Resultum> resultList = topStories.getResults();
-        mTopStoriesArray.addAll(resultList);
-        mAdapter.notifyDataSetChanged();
+
+//        List<TopStories.Resultum> resultList = topStories.getResults();
+        this.mTopStoriesArray.addAll(topStories.getResults());
+        this.mAdapter.notifyDataSetChanged();
     }
 
 

@@ -4,6 +4,7 @@ import android.support.test.runner.AndroidJUnit4;
 
 import com.leothosthoren.mynews.model.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.most.popular.MostPopular;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

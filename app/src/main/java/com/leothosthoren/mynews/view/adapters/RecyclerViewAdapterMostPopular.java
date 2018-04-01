@@ -12,6 +12,7 @@ import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.most.popular.Result;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -22,7 +23,7 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<RecyclerViewAdapterMostPopular.ItemViewHolder> {
 
-    private List<Result> mMostPopularResult;
+    private List<Result> mMostPopularResult = new ArrayList<>();
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
@@ -101,8 +102,8 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
             this.mTextView.setText(result.getSection());
             this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-            if(result.getMedia().size() != 0)
-            glide.load(result.getMedia().get(0).getMediaMetadata().getUrl()).into(mImageView);
+            if(result.getMedia().size() != 0 || result.getMedia().get(0).getImgUrl() != null)
+            glide.load(result.getMedia().get(0).getImgUrl()).into(this.mImageView);
         }
 
         @Override

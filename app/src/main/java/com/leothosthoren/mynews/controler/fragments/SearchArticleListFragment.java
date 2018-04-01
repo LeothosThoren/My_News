@@ -48,7 +48,7 @@ public class SearchArticleListFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
-    public final List<Doc> mDocArrayList = new ArrayList<>();
+    public List<Doc> mDocArrayList = new ArrayList<>();
 
 
     public SearchArticleListFragment() {
@@ -75,11 +75,11 @@ public class SearchArticleListFragment extends Fragment {
    * */
     private void buildRecyclerView() {
         //Calling the adapter
-        mAdapterSearchArticle = new RecyclerViewAdapterSearchArticle(mDocArrayList, Glide.with(this));
+        this.mAdapterSearchArticle = new RecyclerViewAdapterSearchArticle(mDocArrayList, Glide.with(this));
         //Set them with natives methods
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapterSearchArticle);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.mRecyclerView.setHasFixedSize(true);
+        this.mRecyclerView.setAdapter(mAdapterSearchArticle);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
         this.displayActivity();
     }
@@ -90,7 +90,7 @@ public class SearchArticleListFragment extends Fragment {
   * Used to open a web view directly in the app, not by default application
   * */
     private void displayActivity() {
-        mAdapterSearchArticle.setOnItemClickListener(new RecyclerViewAdapterSearchArticle.OnItemClickListener() {
+        this.mAdapterSearchArticle.setOnItemClickListener(new RecyclerViewAdapterSearchArticle.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
 
@@ -151,7 +151,7 @@ public class SearchArticleListFragment extends Fragment {
    * When the screen is swipe, the http request is executed
    * */
     private void configureSwipeRefrechLayout() {
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -160,7 +160,7 @@ public class SearchArticleListFragment extends Fragment {
     }
 
     private void progressBarHandler() {
-        mProgressBar.getIndeterminateDrawable()
+        this.mProgressBar.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
     }
 
@@ -176,17 +176,16 @@ public class SearchArticleListFragment extends Fragment {
     }
 
     private void internetDisable() {
-        mProgressBar.setVisibility(View.GONE);
+        this.mProgressBar.setVisibility(View.GONE);
         Toast.makeText(getContext(),
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
     private void upDateUISearchArticle(SearchArticle searchArticle) {
         updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
-        List<Doc> docs = searchArticle.getResponse().getDocs();
-        this.mDocArrayList.addAll(docs);
-        mAdapterSearchArticle.notifyDataSetChanged();
-
+//        List<Doc> docs = searchArticle.getResponse().getDocs();
+        this.mDocArrayList.addAll(searchArticle.getResponse().getDocs());
+        this.mAdapterSearchArticle.notifyDataSetChanged();
     }
 
 }

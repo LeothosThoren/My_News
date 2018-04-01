@@ -6,60 +6,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class Medium {
 
-    @SerializedName("type")
+    @SerializedName("url")
     @Expose
-    private String type;
-    @SerializedName("subtype")
-    @Expose
-    private String subtype;
-    @SerializedName("caption")
-    @Expose
-    private String caption;
-    @SerializedName("copyright")
-    @Expose
-    private String copyright;
-    @SerializedName("media-metadata")
-    @Expose
-    private MediaMetadata mediaMetadata;
+    private String url;
 
-    public String getType() {
-        return type;
+    public String getImgUrl() {
+        return url;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getSubtype() {
-        return subtype;
-    }
-
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
-    }
-
-    public String getCaption() {
-        return caption;
-    }
-
-    public void setCaption(String caption) {
-        this.caption = caption;
-    }
-
-    public String getCopyright() {
-        return copyright;
-    }
-
-    public void setCopyright(String copyright) {
-        this.copyright = copyright;
-    }
-
-    public MediaMetadata getMediaMetadata() {
-        return mediaMetadata;
-    }
-
-    public void setMediaMetadata(MediaMetadata mediaMetadata) {
-        this.mediaMetadata = mediaMetadata;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }

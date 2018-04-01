@@ -102,7 +102,8 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
         public void updateWithSearchArticle(Doc searchArticle, RequestManager glide) {
 
             this.mTextView.setText(searchArticle.getSectionName());
-            this.mDateView.setText(getFormatedDate(searchArticle.getPubDate()));
+            if (searchArticle.getPubDate() != null){
+            this.mDateView.setText(getFormatedDate(searchArticle.getPubDate()));}
             this.mSummaryView.setText(searchArticle.getSnippet());
             if (searchArticle.getMultimedia().size() != 0 )
             glide.load(searchArticle.getMultimedia().get(0).getUrl()).into(this.mImageView);

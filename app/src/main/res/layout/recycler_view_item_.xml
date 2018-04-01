@@ -18,7 +18,7 @@
             android:layout_alignParentTop="true"
             android:contentDescription="NewYorkTimes image APi"
             android:padding="10dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/ic_no_image" />
 
         <TextView
             android:id="@+id/item_title"
@@ -28,7 +28,7 @@
             android:layout_marginTop="14dp"
             android:layout_toEndOf="@+id/item_image"
             android:layout_toRightOf="@+id/item_image"
-            android:text="Title"
+            android:text="No Section"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -43,7 +43,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginEnd="10dp"
             android:layout_marginRight="10dp"
-            android:text="Date"
+            android:text="No Date"
             android:textColor="@color/black"
             android:textSize="16sp" />
 
@@ -59,7 +59,7 @@
             android:maxLines="2"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="Summary"
+            android:text="No Summary"
             android:textColor="@color/grey"
             android:textSize="20sp" />
 

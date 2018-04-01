@@ -39,7 +39,7 @@ import io.reactivex.observers.DisposableObserver;
 public class MostPopularFragment extends Fragment {
 
     private static final String KEY_POSITION = "position";
-    public static final List<Result> mMostPopularList = new ArrayList<>();
+    public List<Result> mMostPopularList = new ArrayList<>();
     public static final String ITEMPOSITION = "webView_position";
     RecyclerViewAdapterMostPopular mAdapter;
     @BindView(R.id.frag_recycler_view)
@@ -73,9 +73,10 @@ public class MostPopularFragment extends Fragment {
         ButterKnife.bind(this, result);
         position = getArguments().getInt(KEY_POSITION, -1);
         this.buildRecyclerView();
+        this.executeMostPopularHttpRequest();
         this.configureSwipeRefrechLayout();
         this.progressBarHandler();
-        this.executeMostPopularHttpRequest();
+
 
         return result;
     }
@@ -87,11 +88,11 @@ public class MostPopularFragment extends Fragment {
    * */
     private void buildRecyclerView() {
         //Calling the adapter
-        mAdapter = new RecyclerViewAdapterMostPopular(mMostPopularList, Glide.with(this));
+        this.mAdapter = new RecyclerViewAdapterMostPopular(mMostPopularList, Glide.with(this));
         //Set them with natives methods
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.mRecyclerView.setHasFixedSize(true);
+        this.mRecyclerView.setAdapter(mAdapter);
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
         this.displayActivity();
     }
@@ -102,7 +103,7 @@ public class MostPopularFragment extends Fragment {
    * Used to open a web view directly in the app, not by default application
    * */
     private void displayActivity() {
-        mAdapter.setOnItemClickListener(new RecyclerViewAdapterMostPopular.OnItemClickListener() {
+        this.mAdapter.setOnItemClickListener(new RecyclerViewAdapterMostPopular.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear on click
@@ -126,13 +127,13 @@ public class MostPopularFragment extends Fragment {
 
                     @Override
                     public void onNext(MostPopular MostpopularItems) {
-                        Log.d("TAG", "On Next");
+                        Log.d("Most Popular", "On Next");
                         upDateUIMP(MostpopularItems);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("TAG", "On Error" + Log.getStackTraceString(e));
+                        Log.d("Most Popular", "On Error" + Log.getStackTraceString(e));
                         internetDisable();
                     }
 
@@ -166,7 +167,7 @@ public class MostPopularFragment extends Fragment {
    * When the screen is swipe, the http request is executed
    * */
     private void configureSwipeRefrechLayout() {
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
 
@@ -175,7 +176,7 @@ public class MostPopularFragment extends Fragment {
     }
 
     private void progressBarHandler() {
-        mProgressBar.getIndeterminateDrawable()
+        this.mProgressBar.getIndeterminateDrawable()
                 .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
     }
 
@@ -186,21 +187,21 @@ public class MostPopularFragment extends Fragment {
     private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
         bar.setVisibility(View.GONE);
         refresh.setRefreshing(false);
-        mMostPopularList.clear();
+        this.mMostPopularList.clear();
 
     }
 
     private void internetDisable() {
-        mProgressBar.setVisibility(View.GONE);
+        this.mProgressBar.setVisibility(View.GONE);
         Toast.makeText(getContext(),
                 getString(R.string.no_internet), Toast.LENGTH_LONG).show();
     }
 
     private void upDateUIMP(MostPopular mostpopular) {
         updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
-        List<Result> resultList = mostpopular.getResults();
-        mMostPopularList.addAll(resultList);
-        mAdapter.notifyDataSetChanged();
+//        List<Result> resultList = mostpopular.getResults();
+        this.mMostPopularList.addAll(mostpopular.getResults());
+        this.mAdapter.notifyDataSetChanged();
 
     }
 

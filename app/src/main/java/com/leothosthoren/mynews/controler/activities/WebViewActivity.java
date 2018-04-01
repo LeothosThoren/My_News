@@ -14,9 +14,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.leothosthoren.mynews.controler.fragments.MostPopularFragment.mMostPopularList;
 import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
-import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.mTopStoriesArray;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -32,8 +30,7 @@ public class WebViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         configureToolbar();
-        displayWebView(mTopStoriesArray);
-        displayWebView(mMostPopularList);
+
 
     }
 
@@ -58,7 +55,7 @@ public class WebViewActivity extends AppCompatActivity {
     * Load and display an Uri into a web page view
     * The webView get an Uri from an  array object method
     * */
-    private void displayWebView(List<?> objects) {
+    private void displayWebView(String Url) {
         int pos = getIntent().getIntExtra(ITEMPOSITION, 0);
 //        if (objects == mTopStoriesArray)
 //            mWebView.loadUrl(mTopStoriesArray.get(pos).getUrl());

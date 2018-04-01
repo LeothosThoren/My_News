@@ -10,8 +10,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -20,7 +20,7 @@ import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.view.adapters.ViewPageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-// Todo : create abstract class fragment
+    // Todo : create abstract class fragment
 // Todo : display a snackbar or personalised toast message
 // to alert there is no connection or that user have to select something
 // Todo : search activity use fragment to show recycler view list
@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 // Todo : try to respect the material design specification
 // Todo : add the menu drawer in main activity
 // Todo : check the styles and @dimen values
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+    private DrawerLayout mDrawerLayout;
+    private NavigationView mNavigationView;
     private Toolbar toolbar;
 
 
@@ -46,10 +46,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         configureToolbar();
         configureViewPagerAndTabs();
-//        configureDrawerLayout();
-//        configureNavigationView();
+        configureDrawerLayout();
+        configureNavigationView();
 
     }
+
     /*
     * @method onCreateOptionsMenu
     * @param menu use to inflate a menu layout
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             //Open a fragment
             case R.id.param_notifications:
-                Toast.makeText(this, "Test menu",Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Test menu", Toast.LENGTH_SHORT).show();
                 return true;
             //Open searchActivity
             case R.id.menu_activity_main_search:
@@ -102,8 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     * */
     @Override
     public void onBackPressed() {
-        if (this.drawerLayout.isDrawerOpen(GravityCompat.START))
-            this.drawerLayout.closeDrawer(GravityCompat.START);
+        if (this.mDrawerLayout.isDrawerOpen(GravityCompat.START))
+            this.mDrawerLayout.closeDrawer(GravityCompat.START);
         else
             super.onBackPressed();
     }
@@ -169,25 +170,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        this.drawerLayout.closeDrawer(GravityCompat.START);
+        this.mDrawerLayout.closeDrawer(GravityCompat.START);
 
         return true;
     }
 
 
-//    private void configureDrawerLayout() {
-//        this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
-//        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
-//                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        drawerLayout.addDrawerListener(toggle);
-//        toggle.syncState();
-//    }
-//
-//    private void configureNavigationView() {
-//        this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
-//        assert navigationView != null;
-//        navigationView.setNavigationItemSelectedListener(this);
-//    }
+    private void configureDrawerLayout() {
+        this.mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,
+                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        mDrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+    }
+
+    private void configureNavigationView() {
+        this.mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+//        assert mNavigationView != null;
+        mNavigationView.setNavigationItemSelectedListener(this);
+    }
 
 
 }

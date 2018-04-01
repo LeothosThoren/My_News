@@ -18,7 +18,7 @@ public interface NewYorkTimeService {
     String ApiKeyTopStories = "7aa6518af840427eb78832360465fa9e";
     String ApiKeyMostPopular = "7aa6518af840427eb78832360465fa9e";
     String ApiKeySearchArticle = "7aa6518af840427eb78832360465fa9e";
-    String BaseUrl = "http://api.nytimes.com/";
+    String BaseUrl = "http://api.nytimes.com/svc/";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BaseUrl)
@@ -27,17 +27,20 @@ public interface NewYorkTimeService {
             .build();
 
 
-    @GET("svc/topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
+    @GET("topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
     Observable<TopStories> getTopStories(@Path("section") String section);
 
 
-    @GET("svc/mostpopular/v2/mostemailed/all-sections/1.json?api-key="+ApiKeyMostPopular)
+    @GET("mostpopular/v2/mostemailed/all-sections/1.json?api-key="+ApiKeyMostPopular)
     Observable<MostPopular> getMostPopular();
 
 //    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
 //    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
+//
+//    @GET("svc/search/v2/articlesearch.json?q=France&begin_date=20170315&fq=news_desk:(Arts)&page=2&api-key="+ApiKeySearchArticle)
+//    Observable<SearchArticle> getSearchArticle();
 
-    @GET("svc/search/v2/articlesearch.json?q=France&begin_date=20170315&fq=news_desk:(Arts)&page=2&api-key="+ApiKeySearchArticle)
+    @GET("search/v2/articlesearch.json?q=new+york+time&page=2&sort=newest&api-key="+ApiKeySearchArticle)
     Observable<SearchArticle> getSearchArticle();
 
 }
