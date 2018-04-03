@@ -1,5 +1,5 @@
 
-package com.leothosthoren.mynews.model.search.articles;
+package com.leothosthoren.mynews.model.apis.articles;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,7 +1,6 @@
 package com.leothosthoren.mynews.controler.fragments;
 
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,10 +18,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.controler.activities.WebViewActivity;
+import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-import com.leothosthoren.mynews.model.most.popular.MostPopular;
-import com.leothosthoren.mynews.model.most.popular.Result;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
 
 import java.util.ArrayList;
@@ -40,7 +37,7 @@ import io.reactivex.observers.DisposableObserver;
 public class MostPopularFragment extends Fragment {
 
     private static final String KEY_POSITION = "position";
-    public List<Result> mMostPopularList = new ArrayList<>();
+    public List<MostPopular.Result> mMostPopularList = new ArrayList<>();
     public static final String ITEMPOSITION = "webView_position";
     RecyclerViewAdapterMostPopular mAdapter;
     @BindView(R.id.frag_recycler_view)
@@ -175,7 +172,7 @@ public class MostPopularFragment extends Fragment {
         this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
+                executeMostPopularHttpRequest();
             }
         });
     }

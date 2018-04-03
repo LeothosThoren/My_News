@@ -1,8 +1,8 @@
 package com.leothosthoren.mynews.model.Utils;
 
-import com.leothosthoren.mynews.model.TopStories;
-import com.leothosthoren.mynews.model.most.popular.MostPopular;
-import com.leothosthoren.mynews.model.search.articles.SearchArticle;
+import com.leothosthoren.mynews.model.apis.articles.MostPopular;
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
+import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 
 import java.util.concurrent.TimeUnit;
 

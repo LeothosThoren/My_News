@@ -1,4 +1,4 @@
-package com.leothosthoren.mynews.model;
+package com.leothosthoren.mynews.model.apis.articles;
 
 
 import com.google.gson.annotations.Expose;

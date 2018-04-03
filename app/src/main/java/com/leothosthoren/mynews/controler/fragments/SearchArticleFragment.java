@@ -1,7 +1,6 @@
 package com.leothosthoren.mynews.controler.fragments;
 
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,18 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.webkit.WebViewFragment;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.controler.activities.WebViewActivity;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-import com.leothosthoren.mynews.model.search.articles.Doc;
-import com.leothosthoren.mynews.model.search.articles.Response;
-import com.leothosthoren.mynews.model.search.articles.SearchArticle;
+import com.leothosthoren.mynews.model.apis.articles.Doc;
+import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterSearchArticle;
 
 import java.util.ArrayList;
@@ -51,7 +46,7 @@ public class SearchArticleFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
     public List<Doc> mDocArrayList = new ArrayList<>();
-    public String s;
+    public String query, new_desk, begin_date, end_date;
 
     public SearchArticleFragment() {
         // Required empty public constructor
@@ -69,6 +64,7 @@ public class SearchArticleFragment extends Fragment {
         this.progressBarHandler();
         this.configureSwipeRefrechLayout();
         this.executeSearchArticleHttpRequest();
+
         return v;
     }
 
@@ -109,12 +105,18 @@ public class SearchArticleFragment extends Fragment {
                 webview.loadUrl(mDocArrayList.get(position).getWebUrl());
             }
         });
+
     }
 
     private void executeSearchArticleHttpRequest() {
         this.updateUIWhenStartingHTTPRequest();
-        s = getArguments().getString("EditTextVal");
-        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(s, "news_desk:(Travel Arts)", "19900804", "20180401")
+        query = getArguments().getString("query");
+        new_desk = getArguments().getString("new_value");
+        begin_date = getArguments().getString("begin_date");
+        end_date = getArguments().getString("end_date");
+//        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(query, "news_desk:("+new_desk+")", begin_date, end_date)
+//                .subscribeWith(new DisposableObserver<SearchArticle>() {
+        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle("France", "news_desk:("+new_desk+")", "20170808", "20180403")
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override

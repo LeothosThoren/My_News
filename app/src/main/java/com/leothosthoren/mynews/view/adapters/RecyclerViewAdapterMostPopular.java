@@ -10,7 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.most.popular.Result;
+import com.leothosthoren.mynews.model.StringFormater;
+import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +24,14 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<RecyclerViewAdapterMostPopular.ItemViewHolder> {
 
-    private List<Result> mMostPopularResult = new ArrayList<>();
+    private List<MostPopular.Result> mMostPopularResult = new ArrayList<>();
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-    public RecyclerViewAdapterMostPopular(List<Result> mostPopularResult, RequestManager glide) {
+
+    public RecyclerViewAdapterMostPopular(List<MostPopular.Result> mostPopularResult, RequestManager glide) {
         mMostPopularResult = mostPopularResult;
         mGlide = glide;
-    }
-
-    private static String getFormatedDate(String dateToChange) {
-        String sub[] = dateToChange.substring(2, 10).split("-");
-        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     @Override
@@ -76,6 +73,7 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
+        StringFormater mFormater = new StringFormater();
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
@@ -97,13 +95,13 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
             });
         }
 
-        public void updateWithMostPopular(Result result, RequestManager glide) {
+        public void updateWithMostPopular(MostPopular.Result result, RequestManager glide) {
 
             this.mTextView.setText(result.getSection());
-            this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
+            this.mDateView.setText(mFormater.getItemFormatedDate((result.getPublishedDate())));
             this.mSummaryView.setText(result.getTitle());
-            if(result.getMedia().size() != 0 || result.getMedia().get(0).getImgUrl() != null)
-            glide.load(result.getMedia().get(0).getImgUrl()).into(this.mImageView);
+            if((result.getMedia() != null) && (!result.getMedia().isEmpty()) && (!result.getMedia().get(0).getMediaMetadata().isEmpty()))
+                glide.load(result.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(this.mImageView);
         }
 
         @Override

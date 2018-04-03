@@ -1,23 +1,4 @@
-package com.leothosthoren.mynews.model;
-
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
-import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-
-import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-import com.leothosthoren.mynews.model.search.articles.Doc;
-import com.leothosthoren.mynews.model.search.articles.SearchArticle;
-
-import java.util.List;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
+package com.leothosthoren.mynews.model.Utils;
 
 /**
  * Created by Leothos_Thoren on 18/03/2018.

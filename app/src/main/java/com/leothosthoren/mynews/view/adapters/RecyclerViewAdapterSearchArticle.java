@@ -4,18 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.search.articles.Doc;
-import com.leothosthoren.mynews.model.search.articles.Response;
-import com.leothosthoren.mynews.model.search.articles.SearchArticle;
+import com.leothosthoren.mynews.model.StringFormater;
+import com.leothosthoren.mynews.model.apis.articles.Doc;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -33,11 +30,6 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
     public RecyclerViewAdapterSearchArticle(List<Doc> docList, RequestManager glide) {
         mList = docList;
         mGlide = glide;
-    }
-
-    private static String getFormatedDate(String dateToChange) {
-        String sub[] = dateToChange.substring(2, 10).split("-");
-        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     @Override
@@ -79,6 +71,7 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
+        StringFormater mFormater = new StringFormater();
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
@@ -104,9 +97,9 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
 
             this.mTextView.setText(searchArticle.getSectionName());
             if (searchArticle.getPubDate() != null){
-            this.mDateView.setText(getFormatedDate(searchArticle.getPubDate()));}
+            this.mDateView.setText(mFormater.getItemFormatedDate(searchArticle.getPubDate()));}
             this.mSummaryView.setText(searchArticle.getSnippet());
-            if (searchArticle.getMultimedia().size() != 0 )
+            if((searchArticle.getMultimedia() != null) && (!searchArticle.getMultimedia().isEmpty()))
             glide.load(searchArticle.getMultimedia().get(0).getUrl()).into(this.mImageView);
         }
 

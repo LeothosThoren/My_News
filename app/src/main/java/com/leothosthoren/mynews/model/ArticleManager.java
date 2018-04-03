@@ -1,5 +1,7 @@
 package com.leothosthoren.mynews.model;
 
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
+
 /**
  * Created by Sofiane M. alias Leothos Thoren on 29/03/2018
  */

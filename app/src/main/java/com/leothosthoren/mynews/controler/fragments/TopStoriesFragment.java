@@ -1,6 +1,5 @@
 package com.leothosthoren.mynews.controler.fragments;
 
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,10 +17,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.TopStories;
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapter;
+import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterTopStories;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +46,7 @@ public class TopStoriesFragment extends Fragment {
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
     private Disposable mDisposable;
-    private RecyclerViewAdapter mAdapter;
+    private RecyclerViewAdapterTopStories mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private int position;
 
@@ -103,7 +101,7 @@ public class TopStoriesFragment extends Fragment {
     * */
     private void buildRecyclerView() {
         //Calling the adapter
-        this.mAdapter = new RecyclerViewAdapter(mTopStoriesArray, Glide.with(this));
+        this.mAdapter = new RecyclerViewAdapterTopStories(mTopStoriesArray, Glide.with(this));
         //Set them with natives methods
         this.mRecyclerView.setHasFixedSize(true);
         this.mRecyclerView.setAdapter(mAdapter);
@@ -118,7 +116,7 @@ public class TopStoriesFragment extends Fragment {
     * Used to open a web view directly in the app, not by default application
     * */
     private void displayActivity() {
-        this.mAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
+        this.mAdapter.setOnItemClickListener(new RecyclerViewAdapterTopStories.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 //Here we allow the toast text to appear on click

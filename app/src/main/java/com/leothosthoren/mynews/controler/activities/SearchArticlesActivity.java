@@ -21,13 +21,16 @@ import android.widget.Toast;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.fragments.SearchArticleFragment;
 import com.leothosthoren.mynews.model.SetSearchDate;
+import com.leothosthoren.mynews.model.StringFormater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
+    public static final String SEARCH_ARTICLE_VALUES = "SEARCH_ARTICLE_VALUES";
     public String[] checkboxData = new String[6];
     public String[] BOX_VALUES = {"Arts", "Business", "Entrepreneurs", "Politics", "Sports", "Travels"};
+    public String parametresValues[];
     @BindView(R.id.search_query_term)
     EditText mSearchQuery;
     @BindView(R.id.end_date)
@@ -49,9 +52,9 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     @BindView(R.id.checkbox_6)
     CheckBox mCheckBox6;
     @BindView(R.id.query_text_input_layout)
-    TextInputLayout floatingHintLabel;
-    private SearchArticleFragment mFragment;
-
+    public TextInputLayout floatingHintLabel;
+    public SearchArticleFragment mFragment;
+    public StringFormater mFormater = new StringFormater();
 
 
     @Override
@@ -69,19 +72,32 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 
     private void configureAndShowMainFragment() {
         // A - Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
-        mFragment = (SearchArticleFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_search_article_list);
+        this.mFragment = (SearchArticleFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_search_article_list);
+
         Bundle bundle = new Bundle();
-        bundle.putString("EditTextVal", mSearchQuery.getText().toString());
-        if (mFragment == null) {
+
+        bundle.putString("query", mSearchQuery.getText().toString());
+        bundle.putString("desk_value", mFormater.getNewDesk(checkboxData));
+        bundle.putString("begin_date", mFormater.getSearchArticleDate(mBeginDate.getText().toString()));
+        bundle.putString("end_date", mFormater.getSearchArticleDate(mEndDate.getText().toString()));
+
+        if (this.mFragment == null) {
             // B - Create new main fragment
-            mFragment = new SearchArticleFragment();
-            mFragment.setArguments(bundle);
+            this.mFragment = new SearchArticleFragment();
+            this.mFragment.setArguments(bundle);
             // C - Add it to FrameLayout container
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout_search_article_list, mFragment)
+                    .add(R.id.frame_layout_search_article_list, this.mFragment)
                     .commit();
         }
     }
+
+//    public String dateFormater(EditText editText) {
+//        if (editText.getText().toString().isEmpty())
+//            return "";
+//        String[] fDate = editText.getText().toString().split("/");
+//        return String.format("%s%s%s", fDate[2], fDate[1], fDate[0]);
+//    }
 
     /*
     * @method onClick
@@ -95,19 +111,11 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
 
-        //Todo :
         // handle query not empty, otherwise toast text alert
         queryInputIsEmpty(mSearchQuery, floatingHintLabel);
-
         //When all the checkboxes are unchecked
         onUncheckedBoxes();
 
-
-
-        // launch http request,
-        // check if result not null otherwise toast text alert
-        // open view list recycler view
-        // Open webView from recycler view
     }
 
     /*
@@ -224,7 +232,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     * -a checkbox is selected a value is hold
     * -otherwise it's blanked
     * */
-    public void boxSelection(boolean check, String key, String value) {
+    public String boxSelection(boolean check, String key, String value) {
         if (check) {
             key = value;
             toastMessage(key + " is selected");
@@ -233,16 +241,21 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             key = "";
             toastMessage(value + " is deselected");
         }
-    }
-    
-    public String sectionQuery (String [] checkboxesData){
-        StringBuffer res = new StringBuffer();
-        for (String box: checkboxesData){
-            res.append(box);
-        }
 
-        return res.toString();
+        return key;
     }
+
+//    public String sectionQuery(String[] checkboxesData) {
+//        StringBuilder res = new StringBuilder();
+//        for (int i = 0; i < checkboxesData.length; i++) {
+//            if (i > 0) {
+//                res.append(" ");
+//                res.append(checkboxesData[i]);
+//            }
+//        }
+//
+//        return res.toString();
+//    }
 
     /*
     * @method checkboxColorModifier

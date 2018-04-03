@@ -10,8 +10,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.ModelApi;
-import com.leothosthoren.mynews.model.TopStories;
+import com.leothosthoren.mynews.model.StringFormater;
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
 
 import java.util.List;
 
@@ -21,21 +21,16 @@ import butterknife.ButterKnife;
 /**
  * Created by Sofiane M. alias Leothos Thoren on 01/02/2018
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ItemViewHolder> {
+public class RecyclerViewAdapterTopStories extends RecyclerView.Adapter<RecyclerViewAdapterTopStories.ItemViewHolder> {
 
     private List<TopStories.Resultum> mTopStoriesResult;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
 
-    public RecyclerViewAdapter(List<TopStories.Resultum> topStoriesResult, RequestManager glide) {
+    public RecyclerViewAdapterTopStories(List<TopStories.Resultum> topStoriesResult, RequestManager glide) {
         mTopStoriesResult = topStoriesResult;
         mGlide = glide;
-    }
-
-    private static String getFormatedDate(String dateToChange) {
-        String sub[] = dateToChange.substring(2, 10).split("-");
-        return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
     @Override
@@ -77,6 +72,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
+        StringFormater mFormater = new StringFormater();
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
@@ -101,12 +97,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         public void updateWithTopStories(TopStories.Resultum result, RequestManager glide) {
 
             this.mTextView.setText(result.getSection());
-            this.mDateView.setText(getFormatedDate(result.getPublishedDate()));
+            this.mDateView.setText(mFormater.getItemFormatedDate(result.getPublishedDate()));
             this.mSummaryView.setText(result.getTitle());
-            if (result.getMultimedia().size() != 0)
+            if ((result.getMultimedia() != null) && (!result.getMultimedia().isEmpty()))
                 glide.load(result.getMultimedia().get(0).getUrl()).into(mImageView);
-//            if (result.getMedia().get(0).getUrl() != null)
-//                glide.load(result.getMedia().get(0).getUrl()).into(mImageView);
 
         }
 
