@@ -31,11 +31,14 @@ import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
+import static com.leothosthoren.mynews.controler.activities.SearchArticlesActivity.SEARCH_ARTICLE_VALUES;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class SearchArticleFragment extends Fragment {
 
+    public List<Doc> mDocArrayList = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
@@ -45,13 +48,11 @@ public class SearchArticleFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
-    public List<Doc> mDocArrayList = new ArrayList<>();
-    public String query, new_desk, begin_date, end_date;
+
 
     public SearchArticleFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
@@ -111,13 +112,10 @@ public class SearchArticleFragment extends Fragment {
     private void executeSearchArticleHttpRequest() {
         this.updateUIWhenStartingHTTPRequest();
 
-//        query = getArguments().getString("query");
-//        new_desk = getArguments().getString("new_value");
-//        begin_date = getArguments().getString("begin_date");
-//        end_date = getArguments().getString("end_date");
-//        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(query, "news_desk:("+new_desk+")", begin_date, end_date)
-//                .subscribeWith(new DisposableObserver<SearchArticle>() {
-        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle("France", "news_desk:(Arts)", "20100303", "20180203")
+
+        String[] mDataValues = getArguments().getStringArray(SEARCH_ARTICLE_VALUES);
+        //mDataValues[0] == query, mDataValues[1] == new_desk, mDataValues[2] == begin_date, mDataValues[3] == endDate
+        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(mDataValues[0], "news_desk:(" + mDataValues[1] + ")", mDataValues[2], mDataValues[3])
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override
@@ -140,22 +138,22 @@ public class SearchArticleFragment extends Fragment {
                 });
     }
 
-        // 4 - Dispose subscription
-        private void disposeWhenDestroy() {
-            if (this.mDisposable != null && !this.mDisposable.isDisposed())
-                this.mDisposable.dispose();
-        }
+    // 4 - Dispose subscription
+    private void disposeWhenDestroy() {
+        if (this.mDisposable != null && !this.mDisposable.isDisposed())
+            this.mDisposable.dispose();
+    }
 
-        //Called for better performances
-        @Override
-        public void onDestroy() {
-            super.onDestroy();
-            this.disposeWhenDestroy();
-        }
+    //Called for better performances
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.disposeWhenDestroy();
+    }
 
-        // ------------------
-        //  UPDATE UI
-        // ------------------
+    // ------------------
+    //  UPDATE UI
+    // ------------------
 
     /*
    * @method configureSwipeRefrechLayout

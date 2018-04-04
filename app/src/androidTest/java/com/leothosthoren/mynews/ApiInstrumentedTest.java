@@ -2,6 +2,7 @@ package com.leothosthoren.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.model.apis.articles.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 
@@ -33,9 +34,10 @@ public class ApiInstrumentedTest {
                 .assertNoTimeout()
                 .awaitTerminalEvent();
 
+
         MostPopular mostPopularFetched = testObserver.values().get(0);
 
-        assertThat("MostPopular", mostPopularFetched.getResults().get(0).getCountType().equals("EMAILED"));
+        assertThat("MostPopular", mostPopularFetched.getResults().get(0).getMedia().get(0).getMediaMetadata().get(0).getFormat().equals("Standard Thumbnail"));
     }
 
     @Test

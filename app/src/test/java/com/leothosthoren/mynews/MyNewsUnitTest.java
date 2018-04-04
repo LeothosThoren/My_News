@@ -86,12 +86,13 @@ public class MyNewsUnitTest {
     public void testBoxChecking() throws Exception {
         SearchArticlesActivity activity = mock(SearchArticlesActivity.class);
 
-        when(activity.boxSelection(true, "", "Sports")).thenReturn("Sports");
+        when(activity.boxSelection(true, 0)).thenReturn("Sports");
     }
 
     @Test
     public void testNewDeskMethod() throws Exception {
         String[] error = new String[6];
+        error[0] = "Arts";
 
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < error.length; i++) {
@@ -102,7 +103,7 @@ public class MyNewsUnitTest {
             }
         }
 
-        String s = res.toString().isEmpty() ? "Arts" : res.toString();
+        String s = res.toString().isEmpty() ? "" : res.toString();
 
         assertEquals("Arts", s);
     }

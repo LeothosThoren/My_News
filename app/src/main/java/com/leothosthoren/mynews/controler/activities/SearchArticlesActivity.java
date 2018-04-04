@@ -20,8 +20,8 @@ import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.fragments.SearchArticleFragment;
-import com.leothosthoren.mynews.model.SetSearchDate;
 import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.SetSearchDate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +30,10 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     public static final String SEARCH_ARTICLE_VALUES = "SEARCH_ARTICLE_VALUES";
     public String[] checkboxData = new String[6];
     public String[] BOX_VALUES = {"Arts", "Business", "Entrepreneurs", "Politics", "Sports", "Travels"};
-    public String parametresValues[];
+    @BindView(R.id.query_text_input_layout)
+    public TextInputLayout floatingHintLabel;
+    public SearchArticleFragment mFragment;
+    public ModelTools mFormater = new ModelTools();
     @BindView(R.id.search_query_term)
     EditText mSearchQuery;
     @BindView(R.id.end_date)
@@ -51,11 +54,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     CheckBox mCheckBox5;
     @BindView(R.id.checkbox_6)
     CheckBox mCheckBox6;
-    @BindView(R.id.query_text_input_layout)
-    public TextInputLayout floatingHintLabel;
-    public SearchArticleFragment mFragment;
-    public ModelTools mFormater = new ModelTools();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,48 +65,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         this.displayErrorMessage(floatingHintLabel);
         this.setSearchDate();
         this.mSearchButton.setOnClickListener(this);
-
-    }
-
-    private void configureAndShowMainFragment() {
-        // A - Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
-        this.mFragment = (SearchArticleFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_search_article_list);
-
-        Bundle bundle = new Bundle();
-
-//        bundle.putString("query", mSearchQuery.getText().toString());
-//        bundle.putString("desk_value", mFormater.getNewDesk(checkboxData));
-//        bundle.putString("begin_date", mFormater.getBeginDate(mBeginDate.getText().toString()));
-//        bundle.putString("end_date", mFormater.getEndDate(mEndDate.getText().toString()));
-
-        if (this.mFragment == null) {
-            // B - Create new main fragment
-            this.mFragment = new SearchArticleFragment();
-
-//            this.mFragment.setArguments(bundle);
-            // C - Add it to FrameLayout container
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout_search_article_list, this.mFragment)
-                    .commit();
-        }
-    }
-
-    /*
-    * @method onClick
-    * @param v
-    *
-    * The search button performs all the action of control and check
-    * It calls the api
-    * Verify if all the inputs are corrects
-    * */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    @Override
-    public void onClick(View v) {
-
-        // handle query not empty, otherwise toast text alert
-        queryInputIsEmpty(mSearchQuery, floatingHintLabel);
-        //When all the checkboxes are unchecked
-        onUncheckedBoxes();
 
     }
 
@@ -125,6 +81,35 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
     }
+
+    private void configureAndShowMainFragment() {
+        // A - Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
+        mFragment = (SearchArticleFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_search_article_list);
+
+        // A' - Get all the item for the Http request
+        String[] value = {mSearchQuery.getText().toString(), mFormater.getNewDesk(checkboxData),
+                mFormater.getBeginDate(mBeginDate.getText().toString()), mFormater.getEndDate(mEndDate.getText().toString())};
+
+        // B - Initiate bundle
+        Bundle bundle = new Bundle();
+        bundle.putStringArray(SEARCH_ARTICLE_VALUES, value);
+
+        if (mFragment == null) {
+            // B' - Create new main fragment
+            mFragment = new SearchArticleFragment();
+
+            mFragment.setArguments(bundle);
+            // C - Add it to FrameLayout container
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.frame_layout_search_article_list, mFragment)
+                    .commit();
+        }
+    }
+
+
+    //=======================
+    //  TEXT QUERY INPUT
+    //=======================
 
     /*
     * @method displayErrorMessage
@@ -155,16 +140,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     }
 
     /*
-    * @setSearchDate
-    *
-    * This method allows to display the datePicker widget threw an edit text
-    * */
-    private void setSearchDate() {
-        SetSearchDate beginDate = new SetSearchDate(mBeginDate, this);
-        SetSearchDate endDate = new SetSearchDate(mEndDate, this);
-    }
-
-    /*
     * @queryInputIsEmpty
     * @param searchQuery
     * @textInputLayout display a red alert message
@@ -182,6 +157,24 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 
     }
 
+    //=======================
+    //  DATE INPUT
+    //=======================
+
+    /*
+   * @setSearchDate
+   *
+   * This method allows to display the datePicker widget threw an edit text
+   * */
+    private void setSearchDate() {
+        SetSearchDate beginDate = new SetSearchDate(mBeginDate, this);
+        SetSearchDate endDate = new SetSearchDate(mEndDate, this);
+    }
+
+    //=======================
+    //  CHECKBOX INPUT
+    //=======================
+
     /*
     * @method onCheckboxClicked
     * @param view
@@ -192,26 +185,68 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     public void onCheckboxClicked(View view) {
         // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
-
+        checkboxData[0] = BOX_VALUES[0];
         // Check which checkbox was clicked
         switch (view.getId()) {
             case R.id.checkbox_1:
-                boxSelection(checked, checkboxData[0], BOX_VALUES[0]);
+                if (checked) {
+                    checkboxData[0] = BOX_VALUES[0];
+                    toastMessage(checkboxData[0] + " is selected");
+                    checkboxColorModifier(Color.BLACK);
+                } else {
+                    checkboxData[0] = "";
+                    toastMessage(BOX_VALUES[0] + " is deselected");
+                }
                 break;
             case R.id.checkbox_2:
-                boxSelection(checked, checkboxData[1], BOX_VALUES[1]);
+                if (checked) {
+                    checkboxData[1] = BOX_VALUES[1];
+                    toastMessage(checkboxData[1] + " is selected");
+                    checkboxColorModifier(Color.BLACK);
+                } else {
+                    checkboxData[1] = "";
+                    toastMessage(BOX_VALUES[1] + " is deselected");
+                }
                 break;
             case R.id.checkbox_3:
-                boxSelection(checked, checkboxData[2], BOX_VALUES[2]);
+                if (checked) {
+                    checkboxData[2] = BOX_VALUES[2];
+                    toastMessage(checkboxData[2] + " is selected");
+                    checkboxColorModifier(Color.BLACK);
+                } else {
+                    checkboxData[2] = "";
+                    toastMessage(BOX_VALUES[2] + " is deselected");
+                }
                 break;
             case R.id.checkbox_4:
-                boxSelection(checked, checkboxData[3], BOX_VALUES[3]);
+                if (checked) {
+                    checkboxData[3] = BOX_VALUES[3];
+                    toastMessage(checkboxData[3] + " is selected");
+                    checkboxColorModifier(Color.BLACK);
+                } else {
+                    checkboxData[3] = "";
+                    toastMessage(BOX_VALUES[3] + " is deselected");
+                }
                 break;
             case R.id.checkbox_5:
-                boxSelection(checked, checkboxData[4], BOX_VALUES[4]);
+                if (checked) {
+                    checkboxData[4] = BOX_VALUES[4];
+                    toastMessage(checkboxData[4] + " is selected");
+                    checkboxColorModifier(Color.BLACK);
+                } else {
+                    checkboxData[4] = "";
+                    toastMessage(BOX_VALUES[4] + " is deselected");
+                }
                 break;
             case R.id.checkbox_6:
-                boxSelection(checked, checkboxData[5], BOX_VALUES[5]);
+                if (checked) {
+                    checkboxData[5] = BOX_VALUES[5];
+                    toastMessage(checkboxData[5] + " is selected");
+                    checkboxColorModifier(Color.BLACK);
+                } else {
+                    checkboxData[5] = "";
+                    toastMessage(BOX_VALUES[5] + " is deselected");
+                }
                 break;
         }
     }
@@ -226,17 +261,17 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     * -a checkbox is selected a value is hold
     * -otherwise it's blanked
     * */
-    public String boxSelection(boolean check, String key, String value) {
+    public String boxSelection(boolean check, int id) {
         if (check) {
-            key = value;
-            toastMessage(key + " is selected");
+            checkboxData[id] = BOX_VALUES[id];
+            toastMessage(checkboxData[id] + " is selected");
             checkboxColorModifier(Color.BLACK);
         } else {
-            key = "";
-            toastMessage(value + " is deselected");
+            checkboxData[id] = "";
+            toastMessage(BOX_VALUES[id] + " is deselected");
         }
 
-        return key;
+        return checkboxData[id];
     }
 
     /*
@@ -268,6 +303,33 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             snackBarMessage(R.string.box_unchecked);
         }
     }
+
+    //=======================
+    //  SEARCH BUTTON
+    //=======================
+
+    /*
+    * @method onClick
+    * @param v
+    *
+    * The search button performs all the action of control and check
+    * It calls the api
+    * Verify if all the inputs are corrects
+    * */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    @Override
+    public void onClick(View v) {
+
+        // handle query not empty, otherwise toast text alert
+        queryInputIsEmpty(mSearchQuery, floatingHintLabel);
+        //When all the checkboxes are unchecked
+        onUncheckedBoxes();
+
+    }
+
+    //=======================
+    // ALERTS & NOTIFICATIONS
+    //=======================
 
     /*
     * @toastMessage
