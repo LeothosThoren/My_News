@@ -21,7 +21,7 @@ import android.widget.Toast;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.fragments.SearchArticleFragment;
 import com.leothosthoren.mynews.model.SetSearchDate;
-import com.leothosthoren.mynews.model.StringFormater;
+import com.leothosthoren.mynews.model.ModelTools;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,7 +54,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     @BindView(R.id.query_text_input_layout)
     public TextInputLayout floatingHintLabel;
     public SearchArticleFragment mFragment;
-    public StringFormater mFormater = new StringFormater();
+    public ModelTools mFormater = new ModelTools();
 
 
     @Override
@@ -76,28 +76,22 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 
         Bundle bundle = new Bundle();
 
-        bundle.putString("query", mSearchQuery.getText().toString());
-        bundle.putString("desk_value", mFormater.getNewDesk(checkboxData));
-        bundle.putString("begin_date", mFormater.getSearchArticleDate(mBeginDate.getText().toString()));
-        bundle.putString("end_date", mFormater.getSearchArticleDate(mEndDate.getText().toString()));
+//        bundle.putString("query", mSearchQuery.getText().toString());
+//        bundle.putString("desk_value", mFormater.getNewDesk(checkboxData));
+//        bundle.putString("begin_date", mFormater.getBeginDate(mBeginDate.getText().toString()));
+//        bundle.putString("end_date", mFormater.getEndDate(mEndDate.getText().toString()));
 
         if (this.mFragment == null) {
             // B - Create new main fragment
             this.mFragment = new SearchArticleFragment();
-            this.mFragment.setArguments(bundle);
+
+//            this.mFragment.setArguments(bundle);
             // C - Add it to FrameLayout container
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.frame_layout_search_article_list, this.mFragment)
                     .commit();
         }
     }
-
-//    public String dateFormater(EditText editText) {
-//        if (editText.getText().toString().isEmpty())
-//            return "";
-//        String[] fDate = editText.getText().toString().split("/");
-//        return String.format("%s%s%s", fDate[2], fDate[1], fDate[0]);
-//    }
 
     /*
     * @method onClick
@@ -245,18 +239,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         return key;
     }
 
-//    public String sectionQuery(String[] checkboxesData) {
-//        StringBuilder res = new StringBuilder();
-//        for (int i = 0; i < checkboxesData.length; i++) {
-//            if (i > 0) {
-//                res.append(" ");
-//                res.append(checkboxesData[i]);
-//            }
-//        }
-//
-//        return res.toString();
-//    }
-
     /*
     * @method checkboxColorModifier
     * @param color
@@ -314,8 +296,4 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         snackbar.show();
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 }

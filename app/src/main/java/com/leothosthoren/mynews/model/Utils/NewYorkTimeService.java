@@ -35,13 +35,8 @@ public interface NewYorkTimeService {
     @GET("mostpopular/v2/mostemailed/all-sections/1.json?api-key="+ApiKeyMostPopular)
     Observable<MostPopular> getMostPopular();
 
-//    @GET("svc/search/v2/articlesearch.json?q={query}&fq={label}&api-key="+ApiKeySearchArticle)
-//    Observable<?> getSearchArticle(@Query("query") String query, @Query("label") String label);
-//
-//    @GET("svc/search/v2/articlesearch.json?q=France&begin_date=20170315&fq=news_desk:(Arts)&page=2&api-key="+ApiKeySearchArticle)
-//    Observable<SearchArticle> getSearchArticle();
 
-    @GET("search/v2/articlesearch.json?sort=newest&page=1&api-key="+ApiKeySearchArticle)
+    @GET("search/v2/articlesearch.json?page=3&api-key="+ApiKeySearchArticle)
     Observable<SearchArticle> getSearchArticle(@Query("q") String query,
                                                @Query("fq") String news_desk,
                                                @Query("begin_date") String begin_date,

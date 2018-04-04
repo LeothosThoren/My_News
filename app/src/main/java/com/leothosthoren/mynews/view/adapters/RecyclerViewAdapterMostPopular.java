@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.StringFormater;
+import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
-        StringFormater mFormater = new StringFormater();
+        ModelTools mFormater = new ModelTools();
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
@@ -98,7 +98,7 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
         public void updateWithMostPopular(MostPopular.Result result, RequestManager glide) {
 
             this.mTextView.setText(result.getSection());
-            this.mDateView.setText(mFormater.getItemFormatedDate((result.getPublishedDate())));
+            this.mDateView.setText(mFormater.getItemArticleFormatedDate((result.getPublishedDate())));
             this.mSummaryView.setText(result.getTitle());
             if((result.getMedia() != null) && (!result.getMedia().isEmpty()) && (!result.getMedia().get(0).getMediaMetadata().isEmpty()))
                 glide.load(result.getMedia().get(0).getMediaMetadata().get(0).getUrl()).into(this.mImageView);

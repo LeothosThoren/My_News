@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.StringFormater;
+import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.apis.articles.Doc;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
-        StringFormater mFormater = new StringFormater();
+        ModelTools mFormater = new ModelTools();
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
@@ -97,7 +97,7 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
 
             this.mTextView.setText(searchArticle.getSectionName());
             if (searchArticle.getPubDate() != null){
-            this.mDateView.setText(mFormater.getItemFormatedDate(searchArticle.getPubDate()));}
+            this.mDateView.setText(mFormater.getItemArticleFormatedDate(searchArticle.getPubDate()));}
             this.mSummaryView.setText(searchArticle.getSnippet());
             if((searchArticle.getMultimedia() != null) && (!searchArticle.getMultimedia().isEmpty()))
             glide.load(searchArticle.getMultimedia().get(0).getUrl()).into(this.mImageView);

@@ -110,13 +110,14 @@ public class SearchArticleFragment extends Fragment {
 
     private void executeSearchArticleHttpRequest() {
         this.updateUIWhenStartingHTTPRequest();
-        query = getArguments().getString("query");
-        new_desk = getArguments().getString("new_value");
-        begin_date = getArguments().getString("begin_date");
-        end_date = getArguments().getString("end_date");
+
+//        query = getArguments().getString("query");
+//        new_desk = getArguments().getString("new_value");
+//        begin_date = getArguments().getString("begin_date");
+//        end_date = getArguments().getString("end_date");
 //        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(query, "news_desk:("+new_desk+")", begin_date, end_date)
 //                .subscribeWith(new DisposableObserver<SearchArticle>() {
-        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle("France", "news_desk:("+new_desk+")", "20170808", "20180403")
+        this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle("France", "news_desk:(Arts)", "20100303", "20180203")
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override
@@ -128,7 +129,7 @@ public class SearchArticleFragment extends Fragment {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.d("Search Article", "On Error" + Log.getStackTraceString(e));
+                        Log.d("Search Article", "On Error " + Log.getStackTraceString(e));
                         internetDisable();
                     }
 
