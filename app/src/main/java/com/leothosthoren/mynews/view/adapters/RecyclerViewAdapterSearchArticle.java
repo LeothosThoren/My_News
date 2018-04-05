@@ -1,5 +1,7 @@
 package com.leothosthoren.mynews.view.adapters;
 
+import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +11,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.ModelTools;
-import com.leothosthoren.mynews.model.apis.articles.Doc;
+import com.leothosthoren.mynews.model.Utils.NewYorkTimeService;
+import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 
 import java.util.List;
 
@@ -23,11 +27,11 @@ import butterknife.ButterKnife;
  */
 public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<RecyclerViewAdapterSearchArticle.ItemViewHolder> {
 
-    private List<Doc> mList;
+    private List<SearchArticle.Doc> mList;
     private OnItemClickListener mListener;
     private RequestManager mGlide;
 
-    public RecyclerViewAdapterSearchArticle(List<Doc> docList, RequestManager glide) {
+    public RecyclerViewAdapterSearchArticle(List<SearchArticle.Doc> docList, RequestManager glide) {
         mList = docList;
         mGlide = glide;
     }
@@ -72,6 +76,7 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
         @BindView(R.id.item_summary)
         TextView mSummaryView;
         ModelTools mFormater = new ModelTools();
+        String NytUri = "https://www.nytimes.com/";
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {
@@ -93,14 +98,14 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
             });
         }
 
-        public void updateWithSearchArticle(Doc searchArticle, RequestManager glide) {
+        public void updateWithSearchArticle(SearchArticle.Doc searchArticle, RequestManager glide) {
 
-            this.mTextView.setText(searchArticle.getSectionName());
+            this.mTextView.setText(searchArticle.getNewDesk());
             if (searchArticle.getPubDate() != null){
             this.mDateView.setText(mFormater.getItemArticleFormatedDate(searchArticle.getPubDate()));}
             this.mSummaryView.setText(searchArticle.getSnippet());
             if((searchArticle.getMultimedia() != null) && (!searchArticle.getMultimedia().isEmpty()))
-            glide.load(searchArticle.getMultimedia().get(0).getUrl()).into(this.mImageView);
+            glide.load(NytUri+searchArticle.getMultimedia().get(0).getUrl()).into(this.mImageView);
         }
 
         @Override

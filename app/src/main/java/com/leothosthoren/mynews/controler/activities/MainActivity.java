@@ -1,6 +1,8 @@
 package com.leothosthoren.mynews.controler.activities;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -14,30 +16,19 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.view.adapters.ViewPageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    // Todo : create abstract class fragment
-// Todo : display a snackbar or personalised toast message
-// to alert there is no connection or that user have to select something
-// Todo : search activity use fragment to show recycler view list
-// Todo : create a class to handle search and configuration (edit text and checkbox)
-// Todo : manage to build a generic recyclerview and use the same view to display the web page
-// Todo : check if the connection is ok otherwise display a message OK
-// Todo : build a view pager with fragment and tablayout if the generic rv doesn't work
-// Todo : add two textview in the search layout OK
-// Todo : create a fragment or an activity for the configuration option and reuse graphic fragment
-// Todo : add test unit
-// Todo : try to respect the material design specification
-// Todo : add the menu drawer in main activity
-// Todo : check the styles and @dimen values
+
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private Toolbar toolbar;
-
+    private ModelTools mTools = new ModelTools();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +74,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            //Open a fragment
+            //Open NotificationActivity
             case R.id.param_notifications:
                 Toast.makeText(this, "Test menu", Toast.LENGTH_SHORT).show();
                 return true;
-            //Open searchActivity
+            //Open SearchActivity
             case R.id.menu_activity_main_search:
                 launchSearchArticlesActivity();
+                return true;
+            //Open browser...
+            case R.id.param_about:
+                mTools.openWebBrowser("https://www.nytco.com", this);
+                return true;
+            case R.id.param_help:
+                mTools.openWebBrowser("https://www.google.fr", this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -161,10 +159,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (id) {
             case R.id.activity_main_drawer_news:
+                launchSearchArticlesActivity();
                 break;
-            case R.id.activity_main_drawer_profile:
+            case R.id.activity_main_drawer_notifications:
+                //launch search notification activity
                 break;
-            case R.id.activity_main_drawer_settings:
+            case R.id.activity_main_drawer_help:
+                mTools.openWebBrowser("https://www.google.fr", this);
+                break;
+            case R.id.activity_main_drawer_about:
+               mTools.openWebBrowser("https://www.nytco.com", this);
                 break;
             default:
                 break;
@@ -186,8 +190,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void configureNavigationView() {
         this.mNavigationView = (NavigationView) findViewById(R.id.nav_view);
-//        assert mNavigationView != null;
-        mNavigationView.setNavigationItemSelectedListener(this);
+        assert mNavigationView != null;
+        this.mNavigationView.setNavigationItemSelectedListener(this);
     }
 
 

@@ -12,14 +12,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
-import com.leothosthoren.mynews.model.apis.articles.Doc;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterSearchArticle;
 
@@ -38,7 +37,7 @@ import static com.leothosthoren.mynews.controler.activities.SearchArticlesActivi
  */
 public class SearchArticleFragment extends Fragment {
 
-    public List<Doc> mDocArrayList = new ArrayList<>();
+    public List<SearchArticle.Doc> mDocArrayList = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
@@ -48,6 +47,7 @@ public class SearchArticleFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
+    private ModelTools mTools = new ModelTools();
 
 
     public SearchArticleFragment() {
@@ -82,7 +82,7 @@ public class SearchArticleFragment extends Fragment {
         this.mRecyclerView.setAdapter(mAdapterSearchArticle);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
-        this.displayActivity();
+        this.displayWebView();
 
     }
 
@@ -91,19 +91,11 @@ public class SearchArticleFragment extends Fragment {
   *
   * Used to open a web view directly in the app, not by default application
   * */
-    private void displayActivity() {
+    private void displayWebView() {
         this.mAdapterSearchArticle.setOnItemClickListener(new RecyclerViewAdapterSearchArticle.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-
-                //Intent for the activity calling
-//                Intent intent = new Intent(getContext(), WebViewActivity.class);
-////                intent.putExtra(ITEMPOSITION, position);
-//                startActivity(intent);
-
-//                Here we are going to implements a web view
-                WebView webview = new WebView(getContext());
-                webview.loadUrl(mDocArrayList.get(position).getWebUrl());
+                mTools.openWebBrowser(mDocArrayList.get(position).getWebUrl(), getContext());
             }
         });
 
@@ -193,7 +185,6 @@ public class SearchArticleFragment extends Fragment {
 
     private void upDateUISearchArticle(SearchArticle searchArticle) {
         updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
-//        List<Doc> docs = searchArticle.getResponse().getDocs();
         this.mDocArrayList.addAll(searchArticle.getResponse().getDocs());
         this.mAdapterSearchArticle.notifyDataSetChanged();
     }

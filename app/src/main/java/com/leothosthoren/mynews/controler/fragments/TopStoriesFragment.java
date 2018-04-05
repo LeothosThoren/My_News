@@ -11,14 +11,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.apis.articles.TopStories;
+import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterTopStories;
 
 import java.util.ArrayList;
@@ -36,15 +36,15 @@ public class TopStoriesFragment extends Fragment {
     //Ice pick
 
     public static final String ITEMPOSITION = "webView_position";
-    public List<TopStories.Resultum> mTopStoriesArray = new ArrayList<>();
     private static final String KEY_POSITION = "position";
+    public List<TopStories.Resultum> mTopStoriesArray = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
     @BindView(R.id.activity_main_progress_bar)
     ProgressBar mProgressBar;
-
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
+    private ModelTools mTools = new ModelTools();
     private Disposable mDisposable;
     private RecyclerViewAdapterTopStories mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -107,7 +107,7 @@ public class TopStoriesFragment extends Fragment {
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
-        this.displayActivity();
+        this.displayWebView();
     }
 
     /*
@@ -115,23 +115,11 @@ public class TopStoriesFragment extends Fragment {
     *
     * Used to open a web view directly in the app, not by default application
     * */
-    private void displayActivity() {
+    private void displayWebView() {
         this.mAdapter.setOnItemClickListener(new RecyclerViewAdapterTopStories.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Here we allow the toast text to appear on click
-                Toast.makeText(getContext(),
-                        "Click on item number " + position + " URL : " + mTopStoriesArray.get(position).getShortUrl(),
-                        Toast.LENGTH_SHORT).show();
-
-//                //Intent for the activity calling
-//                Intent intent = new Intent(getContext(), WebViewActivity.class);
-//                intent.putExtra(ITEMPOSITION, mTopStoriesArray.get(position).getShortUrl());
-//                startActivity(intent);
-
-//                Here we are going to implements a web view
-                WebView webview = new WebView(getContext());
-                webview.loadUrl(mTopStoriesArray.get(position).getUrl());
+                mTools.openWebBrowser(mTopStoriesArray.get(position).getUrl(), getContext());
             }
         });
     }

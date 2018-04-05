@@ -27,6 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
+
     public static final String SEARCH_ARTICLE_VALUES = "SEARCH_ARTICLE_VALUES";
     public String[] checkboxData = new String[6];
     public String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
@@ -68,6 +69,10 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 
     }
 
+    //=======================
+    //  CONFIGURATIONS
+    //=======================
+
     /*
     * @method configureToolbar
     *
@@ -108,7 +113,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 
 
     //=======================
-    //  TEXT QUERY INPUT
+    //  QUERY TEXT INPUT
     //=======================
 
     /*
@@ -191,17 +196,14 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_1:
                 if (checked) {
                     checkboxData[0] = BOX_VALUES[0];
-                    toastMessage(checkboxData[0] + " is selected");
                     checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[0] = "";
-                    toastMessage(BOX_VALUES[0] + " is deselected");
                 }
                 break;
             case R.id.checkbox_2:
                 if (checked) {
                     checkboxData[1] = BOX_VALUES[1];
-                    toastMessage(checkboxData[1] + " is selected");
                     checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[1] = "";
@@ -211,68 +213,38 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_3:
                 if (checked) {
                     checkboxData[2] = BOX_VALUES[2];
-                    toastMessage(checkboxData[2] + " is selected");
                     checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[2] = "";
-                    toastMessage(BOX_VALUES[2] + " is deselected");
                 }
                 break;
             case R.id.checkbox_4:
                 if (checked) {
                     checkboxData[3] = BOX_VALUES[3];
-                    toastMessage(checkboxData[3] + " is selected");
                     checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[3] = "";
-                    toastMessage(BOX_VALUES[3] + " is deselected");
                 }
                 break;
             case R.id.checkbox_5:
                 if (checked) {
                     checkboxData[4] = BOX_VALUES[4];
-                    toastMessage(checkboxData[4] + " is selected");
                     checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[4] = "";
-                    toastMessage(BOX_VALUES[4] + " is deselected");
                 }
                 break;
             case R.id.checkbox_6:
                 if (checked) {
                     checkboxData[5] = BOX_VALUES[5];
-                    toastMessage(checkboxData[5] + " is selected");
                     checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[5] = "";
-                    toastMessage(BOX_VALUES[5] + " is deselected");
                 }
                 break;
         }
     }
 
-    /*
-    * @method boxSelection
-    * @param check boolean holder
-    * @param key is variable where data is stored
-    * @param value the data to store
-    *
-    * This method works with the method onCheckboxClicked, two actions are performed:
-    * -a checkbox is selected a value is hold
-    * -otherwise it's blanked
-    * */
-    public String boxSelection(boolean check, int id) {
-        if (check) {
-            checkboxData[id] = BOX_VALUES[id];
-            toastMessage(checkboxData[id] + " is selected");
-            checkboxColorModifier(Color.BLACK);
-        } else {
-            checkboxData[id] = "";
-            toastMessage(BOX_VALUES[id] + " is deselected");
-        }
-
-        return checkboxData[id];
-    }
 
     /*
     * @method checkboxColorModifier

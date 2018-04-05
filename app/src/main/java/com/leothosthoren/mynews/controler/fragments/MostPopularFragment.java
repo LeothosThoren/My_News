@@ -12,14 +12,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.apis.articles.MostPopular;
+import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
 
 import java.util.ArrayList;
@@ -38,7 +38,6 @@ public class MostPopularFragment extends Fragment {
 
     private static final String KEY_POSITION = "position";
     public List<MostPopular.Result> mMostPopularList = new ArrayList<>();
-    public static final String ITEMPOSITION = "webView_position";
     RecyclerViewAdapterMostPopular mAdapter;
     @BindView(R.id.frag_recycler_view)
     RecyclerView mRecyclerView;
@@ -46,6 +45,7 @@ public class MostPopularFragment extends Fragment {
     ProgressBar mProgressBar;
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
+    private ModelTools mTools = new ModelTools();
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private int position;
@@ -92,7 +92,7 @@ public class MostPopularFragment extends Fragment {
         this.mRecyclerView.setAdapter(mAdapter);
         this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         //When user click on an item a new activity is launched to display a webView
-        this.displayActivity();
+        this.displayWebView();
     }
 
     /*
@@ -100,23 +100,11 @@ public class MostPopularFragment extends Fragment {
    *
    * Used to open a web view directly in the app, not by default application
    * */
-    private void displayActivity() {
+    private void displayWebView() {
         this.mAdapter.setOnItemClickListener(new RecyclerViewAdapterMostPopular.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                //Here we allow the toast text to appear on click
-                Toast.makeText(getContext(),
-                        "Click on item number " + position + "URL : " + mMostPopularList.get(position).getUrl(),
-                        Toast.LENGTH_SHORT).show();
-
-//                //Intent for the activity calling
-//                Intent intent = new Intent(getContext(), WebViewActivity.class);
-//                intent.putExtra(ITEMPOSITION, position);
-//                startActivity(intent);
-
-//                Here we are going to implements a web view
-                WebView webview = new WebView(getContext());
-                webview.loadUrl(mMostPopularList.get(position).getUrl());
+                mTools.openWebBrowser(mMostPopularList.get(position).getUrl(), getContext());
             }
         });
     }

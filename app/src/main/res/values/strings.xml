@@ -4,6 +4,9 @@
     <!-- placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Option menus title -->
+    <string name="image_description">My news image\'s app</string>
+
     <!-- Used in NavigationDrawer -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -26,11 +29,13 @@
     <string name="query_error">You have to edit a query term search!!</string>
 
 
-    <!-- Option menu title -->
-    <string name="research">Research</string>
+    <!-- Option menus title -->
+    <string name="research">Search</string>
     <string name="notifications">Notifications</string>
     <string name="about">About</string>
     <string name="help">Help</string>
+    <string name="configurations">Configurations</string>
+
 
 
     <!-- Http requests -->

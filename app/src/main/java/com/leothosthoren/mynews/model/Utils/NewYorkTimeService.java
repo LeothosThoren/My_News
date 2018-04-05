@@ -1,8 +1,8 @@
 package com.leothosthoren.mynews.model.Utils;
 
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
-import com.leothosthoren.mynews.model.apis.articles.TopStories;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
 
 import io.reactivex.Observable;
 import retrofit2.Retrofit;

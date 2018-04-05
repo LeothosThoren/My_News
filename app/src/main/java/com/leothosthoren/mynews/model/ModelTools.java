@@ -1,5 +1,10 @@
 package com.leothosthoren.mynews.model;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.webkit.WebView;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -34,7 +39,7 @@ public class ModelTools {
    * */
     public String getBeginDate(String bd) {
         if (bd.isEmpty())
-            return setFormatCalendarMinusYear();
+            return setFormatCalendarMinusMonth();
         String[] fDate = bd.split("/");
         return String.format("%s%s%s", fDate[2], fDate[1], fDate[0]);
     }
@@ -88,14 +93,19 @@ public class ModelTools {
     /*
     * @method setFormatCalendarMinusYear
     *
-    * Get the current date minus 10 years and format into "yyyyMMdd" pattern
+    * Get the current date minus 1 month and format into "yyyyMMdd" pattern
     * Mandatory for Api HTTP request
     * */
-    public String setFormatCalendarMinusYear() {
+    public String setFormatCalendarMinusMonth() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.MONTH, -1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.US);
         return String.format("%s", sdf.format(cal.getTime()));
     }
 
+    public void openWebBrowser(String url, Context context){
+        Uri uri = Uri.parse(url);
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        context.startActivity(intent);
+    }
 }

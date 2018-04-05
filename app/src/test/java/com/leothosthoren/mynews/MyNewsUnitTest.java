@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class MyNewsUnitTest {
 
     //==========================
-    // FORMAT OPERATIONS
+    // STRING FORMAT OPERATIONS
     //==========================
 
     @Test
@@ -37,8 +37,8 @@ public class MyNewsUnitTest {
         ModelTools formater = new ModelTools();
 
         assertEquals("20130205", formater.getEndDate("05/02/2013"));
-        assertEquals(formater.setFormatCalendarMinusYear(), formater.getBeginDate(""));
-//        assertEquals("20170404", formater.setFormatCalendarMinusYear());
+        assertEquals(formater.setFormatCalendarMinusMonth(), formater.getBeginDate(""));
+//        assertEquals("20180305", formater.setFormatCalendarMinusMonth());
 
     }
 
@@ -64,9 +64,9 @@ public class MyNewsUnitTest {
     }
 
 
-    //======================
-    // CHECKBOXES
-    //======================
+    //=======================
+    // CHECKBOXES OPERATIONS
+    //=======================
 
     @Test
     public void getNewDesk() throws Exception {
@@ -82,12 +82,12 @@ public class MyNewsUnitTest {
     }
 
     //Test using Mockito
-    @Test
-    public void testBoxChecking() throws Exception {
-        SearchArticlesActivity activity = mock(SearchArticlesActivity.class);
-
-        when(activity.boxSelection(true, 0)).thenReturn("Sports");
-    }
+//    @Test
+//    public void testBoxChecking() throws Exception {
+//        SearchArticlesActivity activity = mock(SearchArticlesActivity.class);
+//
+//        when(activity.boxSelection(true, 0)).thenReturn("Sports");
+//    }
 
     @Test
     public void testNewDeskMethod() throws Exception {
