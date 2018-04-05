@@ -67,7 +67,6 @@ android:baselineAligned="false">
         android:layout_height="wrap_content"
         android:button="@drawable/customcheckbox"
         android:onClick="onCheckboxClicked"
-        android:checked="true"
         android:text="@string/checkbox5" />
 
     <CheckBox

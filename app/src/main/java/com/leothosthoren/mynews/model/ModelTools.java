@@ -56,8 +56,8 @@ public class ModelTools {
                 res.append(strings[i]);
             }
         }
-        //If result is empty it return "Arts" else it return the result content
-        return res.toString().isEmpty() ?  "" : res.toString() ;
+        //If result is empty it return "Culture" else it return the result content
+        return res.toString().isEmpty() ?  "Culture" : res.toString() ;
     }
 
 

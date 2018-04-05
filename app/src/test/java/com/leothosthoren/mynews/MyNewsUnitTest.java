@@ -73,12 +73,12 @@ public class MyNewsUnitTest {
         ModelTools modelTools = new ModelTools();
 
         String[] empty = {"", "", ""};
-        String[] full = {"Arts", "Sports", "Travels"};
+        String[] full = {"Culture", "Sports", "Travels"};
         String[] nul = new String[5];
 
-        assertEquals(modelTools.getNewDesk(full), "Arts Sports Travels");
-        assertEquals(modelTools.getNewDesk(empty), "Arts");
-        assertEquals(modelTools.getNewDesk(nul), "Arts");
+        assertEquals(modelTools.getNewDesk(full), "Culture Sports Travels");
+        assertEquals(modelTools.getNewDesk(empty), "Culture");
+        assertEquals(modelTools.getNewDesk(nul), "Culture");
     }
 
     //Test using Mockito

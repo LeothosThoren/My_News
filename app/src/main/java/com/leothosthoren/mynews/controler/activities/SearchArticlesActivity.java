@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
     public static final String SEARCH_ARTICLE_VALUES = "SEARCH_ARTICLE_VALUES";
     public String[] checkboxData = new String[6];
-    public String[] BOX_VALUES = {"Arts", "Business", "Entrepreneurs", "Politics", "Sports", "Travels"};
+    public String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
     @BindView(R.id.query_text_input_layout)
     public TextInputLayout floatingHintLabel;
     public SearchArticleFragment mFragment;
