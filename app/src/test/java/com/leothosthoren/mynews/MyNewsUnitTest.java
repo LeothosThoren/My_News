@@ -53,6 +53,7 @@ public class MyNewsUnitTest {
     @Test
     public void formatCalendar() throws Exception {
         ModelTools modelTools = new ModelTools();
+
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 1);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");

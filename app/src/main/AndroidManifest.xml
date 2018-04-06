@@ -37,10 +37,9 @@
         <activity
             android:name=".controler.activities.WebViewActivity"
             android:label="Web View"
-            android:parentActivityName=".controler.activities.MainActivity"
-            >
-
-        </activity>
+            android:parentActivityName=".controler.activities.MainActivity" />
+        <activity android:name=".controler.activities.NotificationActivity" />
+        <activity android:name=".controler.activities.SearchActivity"></activity>
     </application>
 
 </manifest>

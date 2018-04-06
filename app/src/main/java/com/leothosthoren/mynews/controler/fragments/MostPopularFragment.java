@@ -1,10 +1,8 @@
 package com.leothosthoren.mynews.controler.fragments;
 
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.controler.activities.WebViewActivity;
+import com.leothosthoren.mynews.model.HttpRequestTools;
 import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
@@ -45,10 +44,10 @@ public class MostPopularFragment extends Fragment {
     ProgressBar mProgressBar;
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
+    private HttpRequestTools mHttpRequestTools = new HttpRequestTools();
     private ModelTools mTools = new ModelTools();
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
-    private int position;
 
 
     public MostPopularFragment() {
@@ -69,12 +68,10 @@ public class MostPopularFragment extends Fragment {
         // Inflate the layout for this fragment
         View result = inflater.inflate(R.layout.fragment_most_popular, container, false);
         ButterKnife.bind(this, result);
-        position = getArguments().getInt(KEY_POSITION, -1);
         this.buildRecyclerView();
         this.executeMostPopularHttpRequest();
         this.configureSwipeRefrechLayout();
-        this.progressBarHandler();
-
+        this.mHttpRequestTools.progressBarHandler(mProgressBar, getContext());
 
         return result;
     }
@@ -104,13 +101,14 @@ public class MostPopularFragment extends Fragment {
         this.mAdapter.setOnItemClickListener(new RecyclerViewAdapterMostPopular.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                mTools.openWebBrowser(mMostPopularList.get(position).getUrl(), getContext());
+                mTools.openActivityAsBrowser(mMostPopularList.get(position).getUrl(), getContext(), WebViewActivity.class);
             }
         });
     }
 
+
     private void executeMostPopularHttpRequest() {
-        this.updateUIWhenStartingHTTPRequest();
+        this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
 
         this.mDisposable = NewYorkTimeStream.streamFetchMostPopular()
                 .subscribeWith(new DisposableObserver<MostPopular>() {
@@ -124,7 +122,7 @@ public class MostPopularFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d("Most Popular", "On Error" + Log.getStackTraceString(e));
-                        internetDisable();
+                        mHttpRequestTools.internetDisable(mProgressBar, getString(R.string.no_internet), getContext());
                     }
 
                     @Override
@@ -165,31 +163,9 @@ public class MostPopularFragment extends Fragment {
         });
     }
 
-    private void progressBarHandler() {
-        this.mProgressBar.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
-    }
-
-    private void updateUIWhenStartingHTTPRequest() {
-        this.mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
-        bar.setVisibility(View.GONE);
-        refresh.setRefreshing(false);
-        this.mMostPopularList.clear();
-
-    }
-
-    private void internetDisable() {
-        this.mProgressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(),
-                getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-    }
-
     private void upDateUIMP(MostPopular mostpopular) {
-        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
-//        List<Result> resultList = mostpopular.getResults();
+        mHttpRequestTools.updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        this.mMostPopularList.clear();
         this.mMostPopularList.addAll(mostpopular.getResults());
         this.mAdapter.notifyDataSetChanged();
 

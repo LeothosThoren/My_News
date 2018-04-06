@@ -29,7 +29,7 @@ public class WebViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         configureToolbar();
-
+        WebViewReader();
 
     }
 
@@ -54,17 +54,17 @@ public class WebViewActivity extends AppCompatActivity {
     * Load and display an Uri into a web page view
     * The webView get an Uri from an  array object method
     * */
-//    private void displayWebView(String Url) {
-//        int uri = getIntent().getIntExtra(ITEMPOSITION, 0);
-//            mWebView.loadUrl();
-//
-//        mWebView.setWebViewClient(new WebViewClient() {
-//            @Override
-//            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//                return super.shouldOverrideUrlLoading(view, url);
-//            }
-//        });
-//    }
+    private void WebViewReader() {
+        String uri = getIntent().getStringExtra(ITEMPOSITION);
+            mWebView.loadUrl(uri);
+
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                return super.shouldOverrideUrlLoading(view, url);
+            }
+        });
+    }
 
     /*
     * @method onBackPressed

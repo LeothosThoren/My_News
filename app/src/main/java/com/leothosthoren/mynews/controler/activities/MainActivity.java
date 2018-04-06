@@ -84,10 +84,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             //Open browser...
             case R.id.param_about:
-                mTools.openWebBrowser("https://www.nytco.com", this);
+                mTools.openActivityAsBrowser("https://www.android.com", this, WebViewActivity.class);
                 return true;
             case R.id.param_help:
-                mTools.openWebBrowser("https://www.google.fr", this);
+                mTools.openActivityAsBrowser("https://www.google.fr", this, WebViewActivity.class);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -106,13 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else
             super.onBackPressed();
     }
-
-//    private void showParamMenu() {
-//
-//        PopupMenu popupMenu = new PopupMenu(MainActivity.this, toolbar);
-//        popupMenu.getMenuInflater().inflate(R.menu.menu_activity_main, popupMenu.getMenu());
-//        popupMenu.show();
-//    }
 
     /*
     * @launchSearchArticlesActivity
@@ -165,10 +158,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 //launch search notification activity
                 break;
             case R.id.activity_main_drawer_help:
-                mTools.openWebBrowser("https://www.google.fr", this);
+                mTools.openActivityAsBrowser("https://www.google.com", this, WebViewActivity.class);
                 break;
             case R.id.activity_main_drawer_about:
-               mTools.openWebBrowser("https://www.nytco.com", this);
+                mTools.openActivityAsBrowser("https://www.android.com", this, WebViewActivity.class);
                 break;
             default:
                 break;

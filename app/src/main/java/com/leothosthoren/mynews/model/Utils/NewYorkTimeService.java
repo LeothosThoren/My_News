@@ -16,10 +16,9 @@ import retrofit2.http.Query;
  * Created by Sofiane M. alias Leothos Thoren on 13/02/2018
  */
 public interface NewYorkTimeService {
-    String ApiKeyTopStories = "7aa6518af840427eb78832360465fa9e";
-    String ApiKeyMostPopular = "7aa6518af840427eb78832360465fa9e";
-    String ApiKeySearchArticle = "7aa6518af840427eb78832360465fa9e";
+    String ApiKey = "7aa6518af840427eb78832360465fa9e";
     String BaseUrl = "http://api.nytimes.com/svc/";
+    String SearchArticleFl = "fl=web_url,snippet,pub_date,news_desk,multimedia,document_type,type_of_material";
 
     Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BaseUrl)
@@ -28,16 +27,15 @@ public interface NewYorkTimeService {
             .build();
 
 
-    @GET("topstories/v2/{section}.json?api-key="+ApiKeyTopStories)
+    @GET("topstories/v2/{section}.json?api-key=" + ApiKey)
     Observable<TopStories> getTopStories(@Path("section") String section);
 
 
-    @GET("mostpopular/v2/mostemailed/all-sections/1.json?api-key="+ApiKeyMostPopular)
+    @GET("mostpopular/v2/mostemailed/all-sections/1.json?api-key=" + ApiKey)
     Observable<MostPopular> getMostPopular();
 
 
-    @GET("search/v2/articlesearch.json?fl=web_url,snippet,pub_date,news_desk,multimedia,document_type,type_of_material" +
-            "&page=3&api-key="+ApiKeySearchArticle)
+    @GET("search/v2/articlesearch.json?" + SearchArticleFl + "&page=3&api-key=" + ApiKey)
     Observable<SearchArticle> getSearchArticle(@Query("q") String query,
                                                @Query("fq") String news_desk,
                                                @Query("begin_date") String begin_date,

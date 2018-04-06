@@ -1,7 +1,10 @@
 package com.leothosthoren.mynews.controler.activities;
 
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+
+import com.leothosthoren.mynews.R;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -10,4 +13,6 @@ public class NotificationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification);
     }
+
+
 }

@@ -1,9 +1,7 @@
 package com.leothosthoren.mynews.controler.fragments;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,10 +10,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.controler.activities.WebViewActivity;
+import com.leothosthoren.mynews.model.HttpRequestTools;
 import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.TopStories;
@@ -49,6 +48,7 @@ public class TopStoriesFragment extends Fragment {
     private RecyclerViewAdapterTopStories mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private int position;
+    private HttpRequestTools mHttpRequestTools = new HttpRequestTools();
 
     public TopStoriesFragment() {
         // Required empty public constructor
@@ -77,7 +77,7 @@ public class TopStoriesFragment extends Fragment {
         //We get the index position of the viewPager
         position = getArguments().getInt(KEY_POSITION, -1);
         //A progress bar is loaded and setted
-        this.progressBarHandler();
+        this.mHttpRequestTools.progressBarHandler(mProgressBar, getContext());
         //Call the recyclerView builder method
         this.buildRecyclerView();
         this.executeHttpRequestWithRetrofit();
@@ -119,33 +119,14 @@ public class TopStoriesFragment extends Fragment {
         this.mAdapter.setOnItemClickListener(new RecyclerViewAdapterTopStories.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                mTools.openWebBrowser(mTopStoriesArray.get(position).getUrl(), getContext());
+                mTools.openActivityAsBrowser(mTopStoriesArray.get(position).getUrl(), getContext(), WebViewActivity.class);
             }
         });
-    }
-
-    /*
-    * @method configureSwipeRefrechLayout
-    *
-    * When the screen is swipe, the http request is executed
-    * */
-    private void configureSwipeRefrechLayout() {
-        this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                executeHttpRequestWithRetrofit();
-            }
-        });
-    }
-
-    private void progressBarHandler() {
-        this.mProgressBar.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
     }
 
 
     public void executeHttpRequestWithRetrofit() {
-        this.updateUIWhenStartingHTTPRequest();
+        this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
 
         this.mDisposable = NewYorkTimeStream.streamFetchTopStories(topStoriesSection[position])
                 .subscribeWith(new DisposableObserver<TopStories>() {
@@ -159,7 +140,7 @@ public class TopStoriesFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d("TopStories Tag", "On Error" + Log.getStackTraceString(e).toUpperCase());
-                        internetDisable();
+                        mHttpRequestTools.internetDisable(mProgressBar, getString(R.string.no_internet), getContext());
                     }
 
                     @Override
@@ -179,25 +160,23 @@ public class TopStoriesFragment extends Fragment {
     //  UPDATE UI
     // ------------------
 
-    private void updateUIWhenStartingHTTPRequest() {
-        this.mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
-        bar.setVisibility(View.GONE);
-        refresh.setRefreshing(false);
-        this.mTopStoriesArray.clear();
-
-    }
-
-    private void internetDisable() {
-        this.mProgressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(),
-                getString(R.string.no_internet), Toast.LENGTH_LONG).show();
+    /*
+   * @method configureSwipeRefrechLayout
+   *
+   * When the screen is swipe, the http request is executed
+   * */
+    private void configureSwipeRefrechLayout() {
+        this.mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                executeHttpRequestWithRetrofit();
+            }
+        });
     }
 
     private void upDateTopStoriesUI(TopStories topStories) {
-        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        this.mHttpRequestTools.updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        this.mTopStoriesArray.clear();
         this.mTopStoriesArray.addAll(topStories.getResults());
         this.mAdapter.notifyDataSetChanged();
     }

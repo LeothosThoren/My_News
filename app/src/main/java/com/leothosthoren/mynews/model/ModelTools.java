@@ -9,6 +9,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
+
 /**
  * Created by Sofiane M. alias Leothos Thoren on 03/04/2018
  */
@@ -93,12 +95,12 @@ public class ModelTools {
     /*
     * @method setFormatCalendarMinusYear
     *
-    * Get the current date minus 1 month and format into "yyyyMMdd" pattern
+    * Get the current date minus 1 year and format into "yyyyMMdd" pattern
     * Mandatory for Api HTTP request
     * */
     public String setFormatCalendarMinusMonth() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.MONTH, -1);
+        cal.add(Calendar.YEAR, -1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.US);
         return String.format("%s", sdf.format(cal.getTime()));
     }
@@ -107,5 +109,24 @@ public class ModelTools {
         Uri uri = Uri.parse(url);
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         context.startActivity(intent);
+
+
     }
+
+    /*
+    * @method openActivityAsBrowser
+    * @param url
+    * @param context
+    * @param aClass
+    *
+    * Start an activity by displaying a web content inside
+    * */
+
+    public void openActivityAsBrowser(String url, Context context, Class aClass) {
+        Intent intent2 = new Intent(context, aClass);
+        intent2.putExtra(ITEMPOSITION, url);
+        context.startActivity(intent2);
+    }
+
+
 }

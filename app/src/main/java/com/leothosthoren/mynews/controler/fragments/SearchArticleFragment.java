@@ -1,10 +1,8 @@
 package com.leothosthoren.mynews.controler.fragments;
 
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
+import com.leothosthoren.mynews.controler.activities.WebViewActivity;
+import com.leothosthoren.mynews.model.HttpRequestTools;
 import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
@@ -48,6 +47,7 @@ public class SearchArticleFragment extends Fragment {
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
     private ModelTools mTools = new ModelTools();
+    private HttpRequestTools mHttpRequestTools = new HttpRequestTools();
 
 
     public SearchArticleFragment() {
@@ -62,7 +62,7 @@ public class SearchArticleFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_search_article_list, container, false);
         ButterKnife.bind(this, v);
         this.buildRecyclerView();
-        this.progressBarHandler();
+        this.mHttpRequestTools.progressBarHandler(mProgressBar, getContext());
         this.configureSwipeRefrechLayout();
         this.executeSearchArticleHttpRequest();
 
@@ -95,17 +95,17 @@ public class SearchArticleFragment extends Fragment {
         this.mAdapterSearchArticle.setOnItemClickListener(new RecyclerViewAdapterSearchArticle.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                mTools.openWebBrowser(mDocArrayList.get(position).getWebUrl(), getContext());
+                mTools.openActivityAsBrowser(mDocArrayList.get(position).getWebUrl(), getContext(), WebViewActivity.class);
             }
         });
 
     }
 
     private void executeSearchArticleHttpRequest() {
-        this.updateUIWhenStartingHTTPRequest();
-
-
+        this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
+        //Get the array content to provide query to the http request
         String[] mDataValues = getArguments().getStringArray(SEARCH_ARTICLE_VALUES);
+
         //mDataValues[0] == query, mDataValues[1] == new_desk, mDataValues[2] == begin_date, mDataValues[3] == endDate
         this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(mDataValues[0], "news_desk:(" + mDataValues[1] + ")", mDataValues[2], mDataValues[3])
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
@@ -120,7 +120,7 @@ public class SearchArticleFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d("Search Article", "On Error " + Log.getStackTraceString(e));
-                        internetDisable();
+                        mHttpRequestTools.internetDisable(mProgressBar, getString(R.string.no_internet), getContext());
                     }
 
                     @Override
@@ -161,30 +161,9 @@ public class SearchArticleFragment extends Fragment {
         });
     }
 
-    private void progressBarHandler() {
-        this.mProgressBar.getIndeterminateDrawable()
-                .setColorFilter(ContextCompat.getColor(getContext(), R.color.colorPrimaryDark), PorterDuff.Mode.SRC_IN);
-    }
-
-    private void updateUIWhenStartingHTTPRequest() {
-        this.mProgressBar.setVisibility(View.VISIBLE);
-    }
-
-    private void updateUIWhenStopingHTTPRequest(SwipeRefreshLayout refresh, ProgressBar bar) {
-        bar.setVisibility(View.GONE);
-        refresh.setRefreshing(false);
-        this.mDocArrayList.clear();
-
-    }
-
-    private void internetDisable() {
-        this.mProgressBar.setVisibility(View.GONE);
-        Toast.makeText(getContext(),
-                getString(R.string.no_internet), Toast.LENGTH_LONG).show();
-    }
-
     private void upDateUISearchArticle(SearchArticle searchArticle) {
-        updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        this.mHttpRequestTools.updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
+        this.mDocArrayList.clear();
         this.mDocArrayList.addAll(searchArticle.getResponse().getDocs());
         this.mAdapterSearchArticle.notifyDataSetChanged();
     }

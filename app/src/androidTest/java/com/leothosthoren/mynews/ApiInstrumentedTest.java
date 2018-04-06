@@ -2,9 +2,10 @@ package com.leothosthoren.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.leothosthoren.mynews.model.apis.articles.MostPopular;
-import com.leothosthoren.mynews.model.apis.articles.TopStories;
 import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.apis.articles.MostPopular;
+import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
+import com.leothosthoren.mynews.model.apis.articles.TopStories;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,5 +56,23 @@ public class ApiInstrumentedTest {
         TopStories mostPopularFetched = testObserver.values().get(0);
 
         assertThat("TopStories", mostPopularFetched.getResults().get(0).getItemType().equals("Article"));
+    }
+
+    @Test
+    public void fetchSearchArticle() throws Exception {
+
+        Observable<SearchArticle> searchArticleObservable =
+                NewYorkTimeStream.streamFetchSearchArticle("Us", "news_desk:(Foreign)", "20180101", "20180201");
+
+        TestObserver<SearchArticle> testObserver = new TestObserver<>();
+
+        searchArticleObservable.subscribeWith(testObserver)
+                .assertNoErrors()
+                .assertNoTimeout()
+                .awaitTerminalEvent();
+
+        SearchArticle searchArticleFetched = testObserver.values().get(0);
+
+        assertThat("Search Article", searchArticleFetched.getResponse().getDocs().get(0).getNewDesk().equals("Foreign"));
     }
 }
