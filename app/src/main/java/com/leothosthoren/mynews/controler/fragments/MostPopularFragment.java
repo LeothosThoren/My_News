@@ -127,7 +127,7 @@ public class MostPopularFragment extends Fragment {
 
                     @Override
                     public void onComplete() {
-                        Log.d("TAG", "On Complete !");
+                        Log.d("Most Popular", "On Complete !");
                     }
                 });
     }

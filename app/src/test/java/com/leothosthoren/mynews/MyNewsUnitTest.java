@@ -1,6 +1,8 @@
 package com.leothosthoren.mynews;
 
-import com.leothosthoren.mynews.controler.activities.SearchArticlesActivity;
+import android.graphics.Color;
+import android.widget.CheckBox;
+
 import com.leothosthoren.mynews.model.ModelTools;
 
 import org.junit.Test;
@@ -9,8 +11,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 
 /**
@@ -37,8 +41,8 @@ public class MyNewsUnitTest {
         ModelTools formater = new ModelTools();
 
         assertEquals("20130205", formater.getEndDate("05/02/2013"));
-        assertEquals(formater.setFormatCalendarMinusMonth(), formater.getBeginDate(""));
-//        assertEquals("20180305", formater.setFormatCalendarMinusMonth());
+        assertEquals(formater.setFormatCalendarMinusYear(), formater.getBeginDate(""));
+//        assertEquals("20180305", formater.setFormatCalendarMinusYear());
 
     }
 
@@ -74,10 +78,10 @@ public class MyNewsUnitTest {
         ModelTools modelTools = new ModelTools();
 
         String[] empty = {"", "", ""};
-        String[] full = {"Culture", "Sports", "Travels"};
+        String[] full = {"Politics", "Sports", "Travels"};
         String[] nul = new String[5];
 
-        assertEquals(modelTools.getNewDesk(full), "Culture Sports Travels");
+        assertEquals(modelTools.getNewDesk(full), "Politics Sports Travels");
         assertEquals(modelTools.getNewDesk(empty), "Culture");
         assertEquals(modelTools.getNewDesk(nul), "Culture");
     }
@@ -92,8 +96,9 @@ public class MyNewsUnitTest {
 
     @Test
     public void testNewDeskMethod() throws Exception {
+        ModelTools modelTools = new ModelTools();
         String[] error = new String[6];
-        error[0] = "Arts";
+        error[0] = "Culture";
 
         StringBuilder res = new StringBuilder();
         for (int i = 0; i < error.length; i++) {
@@ -106,7 +111,18 @@ public class MyNewsUnitTest {
 
         String s = res.toString().isEmpty() ? "" : res.toString();
 
-        assertEquals("Arts", s);
+        assertEquals("Culture", s);
+        assertEquals("Culture", modelTools.getNewDesk(error));
+    }
+
+    //Test using Mockito
+    @Test
+    public void changeCheckboxTextColor() throws Exception {
+        ModelTools modelTools = new ModelTools();
+        CheckBox box1 = mock(CheckBox.class), box2 = mock(CheckBox.class), box3 = mock(CheckBox.class);
+        CheckBox[] checkBoxes = {box1,box2,box3};
+
+       assertEquals(checkBoxes[0].getTextColors(), checkBoxes[2].getTextColors());
     }
 
 }

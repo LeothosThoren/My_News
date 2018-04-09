@@ -13,7 +13,7 @@
         style="@style/Theme.App.Base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
+        android:inputType="textAutoCorrect"
         android:lines="1"
         android:maxLines="1"
         android:paddingBottom="15dp"
