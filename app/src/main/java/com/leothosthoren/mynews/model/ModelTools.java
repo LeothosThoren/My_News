@@ -16,6 +16,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.leothosthoren.mynews.R;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -267,6 +269,6 @@ public class ModelTools {
             textInputLayout.setErrorEnabled(false);
             return false;
         }
-
     }
+
 }

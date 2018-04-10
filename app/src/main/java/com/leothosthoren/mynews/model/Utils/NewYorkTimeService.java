@@ -35,7 +35,7 @@ public interface NewYorkTimeService {
     Observable<MostPopular> getMostPopular();
 
 
-    @GET("search/v2/articlesearch.json?" + SearchArticleFl + "&page=3&api-key=" + ApiKey)
+    @GET("search/v2/articlesearch.json?" + SearchArticleFl + "&sort=newest&page=3&api-key=" + ApiKey)
     Observable<SearchArticle> getSearchArticle(@Query("q") String query,
                                                @Query("fq") String news_desk,
                                                @Query("begin_date") String begin_date,

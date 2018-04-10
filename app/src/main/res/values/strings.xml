@@ -28,7 +28,6 @@
     <string name="api_answer">Sorry, we couldn\'t find what you seek. Try again!</string>
     <string name="query_error">You have to edit a query term search!!</string>
 
-
     <!-- Option menus title -->
     <string name="research">Search</string>
     <string name="notifications">Notifications</string>
@@ -36,8 +35,11 @@
     <string name="help">Help</string>
     <string name="configurations">Configurations</string>
 
-
     <!-- Http requests -->
     <string name="no_internet">NO INTERNET CONNECTION!</string>
+
+    <!-- Notification page -->
+    <string name="switch_notifications">Enable notifications (once per day)</string>
+    <string name="empty_text">   </string>
 
 </resources>

@@ -1,9 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.leothosthoren.mynews.controler.activities.NotificationActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/toolbar" />
+
+    <include layout="@layout/search_query_layout" />
+
+    <include layout="@layout/checkbox_layout" />
+
+    <View
+        style="@style/MainStyle"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <Switch
+        android:id="@+id/switch_button"
+        style="@style/MainStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:checked="false"
+        android:text="@string/switch_notifications"
+        android:textSize="14sp"
+        android:theme="@style/SCBSwitch"
+        tools:checked="false"
+        android:textOff="@string/empty_text"
+        android:textOn="@string/empty_text"/>
+
+
+</LinearLayout>

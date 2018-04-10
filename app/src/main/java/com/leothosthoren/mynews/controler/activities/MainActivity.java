@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             //Open NotificationActivity
             case R.id.param_notifications:
-                Toast.makeText(this, "Test menu", Toast.LENGTH_SHORT).show();
+                launchNotificationsActivity();
                 return true;
             //Open SearchActivity
             case R.id.menu_activity_main_search:
@@ -118,6 +118,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     /*
+   * @launchNotificationsActivity
+   *
+   * Simple method which start of a new activity
+   * */
+    private void launchNotificationsActivity() {
+        Intent intent = new Intent(MainActivity.this, NotificationActivity.class);
+        this.startActivity(intent);
+    }
+
+    /*
     * @method configureViewPagerAndTabs
     *
     * This method configure the tabLayout and his adapter
@@ -155,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 launchSearchArticlesActivity();
                 break;
             case R.id.activity_main_drawer_notifications:
-                //launch search notification activity
+                launchNotificationsActivity();
                 break;
             case R.id.activity_main_drawer_help:
                 mTools.openActivityAsBrowser("https://www.google.com", this, WebViewActivity.class);

@@ -15,8 +15,12 @@
     </array>
 
     <!-- Text color-->
-
     <color name="black">#2b2b2b</color>
     <color name="grey">#858585</color>
+
+    <!-- Switch colors -->
+    <color name="disable_forground_grey">#42221f1f</color>
+    <color name="disable_thumb_fade">#ace9f1</color>
+    <color name="enable_thumb_blue">#00bbd3</color>
 
 </resources>

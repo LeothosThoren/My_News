@@ -1,6 +1,5 @@
 package com.leothosthoren.mynews.controler.activities;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -57,6 +56,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_articles);
         ButterKnife.bind(this);
+
         this.mCheckBoxes = new CheckBox[]{mCheckBox1, mCheckBox2, mCheckBox3, mCheckBox4, mCheckBox5, mCheckBox6};
 
         this.configureToolbar();
@@ -194,7 +194,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_1:
                 if (checked) {
                     checkboxData[0] = BOX_VALUES[0];
-//                    checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[0] = "";
                 }
@@ -202,7 +201,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_2:
                 if (checked) {
                     checkboxData[1] = BOX_VALUES[1];
-//                    checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[1] = "";
                 }
@@ -210,7 +208,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_3:
                 if (checked) {
                     checkboxData[2] = BOX_VALUES[2];
-//                    checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[2] = "";
                 }
@@ -218,7 +215,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_4:
                 if (checked) {
                     checkboxData[3] = BOX_VALUES[3];
-//                    checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[3] = "";
                 }
@@ -226,7 +222,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_5:
                 if (checked) {
                     checkboxData[4] = BOX_VALUES[4];
-//                    checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[4] = "";
                 }
@@ -234,7 +229,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
             case R.id.checkbox_6:
                 if (checked) {
                     checkboxData[5] = BOX_VALUES[5];
-//                    checkboxColorModifier(Color.BLACK);
                 } else {
                     checkboxData[5] = "";
                 }
@@ -285,7 +279,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
 //        if (mTools.queryInputIsEmpty(mSearchQuery, floatingHintLabel,getResources().getString(R.string.query_error)))
 
         if (mTools.onUncheckedBoxes(mCheckBoxes))
-        mTools.snackBarMessage(findViewById(R.id.activity_search_article), R.string.box_unchecked);
+            mTools.snackBarMessage(findViewById(R.id.activity_search_article), R.string.box_unchecked);
 
         if (!(mSearchQuery.getText().toString().isEmpty()) && !(mTools.onUncheckedBoxes(mCheckBoxes))) {
             configureAndShowMainFragment();
