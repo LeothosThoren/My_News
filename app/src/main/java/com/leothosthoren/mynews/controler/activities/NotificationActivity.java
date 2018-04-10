@@ -1,6 +1,10 @@
 package com.leothosthoren.mynews.controler.activities;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.Utils.AlarmReceiver;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,6 +50,8 @@ public class NotificationActivity extends AppCompatActivity {
     @BindView(R.id.switch_button)
     Switch mSwitch;
     private CheckBox[] mCheckBoxes;
+    private PendingIntent mPendingIntent;
+    private AlarmManager mAlarmManager;
 
 
     @Override
@@ -58,6 +65,7 @@ public class NotificationActivity extends AppCompatActivity {
         this.mTools.displayErrorMessage(floatingHintLabel);
         this.switchButton();
 
+        this.configureAlarmManager(this);
     }
 
     //=======================
@@ -76,6 +84,16 @@ public class NotificationActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    /*
+    *
+    *
+    * */
+    private void configureAlarmManager(Context context) {
+        Intent alarmIntent = new Intent(context, AlarmReceiver.class);
+        mPendingIntent = PendingIntent.getBroadcast(NotificationActivity.this,
+                0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     //=======================
@@ -140,18 +158,43 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 
-    private void switchButton(){
+    private void switchButton() {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                   //Launch alarm manager
+                    //Launch alarm manager
+                    startAlarm();
 
                 } else {
                     //Alarm Manager is disable
+                    stopAlarm();
                 }
             }
         });
     }
+
+
+    // ---------------------------------------------
+    // SCHEDULE TASK (AlarmManager & JobScheduler)
+    // ---------------------------------------------
+
+    // Start Alarm
+
+    private void startAlarm() {
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 90000;
+        mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,
+                interval, mPendingIntent);
+        Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
+    }
+
+    // Stop Alarm
+    private void stopAlarm() {
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager.cancel(mPendingIntent);
+        Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
+    }
+
 }
