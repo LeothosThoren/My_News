@@ -17,7 +17,7 @@ import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
 import com.leothosthoren.mynews.model.HttpRequestTools;
 import com.leothosthoren.mynews.model.ModelTools;
-import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
 

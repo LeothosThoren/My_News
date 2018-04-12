@@ -1,4 +1,4 @@
-package com.leothosthoren.mynews.model.Utils;
+package com.leothosthoren.mynews.model.utility;
 
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
@@ -34,12 +34,17 @@ public interface NewYorkTimeService {
     @GET("mostpopular/v2/mostemailed/all-sections/1.json?api-key=" + ApiKey)
     Observable<MostPopular> getMostPopular();
 
-
+    //Search Activity
     @GET("search/v2/articlesearch.json?" + SearchArticleFl + "&sort=newest&page=3&api-key=" + ApiKey)
     Observable<SearchArticle> getSearchArticle(@Query("q") String query,
                                                @Query("fq") String news_desk,
                                                @Query("begin_date") String begin_date,
                                                @Query("end_date") String end_date);
+
+    //Notification Activity
+    @GET("search/v2/articlesearch.json?" + SearchArticleFl + "&sort=newest&api-key=" + ApiKey)
+    Observable<SearchArticle> getNotification(@Query("q") String query,
+                                               @Query("fq") String news_desk);
 
 }
 

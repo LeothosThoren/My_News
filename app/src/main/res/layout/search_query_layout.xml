@@ -4,21 +4,23 @@
     android:id="@+id/query_text_input_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:lines="1"
+    android:maxLines="1"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:hint="@string/search_hint">
+    android:paddingRight="15dp">
 
     <EditText
         android:id="@+id/search_query_term"
         style="@style/Theme.App.Base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:ems="15"
+        android:hint="@string/search_hint"
         android:inputType="textAutoCorrect"
         android:lines="1"
         android:maxLines="1"
         android:paddingBottom="15dp"
         android:paddingTop="15dp"
         android:textSize="18sp"
-        android:ems="15"
         app:backgroundTint="@color/colorPrimary" />
 </android.support.design.widget.TextInputLayout>

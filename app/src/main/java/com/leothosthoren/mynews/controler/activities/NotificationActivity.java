@@ -2,17 +2,21 @@ package com.leothosthoren.mynews.controler.activities;
 
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -21,15 +25,20 @@ import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.ModelTools;
-import com.leothosthoren.mynews.model.Utils.AlarmReceiver;
+import com.leothosthoren.mynews.model.utility.AlarmReceiver;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class NotificationActivity extends AppCompatActivity {
 
+    public static final String SEARCH_ARTICLE_NOTIFICATION_VALUES = "SEARCH_ARTICLE_NOTIFICATION_VALUES";
+    public final String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
+    private final boolean TEST_MODE = false;
+    //=============================================//
     public String[] checkboxData = new String[6];
-    public String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
     @BindView(R.id.query_text_input_layout)
     public TextInputLayout floatingHintLabel;
     public ModelTools mTools = new ModelTools();
@@ -49,10 +58,11 @@ public class NotificationActivity extends AppCompatActivity {
     CheckBox mCheckBox6;
     @BindView(R.id.switch_button)
     Switch mSwitch;
+    @BindView(R.id.button_test)
+    Button mButton;
     private CheckBox[] mCheckBoxes;
     private PendingIntent mPendingIntent;
     private AlarmManager mAlarmManager;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +74,19 @@ public class NotificationActivity extends AppCompatActivity {
         this.configureToolbar();
         this.mTools.displayErrorMessage(floatingHintLabel);
         this.switchButton();
-
         this.configureAlarmManager(this);
+        this.passingData();
+
+        if (TEST_MODE) {
+            mButton.setVisibility(View.VISIBLE);
+            //Test send notification
+            mButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    sendNotification();
+                }
+            });
+        }
     }
 
     //=======================
@@ -87,7 +108,10 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     /*
+    * @method configureAlarmManager
+    * @param context
     *
+    * Configure the alarm manager to perform an asynch task automatically
     *
     * */
     private void configureAlarmManager(Context context) {
@@ -165,7 +189,10 @@ public class NotificationActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     //Launch alarm manager
-                    startAlarm();
+                    if (TEST_MODE)
+                        startTestAlarm();
+                    else
+                        startAlarm();
 
                 } else {
                     //Alarm Manager is disable
@@ -175,26 +202,81 @@ public class NotificationActivity extends AppCompatActivity {
         });
     }
 
-
     // ---------------------------------------------
-    // SCHEDULE TASK (AlarmManager & JobScheduler)
+    // SCHEDULE TASK (AlarmManager & Notifications)
     // ---------------------------------------------
 
-    // Start Alarm
-
-    private void startAlarm() {
+    // Start Alarm for test
+    private void startTestAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         int interval = 90000;
-        mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,
+        assert mAlarmManager != null;
+        mAlarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, interval,
                 interval, mPendingIntent);
+        Toast.makeText(this, "Alarm test set !", Toast.LENGTH_SHORT).show();
+    }
+
+    //Start Alarm for real
+    private void startAlarm() {
+        // The schedule is set to be launch at midnight
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, 20);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.add(Calendar.DATE, 1);
+
+        mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mAlarmManager.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, cal.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, mPendingIntent);
         Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
     }
 
-    // Stop Alarm
+    // Stop Alarm for test and prod
     private void stopAlarm() {
         mAlarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        assert mAlarmManager != null;
         mAlarmManager.cancel(mPendingIntent);
         Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
     }
 
+    /*
+    * @method sendNotification
+    *
+    * This is a sample code to test the notification alert on click
+    * */
+    public void sendNotification() {
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        //Get an instance of NotificationManager//
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.ic_logo)
+                        .setContentTitle(getString(R.string.app_name))
+                        .setContentText(getString(R.string.test_text_notification))
+                        .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setContentIntent(pendingIntent)
+                        .setAutoCancel(true);
+
+        // Gets an instance of the NotificationManager service//
+
+        NotificationManager mNotificationManager =
+
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        assert mNotificationManager != null;
+        mNotificationManager.notify(001, mBuilder.build());
+    }
+
+    //Todo : check what goes wrong
+    public void passingData() {
+        String[] value = {mSearchQuery.getText().toString(), mTools.getNewDesk(checkboxData)};
+        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
+        intent.putExtra(SEARCH_ARTICLE_NOTIFICATION_VALUES, value);
+
+    }
 }

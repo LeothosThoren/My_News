@@ -2,7 +2,7 @@ package com.leothosthoren.mynews;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import com.leothosthoren.mynews.model.Utils.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 import com.leothosthoren.mynews.model.apis.articles.TopStories;

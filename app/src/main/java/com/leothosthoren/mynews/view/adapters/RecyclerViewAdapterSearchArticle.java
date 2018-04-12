@@ -1,7 +1,5 @@
 package com.leothosthoren.mynews.view.adapters;
 
-import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,10 +9,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
-import com.bumptech.glide.request.RequestOptions;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.ModelTools;
-import com.leothosthoren.mynews.model.Utils.NewYorkTimeService;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 
 import java.util.List;

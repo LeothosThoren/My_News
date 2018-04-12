@@ -59,15 +59,29 @@ public class MyNewsUnitTest {
         ModelTools modelTools = new ModelTools();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DATE, 1);
+        calendar.add(Calendar.DATE, 0);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
 
         String actual = simpleDateFormat.format(calendar.getTime());
         String expected = modelTools.setFormatCalendar();
 
         assertEquals(expected, actual);
+        assertEquals(expected, "20180411");
     }
 
+    @Test
+    public void checkHour() throws Exception {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        Calendar now = Calendar.getInstance();
+        now.set(Calendar.HOUR_OF_DAY, 22);
+        now.set(Calendar.MINUTE, 0);
+        now.set(Calendar.SECOND, 0);
+
+        String hour22 = sdf.format(now.getTime());
+
+        assertEquals("22:00:00", hour22);
+    }
 
     //=======================
     // CHECKBOXES OPERATIONS

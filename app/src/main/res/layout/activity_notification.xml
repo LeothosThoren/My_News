@@ -23,13 +23,17 @@
         style="@style/MainStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:checked="false"
         android:text="@string/switch_notifications"
         android:textSize="14sp"
         android:theme="@style/SCBSwitch"
-        tools:checked="false"
-        android:textOff="@string/empty_text"
-        android:textOn="@string/empty_text"/>
+        tools:checked="false"/>
 
+    <Button
+        style="@style/MainStyle"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/test_text_notification"
+        android:id="@+id/button_test" />
 
 </LinearLayout>

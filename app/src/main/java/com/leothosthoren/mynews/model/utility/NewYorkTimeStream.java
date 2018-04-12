@@ -1,4 +1,4 @@
-package com.leothosthoren.mynews.model.Utils;
+package com.leothosthoren.mynews.model.utility;
 
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
@@ -15,6 +15,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class NewYorkTimeStream {
 
+    //Create observable for TopStories
     public static Observable<TopStories> streamFetchTopStories(String section) {
         NewYorkTimeService nyts1 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
         return nyts1.getTopStories(section)
@@ -23,6 +24,7 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
+    //Create observable for MostPopular
     public static Observable<MostPopular> streamFetchMostPopular() {
         NewYorkTimeService nyts2 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
         return nyts2.getMostPopular()
@@ -31,11 +33,19 @@ public class NewYorkTimeStream {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-//Create observable for searchArticle
-
+    //Create observable for searchArticle
     public static Observable<SearchArticle> streamFetchSearchArticle(String query, String news_desk, String begin_date, String end_date) {
         NewYorkTimeService nyts3 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
         return nyts3.getSearchArticle(query, news_desk, begin_date, end_date)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    //Create observable for Notifications
+    public static Observable<SearchArticle> streamFetchNotifications(String query, String news_desk) {
+        NewYorkTimeService nyts3 = NewYorkTimeService.retrofit.create(NewYorkTimeService.class);
+        return nyts3.getNotification(query, news_desk)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

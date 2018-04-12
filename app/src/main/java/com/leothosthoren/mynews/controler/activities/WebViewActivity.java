@@ -1,5 +1,6 @@
 package com.leothosthoren.mynews.controler.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -69,11 +70,11 @@ public class WebViewActivity extends AppCompatActivity {
     /*
     * @method onBackPressed
     *
-    * Handle the back button from the device
+    * Handle the back press button from the device
     * */
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        configureToolbar();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

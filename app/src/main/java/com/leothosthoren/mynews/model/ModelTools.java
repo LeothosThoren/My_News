@@ -97,6 +97,20 @@ public class ModelTools {
         return String.format("%s/%s/%s", sub[2], sub[1], sub[0]);
     }
 
+
+    /*
+    * @method getNotificationFormatDate
+    * @param dateToChange
+    *
+    *Handle the date string format for the notifications
+    * */
+    public String getNotificationFormatDate(String dateToChange) {
+        String sub[] = dateToChange.substring(0, 10).split("-");
+        return String.format("%s%s%s", sub[0], sub[1], sub[2]);
+    }
+
+
+
     //=======================
     // DATE FORMATTER
     //=======================
@@ -109,7 +123,7 @@ public class ModelTools {
     * */
     public String setFormatCalendar() {
         Calendar cal = Calendar.getInstance();
-        cal.add(Calendar.DATE, 1);
+        cal.add(Calendar.DATE, 0);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.US);
         return String.format("%s", sdf.format(cal.getTime()));
     }

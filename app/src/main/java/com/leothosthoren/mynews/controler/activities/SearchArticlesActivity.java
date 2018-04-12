@@ -51,6 +51,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     CheckBox mCheckBox6;
     private CheckBox[] mCheckBoxes;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,38 +109,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         }
     }
 
-
-//    //=======================
-//    //  QUERY TEXT INPUT
-//    //=======================
-//
-//    /*
-//    * @method displayErrorMessage
-//    * @param textInputLayout option which allow to change the editText behavior
-//    *
-//    * This method handle the search text widget, before and after text change
-//    * */
-//    public void displayErrorMessage(final TextInputLayout textInputLayout) {
-//        textInputLayout.getEditText().addTextChangedListener(new TextWatcher() {
-//            //The text input set up an hint for the user
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//                textInputLayout.setHintEnabled(true);
-//            }
-//
-//            //When user type something the error alert is disabled
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                textInputLayout.setErrorEnabled(false);
-//                textInputLayout.setEnabled(true);
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//
-//            }
-//        });
-//    }
 
     /*
     * @queryInputIsEmpty
