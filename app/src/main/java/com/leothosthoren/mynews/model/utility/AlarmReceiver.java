@@ -44,7 +44,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         executeNotificationHttpRequest(context);
     }
 
-    /**/
+    /*
+    * @method sendNotification
+    * @param context
+    *
+    * Notify the user even the app is not launched
+    * */
     public void sendNotification(Context context) {
 
         final int NOTIFICATION_ID = 007;
@@ -84,7 +89,12 @@ public class AlarmReceiver extends BroadcastReceiver {
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
 
-    /**/
+    /*
+ * @method executeNotificationHttpRequest
+ * @param context
+ *
+ * Http rest request which take a model object as parameter and display a result
+ * */
     private void executeNotificationHttpRequest(final Context context) {
 
         this.mDisposable = NewYorkTimeStream.streamFetchNotifications(arrays[0],
@@ -93,6 +103,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     @Override
                     public void onNext(SearchArticle articleNotification) {
+                        //Check is the result is not empty
                         if (articleNotification.getResponse().getDocs().size() != 0) {
                             httpResult = articleNotification.getResponse().getDocs().get(0).getPubDate();
                             subTextUrl = articleNotification.getResponse().getDocs().get(0).getWebUrl();
@@ -110,6 +121,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     public void onComplete() {
                         Log.d("Notifications", "On Complete !");
                         Toast.makeText(context, "Alarm manager ok", Toast.LENGTH_SHORT).show();
+                        //Send the notification if the data is available and match with a date format of the current day
                         if (!httpResult.equals("") && mTools.getNotificationFormatDate(httpResult).equals(mTools.setFormatCalendar())) {
                             sendNotification(context);
                         }

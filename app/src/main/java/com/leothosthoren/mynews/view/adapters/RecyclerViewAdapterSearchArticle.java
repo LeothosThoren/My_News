@@ -72,6 +72,7 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
         @BindView(R.id.item_summary)
         TextView mSummaryView;
         HelperTools mFormater = new HelperTools();
+        //Because an error du to Glide it 'is necessary to concat a base url
         String NytUri = "https://www.nytimes.com/";
 
 

@@ -300,8 +300,9 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
     /*
+    * @method passingData
     *
-    *
+    * Thanks to SharedPreferences the data are passed away to an another class
     * */
     public void passingData() {
         String[] value = {mSearchQuery.getText().toString(), mTools.getNewDesk(checkboxData)};
@@ -309,6 +310,7 @@ public class NotificationActivity extends AppCompatActivity {
         for (String aValue : value) {
             sb.append(aValue).append(",");
         }
+        //saveData method which store data in SharedPreferences
         mStorage.saveData(this, sb.toString());
 
     }

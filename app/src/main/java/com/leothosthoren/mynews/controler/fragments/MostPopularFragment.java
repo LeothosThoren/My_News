@@ -107,6 +107,11 @@ public class MostPopularFragment extends Fragment {
     }
 
 
+    /*
+   * @method executeMostPopularHttpRequest
+   *
+   * Http rest request which take a model object as parameter and display a result
+   * */
     private void executeMostPopularHttpRequest() {
         this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
 
@@ -163,6 +168,12 @@ public class MostPopularFragment extends Fragment {
         });
     }
 
+    /*
+    * @method upDateUIMP
+    * @param mostpopular
+    *
+    * Update the UI from the recycler view with the adapter
+    * */
     private void upDateUIMP(MostPopular mostpopular) {
         mHttpRequestTools.updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
         this.mMostPopularList.clear();

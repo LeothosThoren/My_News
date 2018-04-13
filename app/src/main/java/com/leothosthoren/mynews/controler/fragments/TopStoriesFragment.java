@@ -124,7 +124,11 @@ public class TopStoriesFragment extends Fragment {
         });
     }
 
-
+    /*
+    * @method executeHttpRequestWithRetrofit
+    *
+    * Http rest request which take a model object as parameter and display a result
+    * */
     public void executeHttpRequestWithRetrofit() {
         this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
 
@@ -174,6 +178,12 @@ public class TopStoriesFragment extends Fragment {
         });
     }
 
+    /*
+    * @method upDateTopStoriesUI
+    * @param topStories
+    *
+    * Update the UI from the recycler view with the adapter
+    * */
     private void upDateTopStoriesUI(TopStories topStories) {
         this.mHttpRequestTools.updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
         this.mTopStoriesArray.clear();

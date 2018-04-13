@@ -26,11 +26,11 @@ public interface NewYorkTimeService {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build();
 
-
+    // Top Stories Fragment
     @GET("topstories/v2/{section}.json?api-key=" + ApiKey)
     Observable<TopStories> getTopStories(@Path("section") String section);
 
-
+    // Most Popular Fragment
     @GET("mostpopular/v2/mostemailed/all-sections/1.json?api-key=" + ApiKey)
     Observable<MostPopular> getMostPopular();
 

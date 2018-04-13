@@ -178,6 +178,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
+    /*
+    * @method configureDrawerLayout
+    *
+    * Handle the hamburger icon of the menu drawer
+    * */
     private void configureDrawerLayout() {
         this.mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout,
@@ -186,6 +191,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
     }
 
+    /*
+   * @method configureNavigationView
+   *
+   * Handle the horizontal slide of the menu drawer
+   * */
     private void configureNavigationView() {
         this.mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         assert mNavigationView != null;

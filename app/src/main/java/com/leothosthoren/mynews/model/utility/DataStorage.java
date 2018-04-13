@@ -17,6 +17,13 @@ public class DataStorage {
     public DataStorage() {
     }
 
+    /*
+    * @method saveData
+    * @param context
+    * @param s
+    *
+    * Allow to save data with SharedPreferences
+    * */
     public void saveData(Context context, String s) {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -24,6 +31,12 @@ public class DataStorage {
         editor.apply();
     }
 
+    /*
+    * @method loadData
+    * @param context
+    *
+    * Allow to retrieve data with SharedPreferences and use it
+    * */
     public String loadData(Context context) {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return preferences.getString(SEARCH_ARTICLE_NOTIFICATION_VALUES, null);

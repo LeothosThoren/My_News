@@ -104,6 +104,11 @@ public class SearchArticleListActivity extends AppCompatActivity {
 
     }
 
+    /*
+  * @method executeSearchArticleHttpRequest
+  *
+  * Http rest request which take a model object as parameter and display a result
+  * */
     private void executeSearchArticleHttpRequest() {
         this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
         //Get the array content to provide query to the http request
@@ -164,6 +169,12 @@ public class SearchArticleListActivity extends AppCompatActivity {
         });
     }
 
+    /*
+    * @method upDateUISearchArticle
+    * @param searchArticle
+    *
+    * Update the UI from the recycler view with the adapter
+    * */
     private void upDateUISearchArticle(SearchArticle searchArticle) {
         this.mHttpRequestTools.updateUIWhenStopingHTTPRequest(mRefreshLayout, mProgressBar);
         this.mDocArrayList.clear();

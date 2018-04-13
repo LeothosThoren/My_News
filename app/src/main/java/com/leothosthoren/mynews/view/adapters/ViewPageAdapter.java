@@ -18,6 +18,12 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
         super(fm);
     }
 
+    /*
+    * @method getItem
+    * @ position
+    *
+    * Depend the position we can switch the fragment placeholder
+    * */
     @Override
     public Fragment getItem(int position) {
         switch (position) {
@@ -34,6 +40,7 @@ public class ViewPageAdapter extends FragmentStatePagerAdapter {
         return tabTitle.length;
     }
 
+    //Define the Tab title
     public CharSequence getPageTitle(int position) {
         return tabTitle[position];
     }
