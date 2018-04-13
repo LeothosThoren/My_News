@@ -28,10 +28,10 @@ import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.IT
  * Created by Sofiane M. alias Leothos Thoren on 03/04/2018
  * We find here all kinds of useful methods that allow to avoid rewriting unnecessary code
  */
-public class ModelTools {
+public class HelperTools {
 
     //Empty constructor
-    public ModelTools() {
+    public HelperTools() {
     }
 
     //=======================

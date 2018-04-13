@@ -1,8 +1,6 @@
 package com.leothosthoren.mynews.controler.activities;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -13,14 +11,11 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.webkit.WebView;
-import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.view.adapters.ViewPageAdapter;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -28,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout mDrawerLayout;
     private NavigationView mNavigationView;
     private Toolbar toolbar;
-    private ModelTools mTools = new ModelTools();
+    private HelperTools mTools = new HelperTools();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 mTools.openActivityAsBrowser("https://www.google.com", this, WebViewActivity.class);
                 break;
             case R.id.activity_main_drawer_about:
-                mTools.openActivityAsBrowser("https://www.android.com", this, WebViewActivity.class);
+                mTools.openActivityAsBrowser("https://openclassrooms.com", this, WebViewActivity.class);
                 break;
             default:
                 break;

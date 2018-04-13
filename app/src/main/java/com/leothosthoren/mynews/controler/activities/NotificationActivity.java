@@ -15,6 +15,7 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -24,7 +25,7 @@ import android.widget.Switch;
 import android.widget.Toast;
 
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.utility.AlarmReceiver;
 
 import java.util.Calendar;
@@ -36,12 +37,12 @@ public class NotificationActivity extends AppCompatActivity {
 
     public static final String SEARCH_ARTICLE_NOTIFICATION_VALUES = "SEARCH_ARTICLE_NOTIFICATION_VALUES";
     public final String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
-    private final boolean TEST_MODE = false;
+    private final boolean TEST_MODE = true;
     //=============================================//
     public String[] checkboxData = new String[6];
     @BindView(R.id.query_text_input_layout)
     public TextInputLayout floatingHintLabel;
-    public ModelTools mTools = new ModelTools();
+    public HelperTools mTools = new HelperTools();
     @BindView(R.id.search_query_term)
     EditText mSearchQuery;
     @BindView(R.id.checkbox_1)
@@ -75,7 +76,7 @@ public class NotificationActivity extends AppCompatActivity {
         this.mTools.displayErrorMessage(floatingHintLabel);
         this.switchButton();
         this.configureAlarmManager(this);
-        this.passingData();
+
 
         if (TEST_MODE) {
             mButton.setVisibility(View.VISIBLE);
@@ -83,7 +84,7 @@ public class NotificationActivity extends AppCompatActivity {
             mButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    sendNotification();
+                    sendTestNotification();
                 }
             });
         }
@@ -189,10 +190,14 @@ public class NotificationActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     //Launch alarm manager
-                    if (TEST_MODE)
+                    if (TEST_MODE) {
                         startTestAlarm();
-                    else
+                        passingData();
+                    }
+                    else {
+                        passingData();
                         startAlarm();
+                    }
 
                 } else {
                     //Alarm Manager is disable
@@ -244,7 +249,7 @@ public class NotificationActivity extends AppCompatActivity {
     *
     * This is a sample code to test the notification alert on click
     * */
-    public void sendNotification() {
+    public void sendTestNotification() {
 
         Intent intent = new Intent(this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -272,9 +277,13 @@ public class NotificationActivity extends AppCompatActivity {
         mNotificationManager.notify(001, mBuilder.build());
     }
 
-    //Todo : check what goes wrong
+    /*
+    *
+    *
+    * */
     public void passingData() {
         String[] value = {mSearchQuery.getText().toString(), mTools.getNewDesk(checkboxData)};
+        Log.d("Check varaible", value[0] + " "+value[1]);
         Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
         intent.putExtra(SEARCH_ARTICLE_NOTIFICATION_VALUES, value);
 

@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
 import com.leothosthoren.mynews.model.HttpRequestTools;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterSearchArticle;
@@ -46,7 +46,7 @@ public class SearchArticleFragment extends Fragment {
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
-    private ModelTools mTools = new ModelTools();
+    private HelperTools mTools = new HelperTools();
     private HttpRequestTools mHttpRequestTools = new HttpRequestTools();
 
 

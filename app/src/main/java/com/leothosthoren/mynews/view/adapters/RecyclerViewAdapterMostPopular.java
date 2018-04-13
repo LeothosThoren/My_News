@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 
 import java.util.ArrayList;
@@ -73,7 +73,7 @@ public class RecyclerViewAdapterMostPopular extends RecyclerView.Adapter<Recycle
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
-        ModelTools mFormater = new ModelTools();
+        HelperTools mFormater = new HelperTools();
 
 
         public ItemViewHolder(View itemView, final OnItemClickListener listener) {

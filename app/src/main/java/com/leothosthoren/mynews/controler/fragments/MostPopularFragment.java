@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
 import com.leothosthoren.mynews.model.HttpRequestTools;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.MostPopular;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterMostPopular;
@@ -45,7 +45,7 @@ public class MostPopularFragment extends Fragment {
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
     private HttpRequestTools mHttpRequestTools = new HttpRequestTools();
-    private ModelTools mTools = new ModelTools();
+    private HelperTools mTools = new HelperTools();
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
 

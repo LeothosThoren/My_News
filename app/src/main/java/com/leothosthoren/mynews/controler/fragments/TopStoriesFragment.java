@@ -14,8 +14,8 @@ import android.widget.ProgressBar;
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.activities.WebViewActivity;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.HttpRequestTools;
-import com.leothosthoren.mynews.model.ModelTools;
 import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
 import com.leothosthoren.mynews.model.apis.articles.TopStories;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterTopStories;
@@ -43,7 +43,7 @@ public class TopStoriesFragment extends Fragment {
     ProgressBar mProgressBar;
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
-    private ModelTools mTools = new ModelTools();
+    private HelperTools mTools = new HelperTools();
     private Disposable mDisposable;
     private RecyclerViewAdapterTopStories mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;

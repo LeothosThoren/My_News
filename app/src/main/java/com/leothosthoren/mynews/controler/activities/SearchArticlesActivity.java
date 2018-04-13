@@ -14,7 +14,7 @@ import android.widget.EditText;
 
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.controler.fragments.SearchArticleFragment;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.SetSearchDate;
 
 import butterknife.BindView;
@@ -28,7 +28,7 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     @BindView(R.id.query_text_input_layout)
     public TextInputLayout floatingHintLabel;
     public SearchArticleFragment mFragment;
-    public ModelTools mTools = new ModelTools();
+    public HelperTools mTools = new HelperTools();
     @BindView(R.id.search_query_term)
     EditText mSearchQuery;
     @BindView(R.id.end_date)

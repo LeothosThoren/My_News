@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.model.ModelTools;
+import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 
 import java.util.List;
@@ -71,7 +71,7 @@ public class RecyclerViewAdapterSearchArticle extends RecyclerView.Adapter<Recyc
         TextView mDateView;
         @BindView(R.id.item_summary)
         TextView mSummaryView;
-        ModelTools mFormater = new ModelTools();
+        HelperTools mFormater = new HelperTools();
         String NytUri = "https://www.nytimes.com/";
 
 
