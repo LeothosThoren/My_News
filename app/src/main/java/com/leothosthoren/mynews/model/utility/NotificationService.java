@@ -62,9 +62,10 @@ public class NotificationService extends FirebaseMessagingService {
 
         // 6 - Support Version >= Android 8
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence channelName = "Message provenant de Firebase";
+            CharSequence channelName = "Message";
+            String channelID = getString(R.string.default_notification_channel_id);
             int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
+            NotificationChannel mChannel = new NotificationChannel(channelID, channelName, importance);
             assert notificationManager != null;
             notificationManager.createNotificationChannel(mChannel);
         }

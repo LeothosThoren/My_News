@@ -1,12 +1,14 @@
 package com.leothosthoren.mynews.model.utility;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -66,6 +68,16 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //  Support Version >= Android 8
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence channelName = "Message";
+            String channelID = context.getString(R.string.default_notification_channel_id);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(channelID, channelName, importance);
+            assert mNotificationManager != null;
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
 
         assert mNotificationManager != null;
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());

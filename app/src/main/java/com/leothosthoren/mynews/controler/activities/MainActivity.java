@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return true;
             //Open browser...
             case R.id.param_about:
-                mTools.openActivityAsBrowser("https://www.android.com", this, WebViewActivity.class);
+                mTools.openActivityAsBrowser("https://openclassrooms.com", this, WebViewActivity.class);
                 return true;
             case R.id.param_help:
                 mTools.openActivityAsBrowser("https://www.google.fr", this, WebViewActivity.class);
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Glue Tab et viewpager together
         tabLayout.setupWithViewPager(pager);
         //Handle the tab's width and mobility
-        tabLayout.setTabMode(TabLayout.MODE_FIXED);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
     }
 
 

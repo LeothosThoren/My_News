@@ -2,6 +2,7 @@ package com.leothosthoren.mynews.controler.activities;
 
 
 import android.app.AlarmManager;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -282,8 +283,17 @@ public class NotificationActivity extends AppCompatActivity {
         // Gets an instance of the NotificationManager service//
 
         NotificationManager mNotificationManager =
-
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        //  Support Version >= Android 8
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence channelName = "Message";
+            String channelID = getString(R.string.default_notification_channel_id);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(channelID, channelName, importance);
+            assert mNotificationManager != null;
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
 
         assert mNotificationManager != null;
         mNotificationManager.notify(001, mBuilder.build());
