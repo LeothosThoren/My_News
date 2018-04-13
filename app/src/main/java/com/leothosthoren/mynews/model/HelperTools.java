@@ -80,7 +80,7 @@ public class HelperTools {
             }
         }
         //If result is empty it return "Culture" else it return the result content
-        return res.toString().isEmpty() ? "Culture" : res.toString();
+        return res.toString().isEmpty() ? "" : res.toString();
     }
 
 

@@ -93,8 +93,8 @@ public class MyNewsUnitTest {
         String[] nul = new String[5];
 
         assertEquals(helperTools.getNewDesk(full), "Politics Sports Travels");
-        assertEquals(helperTools.getNewDesk(empty), "Culture");
-        assertEquals(helperTools.getNewDesk(nul), "Culture");
+        assertEquals(helperTools.getNewDesk(empty), "");
+        assertEquals(helperTools.getNewDesk(nul), "");
     }
 
     //Test using Mockito

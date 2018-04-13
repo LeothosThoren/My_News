@@ -65,6 +65,7 @@ public class NotificationActivity extends AppCompatActivity {
     private PendingIntent mPendingIntent;
     private AlarmManager mAlarmManager;
     private DataStorage mStorage = new DataStorage();
+//    private  String [] tab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +78,10 @@ public class NotificationActivity extends AppCompatActivity {
         this.mTools.displayErrorMessage(floatingHintLabel);
         this.switchButton();
         this.configureAlarmManager(this);
-
+        //Load some data input
+//        tab = mStorage.loadData(this).split(",");
+//        this.mSearchQuery.setText(tab[0]);
+//        this.mSwitch.setChecked(mStorage.loadView(this));
 
         if (TEST_MODE) {
             mButton.setVisibility(View.VISIBLE);
@@ -204,17 +208,20 @@ public class NotificationActivity extends AppCompatActivity {
                         mSwitch.setChecked(isChecked);
                         //Launch alarm manager
                         if (TEST_MODE) {
-                            startTestAlarm();
                             passingData();
+                            startTestAlarm();
+//                            mStorage.saveView(getApplicationContext(), isChecked);
                         } else {
                             passingData();
                             startAlarm();
+//                            mStorage.saveView(getApplicationContext(), isChecked);
                         }
                     }
 
                 } else {
                     //Alarm Manager is disable
                     stopAlarm();
+//                    mStorage.saveView(getApplicationContext(), !isChecked);
                 }
             }
         });
@@ -312,6 +319,6 @@ public class NotificationActivity extends AppCompatActivity {
         }
         //saveData method which store data in SharedPreferences
         mStorage.saveData(this, sb.toString());
-
     }
+
 }

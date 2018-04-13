@@ -12,7 +12,9 @@ import static android.content.Context.MODE_PRIVATE;
 public class DataStorage {
 
     public static final String SEARCH_ARTICLE_NOTIFICATION_VALUES = "SEARCH_ARTICLE_NOTIFICATION_VALUES";
+//    public static final String NOTIFICATION_WIDGET = "NOTIFICATION_WIDGET";
     public static final String SHARED_PREFERENCES = "SHARED_PREFERENCES";
+//    public static final String SHARED_VIEW = "SHARED_VIEW";
 
     public DataStorage() {
     }
@@ -41,5 +43,17 @@ public class DataStorage {
         SharedPreferences preferences = context.getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
         return preferences.getString(SEARCH_ARTICLE_NOTIFICATION_VALUES, null);
     }
+
+//    public boolean loadView(Context context) {
+//        SharedPreferences preferences = context.getSharedPreferences(SHARED_VIEW, Context.MODE_PRIVATE);
+//        return preferences.getBoolean(NOTIFICATION_WIDGET, true);
+//    }
+
+    //    public void saveView(Context context, boolean b){
+//        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_VIEW, MODE_PRIVATE);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean(NOTIFICATION_WIDGET, b);
+//        editor.apply();
+//    }
 
 }
