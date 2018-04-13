@@ -67,14 +67,4 @@ public class WebViewActivity extends AppCompatActivity {
         });
     }
 
-    /*
-    * @method onBackPressed
-    *
-    * Handle the back press button from the device
-    * */
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
 }

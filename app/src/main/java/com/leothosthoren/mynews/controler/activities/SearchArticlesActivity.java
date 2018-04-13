@@ -1,5 +1,6 @@
 package com.leothosthoren.mynews.controler.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -13,12 +14,12 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.controler.fragments.SearchArticleFragment;
 import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.SetSearchDate;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
 
 public class SearchArticlesActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -27,7 +28,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     public String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
     @BindView(R.id.query_text_input_layout)
     public TextInputLayout floatingHintLabel;
-    public SearchArticleFragment mFragment;
     public HelperTools mTools = new HelperTools();
     @BindView(R.id.search_query_term)
     EditText mSearchQuery;
@@ -57,9 +57,9 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_articles);
         ButterKnife.bind(this);
-
+        //Initialized mCheckBoxes variable
         this.mCheckBoxes = new CheckBox[]{mCheckBox1, mCheckBox2, mCheckBox3, mCheckBox4, mCheckBox5, mCheckBox6};
-
+        //Set methods
         this.configureToolbar();
         this.mTools.displayErrorMessage(floatingHintLabel);
         this.setSearchDate();
@@ -85,49 +85,14 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void configureAndShowMainFragment() {
-        // A - Get FragmentManager (Support) and Try to find existing instance of fragment in FrameLayout container
-        mFragment = (SearchArticleFragment) getSupportFragmentManager().findFragmentById(R.id.frame_layout_search_article_list);
-
-        // A' - Get all the item for the Http request
+    private void configureAndShowActivity() {
         String[] value = {mSearchQuery.getText().toString(), mTools.getNewDesk(checkboxData),
                 mTools.getBeginDate(mBeginDate.getText().toString()), mTools.getEndDate(mEndDate.getText().toString())};
 
-        // B - Initiate bundle
-        Bundle bundle = new Bundle();
-        bundle.putStringArray(SEARCH_ARTICLE_VALUES, value);
-
-        if (mFragment == null) {
-            // B' - Create new main fragment
-            mFragment = new SearchArticleFragment();
-
-            mFragment.setArguments(bundle);
-            // C - Add it to FrameLayout container
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.frame_layout_search_article_list, mFragment)
-                    .commit();
-        }
+        Intent intent = new Intent(getBaseContext(), SearchArticleListActivity.class);
+        intent.putExtra(SEARCH_ARTICLE_VALUES, value);
+        startActivity(intent);
     }
-
-
-    /*
-    * @queryInputIsEmpty
-    * @param searchQuery
-    * @textInputLayout display a red alert message
-    *
-    * This method check if the search query input is empty, and if yes an error message occur
-    * */
-//    public void queryInputIsEmpty(EditText searchQuery, TextInputLayout textInputLayout) {
-//        if (searchQuery.getText().toString().isEmpty()) {
-//            textInputLayout.setErrorEnabled(true);
-//            textInputLayout.setError(getResources().getString(R.string.query_error));
-//
-//        } else {
-//            textInputLayout.setErrorEnabled(false);
-//
-//        }
-//
-//    }
 
     //=======================
     //  DATE INPUT
@@ -206,22 +171,6 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     }
 
 
-
-    /*
-    * @method onUncheckedBoxes
-    *
-    * This method warns when all the checkboxes are unchecked
-    * */
-//    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-//    public void onUncheckedBoxes() {
-//        if (!(mCheckBox1.isChecked() || mCheckBox2.isChecked() || mCheckBox3.isChecked()
-//                || mCheckBox4.isChecked() || mCheckBox5.isChecked() || mCheckBox6.isChecked())) {
-//            mTools.checkboxColorModifier(Color.RED, mCheckBoxes);
-//            //The sanckbar is display here to explain the user what to do
-//            mTools.snackBarMessage(R.string.box_unchecked, findViewById(R.id.activity_search_article));
-//        }
-//    }
-
     //=======================
     //  SEARCH BUTTON
     //=======================
@@ -238,22 +187,15 @@ public class SearchArticlesActivity extends AppCompatActivity implements View.On
     @Override
     public void onClick(View v) {
 
-        //if text input is empty OR all checkboxes are empty
-        if (mSearchQuery.getText().toString().isEmpty()) {
-            //display error message
-            floatingHintLabel.setErrorEnabled(true);
-            floatingHintLabel.setError(getResources().getString(R.string.query_error));
-        } else
-            floatingHintLabel.setErrorEnabled(false);
-//        if (mTools.queryInputIsEmpty(mSearchQuery, floatingHintLabel,getResources().getString(R.string.query_error)))
-
+        //Every time user click on button input query is checked
+        mTools.queryInputIsEmpty(mSearchQuery, floatingHintLabel, getResources().getString(R.string.query_error));
+        //At least one check box must be checked
         if (mTools.onUncheckedBoxes(mCheckBoxes))
             mTools.snackBarMessage(findViewById(R.id.activity_search_article), R.string.box_unchecked);
-
+        //if text input is empty OR all checkboxes are empty no access to the activity
         if (!(mSearchQuery.getText().toString().isEmpty()) && !(mTools.onUncheckedBoxes(mCheckBoxes))) {
-            configureAndShowMainFragment();
+            configureAndShowActivity();
         }
-
 
     }
 

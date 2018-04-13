@@ -1,24 +1,21 @@
-package com.leothosthoren.mynews.controler.fragments;
-
+package com.leothosthoren.mynews.controler.activities;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
 import com.leothosthoren.mynews.R;
-import com.leothosthoren.mynews.controler.activities.WebViewActivity;
-import com.leothosthoren.mynews.model.HttpRequestTools;
 import com.leothosthoren.mynews.model.HelperTools;
-import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
+import com.leothosthoren.mynews.model.HttpRequestTools;
 import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
+import com.leothosthoren.mynews.model.utility.NewYorkTimeStream;
 import com.leothosthoren.mynews.view.adapters.RecyclerViewAdapterSearchArticle;
 
 import java.util.ArrayList;
@@ -31,10 +28,7 @@ import io.reactivex.observers.DisposableObserver;
 
 import static com.leothosthoren.mynews.controler.activities.SearchArticlesActivity.SEARCH_ARTICLE_VALUES;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class SearchArticleFragment extends Fragment {
+public class SearchArticleListActivity extends AppCompatActivity {
 
     public List<SearchArticle.Doc> mDocArrayList = new ArrayList<>();
     @BindView(R.id.frag_recycler_view)
@@ -43,44 +37,53 @@ public class SearchArticleFragment extends Fragment {
     ProgressBar mProgressBar;
     @BindView(R.id.frag_swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
     private RecyclerView.LayoutManager mLayoutManager;
     private Disposable mDisposable;
     private RecyclerViewAdapterSearchArticle mAdapterSearchArticle;
     private HelperTools mTools = new HelperTools();
     private HttpRequestTools mHttpRequestTools = new HttpRequestTools();
 
-
-    public SearchArticleFragment() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_search_article_list, container, false);
-        ButterKnife.bind(this, v);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_search_article_list);
+        ButterKnife.bind(this);
+
         this.buildRecyclerView();
-        this.mHttpRequestTools.progressBarHandler(mProgressBar, getContext());
+        this.mHttpRequestTools.progressBarHandler(mProgressBar, this);
         this.configureSwipeRefrechLayout();
         this.executeSearchArticleHttpRequest();
-
-        return v;
+        configureToolbar();
     }
 
     /*
-   * @method buildRecyclerView
+   * @method configureToolbar
    *
-   * This method manages the recyclerView set up
+   * This method call the toolbar layout and fixes it on the action bar,
+   * a return home feature is displayed
    * */
+    private void configureToolbar() {
+        setSupportActionBar(mToolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    /*
+ * @method buildRecyclerView
+ *
+ * This method manages the recyclerView set up
+ * */
     private void buildRecyclerView() {
         //Calling the adapter
         this.mAdapterSearchArticle = new RecyclerViewAdapterSearchArticle(mDocArrayList, Glide.with(this));
         //Set them with natives methods
         this.mRecyclerView.setHasFixedSize(true);
         this.mRecyclerView.setAdapter(mAdapterSearchArticle);
-        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        this.mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         //When user click on an item a new activity is launched to display a webView
         this.displayWebView();
 
@@ -95,7 +98,7 @@ public class SearchArticleFragment extends Fragment {
         this.mAdapterSearchArticle.setOnItemClickListener(new RecyclerViewAdapterSearchArticle.OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                mTools.openActivityAsBrowser(mDocArrayList.get(position).getWebUrl(), getContext(), WebViewActivity.class);
+                mTools.openActivityAsBrowser(mDocArrayList.get(position).getWebUrl(), SearchArticleListActivity.this, WebViewActivity.class);
             }
         });
 
@@ -104,7 +107,7 @@ public class SearchArticleFragment extends Fragment {
     private void executeSearchArticleHttpRequest() {
         this.mHttpRequestTools.updateUIWhenStartingHTTPRequest(mProgressBar);
         //Get the array content to provide query to the http request
-        String[] mDataValues = getArguments().getStringArray(SEARCH_ARTICLE_VALUES);
+        String[] mDataValues = getIntent().getStringArrayExtra(SEARCH_ARTICLE_VALUES);
 
         //mDataValues[0] == query, mDataValues[1] == new_desk, mDataValues[2] == begin_date, mDataValues[3] == endDate
         this.mDisposable = NewYorkTimeStream.streamFetchSearchArticle(mDataValues[0], "news_desk:(" + mDataValues[1] + ")", mDataValues[2], mDataValues[3])
@@ -120,7 +123,7 @@ public class SearchArticleFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         Log.d("Search Article", "On Error " + Log.getStackTraceString(e));
-                        mHttpRequestTools.internetDisable(mProgressBar, getString(R.string.no_internet), getContext());
+                        mHttpRequestTools.internetDisable(mProgressBar, getString(R.string.no_internet), getBaseContext());
                     }
 
                     @Override
@@ -169,3 +172,4 @@ public class SearchArticleFragment extends Fragment {
     }
 
 }
+

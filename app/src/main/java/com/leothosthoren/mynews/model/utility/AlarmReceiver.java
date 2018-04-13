@@ -76,11 +76,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         String[] data = intent.getStringArrayExtra(SEARCH_ARTICLE_NOTIFICATION_VALUES);
 
-//        this.mDisposable = NewYorkTimeStream.streamFetchNotifications("France",
-//                "news_desk:(Foreign Politic Sports Environement Technology Culture)")
+        this.mDisposable = NewYorkTimeStream.streamFetchNotifications("France",
+                "news_desk:(Foreign Politic Sports Environement Technology Culture)")
         //todo : know why it doesn't work
-        this.mDisposable = NewYorkTimeStream.streamFetchNotifications(data[0],
-                "news_desk:(" + data[1] + ")")
+//        this.mDisposable = NewYorkTimeStream.streamFetchNotifications(data[0],
+//                "news_desk:(" + data[1] + ")")
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override

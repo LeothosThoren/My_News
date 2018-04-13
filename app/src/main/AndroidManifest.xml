@@ -36,20 +36,22 @@
 
         <activity
             android:name=".controler.activities.WebViewActivity"
-            android:label="Web View"
-            android:parentActivityName=".controler.activities.MainActivity" />
+            android:label="Web View" />
 
         <activity
             android:name=".controler.activities.NotificationActivity"
             android:label="Notifications"
             android:parentActivityName=".controler.activities.MainActivity" />
 
-        <activity android:name=".controler.activities.SearchActivity" />
+        <activity
+            android:name=".controler.activities.SearchArticleListActivity"
+            android:label="Articles"
+            android:parentActivityName=".controler.activities.SearchArticlesActivity" />
 
         <!-- RECEIVER -->
         <receiver
             android:name=".model.utility.AlarmReceiver"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>

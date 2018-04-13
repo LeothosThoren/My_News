@@ -16,8 +16,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.leothosthoren.mynews.R;
-
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
@@ -108,7 +106,6 @@ public class HelperTools {
         String sub[] = dateToChange.substring(0, 10).split("-");
         return String.format("%s%s%s", sub[0], sub[1], sub[2]);
     }
-
 
 
     //=======================

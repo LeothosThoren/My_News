@@ -183,20 +183,32 @@ public class NotificationActivity extends AppCompatActivity {
         }
     }
 
+    /**/
     private void switchButton() {
         mSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //Launch alarm manager
-                    if (TEST_MODE) {
-                        startTestAlarm();
-                        passingData();
+                    //Every time user click on button input query is checked
+                    if (mTools.queryInputIsEmpty(mSearchQuery, floatingHintLabel, getResources().getString(R.string.query_error)))
+                        mSwitch.setChecked(!isChecked);
+                    //At least one check box must be checked
+                    if (mTools.onUncheckedBoxes(mCheckBoxes)) {
+                        mSwitch.setChecked(!isChecked);
+                        mTools.snackBarMessage(findViewById(R.id.activity_notification), R.string.box_unchecked);
                     }
-                    else {
-                        passingData();
-                        startAlarm();
+                    //if text input is empty OR all checkboxes are empty no access to the activity
+                    if (!(mSearchQuery.getText().toString().isEmpty()) && !(mTools.onUncheckedBoxes(mCheckBoxes))) {
+                        mSwitch.setChecked(isChecked);
+                        //Launch alarm manager
+                        if (TEST_MODE) {
+                            startTestAlarm();
+                            passingData();
+                        } else {
+                            passingData();
+                            startAlarm();
+                        }
                     }
 
                 } else {
@@ -283,7 +295,7 @@ public class NotificationActivity extends AppCompatActivity {
     * */
     public void passingData() {
         String[] value = {mSearchQuery.getText().toString(), mTools.getNewDesk(checkboxData)};
-        Log.d("Check varaible", value[0] + " "+value[1]);
+        Log.d("Check varaible", value[0] + " " + value[1]);
         Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
         intent.putExtra(SEARCH_ARTICLE_NOTIFICATION_VALUES, value);
 
