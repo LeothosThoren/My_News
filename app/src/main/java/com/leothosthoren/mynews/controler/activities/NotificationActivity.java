@@ -16,7 +16,6 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -28,6 +27,7 @@ import android.widget.Toast;
 import com.leothosthoren.mynews.R;
 import com.leothosthoren.mynews.model.HelperTools;
 import com.leothosthoren.mynews.model.utility.AlarmReceiver;
+import com.leothosthoren.mynews.model.utility.DataStorage;
 
 import java.util.Calendar;
 
@@ -36,7 +36,6 @@ import butterknife.ButterKnife;
 
 public class NotificationActivity extends AppCompatActivity {
 
-    public static final String SEARCH_ARTICLE_NOTIFICATION_VALUES = "SEARCH_ARTICLE_NOTIFICATION_VALUES";
     public final String[] BOX_VALUES = {"Culture", "Environement", "Foreign", "Politics", "Sports", "Technology"};
     private final boolean TEST_MODE = true;
     //=============================================//
@@ -65,6 +64,7 @@ public class NotificationActivity extends AppCompatActivity {
     private CheckBox[] mCheckBoxes;
     private PendingIntent mPendingIntent;
     private AlarmManager mAlarmManager;
+    private DataStorage mStorage = new DataStorage();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -305,9 +305,11 @@ public class NotificationActivity extends AppCompatActivity {
     * */
     public void passingData() {
         String[] value = {mSearchQuery.getText().toString(), mTools.getNewDesk(checkboxData)};
-        Log.d("Check varaible", value[0] + " " + value[1]);
-        Intent intent = new Intent(getBaseContext(), AlarmReceiver.class);
-        intent.putExtra(SEARCH_ARTICLE_NOTIFICATION_VALUES, value);
+        StringBuilder sb = new StringBuilder();
+        for (String aValue : value) {
+            sb.append(aValue).append(",");
+        }
+        mStorage.saveData(this, sb.toString());
 
     }
 }

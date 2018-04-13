@@ -21,7 +21,6 @@ import com.leothosthoren.mynews.model.apis.articles.SearchArticle;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
-import static com.leothosthoren.mynews.controler.activities.NotificationActivity.SEARCH_ARTICLE_NOTIFICATION_VALUES;
 import static com.leothosthoren.mynews.controler.fragments.TopStoriesFragment.ITEMPOSITION;
 
 /**
@@ -33,13 +32,16 @@ public class AlarmReceiver extends BroadcastReceiver {
     private HelperTools mTools = new HelperTools();
     private String httpResult = "";
     private String subTextUrl = "";
+    private String[] arrays;
+    private DataStorage mStorage = new DataStorage();
 
     @SuppressLint("UnsafeProtectedBroadcastReceiver")
     @Override
     public void onReceive(Context context, Intent intent) {
-        //Load the view and variables
+        //Load the datas into a variable
+        arrays = mStorage.loadData(context).split(",");
         //Http request is launched, during the process it check if new article are available
-        executeNotificationHttpRequest(context, intent);
+        executeNotificationHttpRequest(context);
     }
 
     /**/
@@ -61,8 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         .setSubText(subTextUrl)
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
-                        .setContentIntent(pendingIntent)
-                        .setAutoCancel(true);
+                        .setContentIntent(pendingIntent);
 
         // Gets an instance of the NotificationManager service//
 
@@ -84,23 +85,20 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     /**/
-    private void executeNotificationHttpRequest(final Context context, Intent intent) {
+    private void executeNotificationHttpRequest(final Context context) {
 
-        String[] data = intent.getStringArrayExtra(SEARCH_ARTICLE_NOTIFICATION_VALUES);
-
-        this.mDisposable = NewYorkTimeStream.streamFetchNotifications("France",
-                "news_desk:(Foreign Politic Sports Environement Technology Culture)")
-        //todo : know why it doesn't work
-//        this.mDisposable = NewYorkTimeStream.streamFetchNotifications(data[0],
-//                "news_desk:(" + data[1] + ")")
+        this.mDisposable = NewYorkTimeStream.streamFetchNotifications(arrays[0],
+                "news_desk:(" + arrays[1] + ")")
                 .subscribeWith(new DisposableObserver<SearchArticle>() {
 
                     @Override
                     public void onNext(SearchArticle articleNotification) {
+                        if (articleNotification.getResponse().getDocs().size() != 0) {
                             httpResult = articleNotification.getResponse().getDocs().get(0).getPubDate();
                             subTextUrl = articleNotification.getResponse().getDocs().get(0).getWebUrl();
+                            Log.d("Notifications", "On Next: " + mTools.setFormatCalendar() + " VS " + mTools.getNotificationFormatDate(httpResult));
+                        }
 
-                        Log.d("Notifications", "On Next: " + mTools.setFormatCalendar() + " VS " + mTools.getNotificationFormatDate(httpResult));
                     }
 
                     @Override
@@ -112,7 +110,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                     public void onComplete() {
                         Log.d("Notifications", "On Complete !");
                         Toast.makeText(context, "Alarm manager ok", Toast.LENGTH_SHORT).show();
-                        if (httpResult != null && mTools.getNotificationFormatDate(httpResult).equals(mTools.setFormatCalendar())) {
+                        if (!httpResult.equals("") && mTools.getNotificationFormatDate(httpResult).equals(mTools.setFormatCalendar())) {
                             sendNotification(context);
                         }
                     }
